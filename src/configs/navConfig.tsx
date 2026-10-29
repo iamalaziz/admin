@@ -98,6 +98,11 @@ export const navItems: NavItem[] = [
         icon: 'UsersRound',
         labelKey: 'nav.manageUsers',
         href: '/manage/users'
+      },
+      {
+        icon: 'CreditCard',
+        labelKey: 'nav.managePayments',
+        href: '/manage/payments'
       }
     ]
   },

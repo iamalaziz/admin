@@ -21,6 +21,7 @@ import type { RoleCode, SubscriptionPayload } from '@/types/wordzen/user-types'
 import { DetailRow, Timestamp, UserRoleBadge, UserStatusBadge } from '../shared/primitives'
 import { BlockUserDialog } from './block-user-dialog'
 import { UserAchievementsSheet } from './user-achievements-sheet'
+import { UserPaymentsCard } from './user-payments-card'
 import { UserSubscriptionSheet } from './user-subscription-sheet'
 
 export function UserDetail({ uid }: { uid: string }) {
@@ -276,6 +277,8 @@ export function UserDetail({ uid }: { uid: string }) {
             </Button>
           </CardContent>
         </Card>
+
+        <UserPaymentsCard uid={uid} />
       </div>
 
       <UserSubscriptionSheet

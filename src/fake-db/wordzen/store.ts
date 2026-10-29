@@ -1,5 +1,6 @@
 /**
- * In-memory stand-in for `/api/v1/manager/**` and `/api/v1/admin/**`.
+ * In-memory stand-in for `/api/v1/manager/**` and `/api/v1/admin/**`, plus the handful of
+ * payment-api calls the payments ledger stands on.
  *
  * The method names and arguments deliberately mirror the endpoints so that swapping this
  * for a real HTTP client is a change of implementation, not of call sites:
@@ -19,6 +20,8 @@
  *   listAchievements()            GET    /achievements                        (account-api)
  *   listUserAchievements(uid)     GET    /users/{uid}/achievements/all        (account-api)
  *   grantAchievement(uid, …)      POST   /users/{uid}/achievements            (account-api)
+ *   listTransactions()            GET    /transactions                        (payment-api)
+ *   getTransaction(uid)           GET    /transactions/{uid}                  (payment-api)
  *   ... and the same shape for modules, cards and phrase cards.
  *
  * The category calls have no endpoint behind them yet: `course_category` is seeded SQL and
@@ -62,6 +65,8 @@ import type {
 } from '@/types/wordzen/achievement-types'
 import { achievementGroupByCode } from '@/types/wordzen/achievement-types'
 import type { AdminUser, RoleCode, SubscriptionPayload, UserStatusView } from '@/types/wordzen/user-types'
+import type { BillingSubscription, PaymentTransaction, PaymentTransactionEvent } from '@/types/wordzen/payment-types'
+import { canCancelSubscription, canRefundSubscription, OPEN_TRANSACTION_STATUSES } from '@/types/wordzen/payment-types'
 
 import {
   allocateId,
@@ -76,6 +81,7 @@ import {
   generateUsers,
   MOCK_REF_DATE
 } from './generate'
+import { generateBillingSubscriptions, generateTransactionHistory, generateTransactions } from './payments'
 
 /** The signed-in admin, used as `blockedBy` the way the API uses the JWT principal. */
 export const CURRENT_ADMIN = {
@@ -112,6 +118,14 @@ class WordzenMockStore {
   private cardsByModule = new Map<number, Card[]>()
 
   private phraseCardsByModule = new Map<number, PhraseCard[]>()
+
+  /** payment-api's ledger. The generator fills in each row's `subscriptionUid`. */
+  private transactions: PaymentTransaction[] = generateTransactions(this.users)
+
+  private billingSubscriptions: BillingSubscription[] = generateBillingSubscriptions(this.transactions)
+
+  /** History is derivable from a transaction, so it is built on first read and kept. */
+  private historyByTransaction = new Map<string, PaymentTransactionEvent[]>()
 
   private listeners = new Set<() => void>()
 
@@ -1164,6 +1178,149 @@ class WordzenMockStore {
   }
 
   /* ---------------------------------------------------------------- *
+   * Payments — payment-api (18085)
+   *
+   *   listTransactions()             GET  /transactions          (caller-scoped today)
+   *   getTransaction(uid)            GET  /transactions/{uid}    (caller-scoped today)
+   *   listUserTransactions(userUid)  the same endpoint, as that user
+   *   cancelSubscription(uid)        POST /internal/billing-subscriptions/{uid}/cancel
+   *   refundSubscription(uid)        POST /internal/billing-subscriptions/{uid}/refund
+   *
+   * The two reads are the caller's own rows, not an admin ledger, and the two writes are
+   * guarded by the client-key scheme rather than an admin JWT. The history and the
+   * subscription reads have no endpoint at all. See payment-types.ts for the whole list.
+   * ---------------------------------------------------------------- */
+
+  /** Newest first: a ledger is read from the last payment backwards. */
+  listTransactions = (): PaymentTransaction[] => [...this.transactions].sort((a, b) => b.id - a.id)
+
+  getTransaction = (uid: string): PaymentTransaction | null =>
+    this.transactions.find(transaction => transaction.uid === uid) ?? null
+
+  listUserTransactions = (userUid: string): PaymentTransaction[] =>
+    this.listTransactions().filter(transaction => transaction.userUid === userUid)
+
+  /**
+   * `payment_transactions_history` for one transaction.
+   *
+   * Derived on first read and kept, because a refund appends to it: deriving it again
+   * afterwards would drop the row that was just written.
+   */
+  listTransactionHistory = (uid: string): PaymentTransactionEvent[] => {
+    const cached = this.historyByTransaction.get(uid)
+
+    if (cached) {
+      return [...cached]
+    }
+
+    const transaction = this.getTransaction(uid)
+
+    if (!transaction) {
+      return []
+    }
+
+    const events = generateTransactionHistory(transaction)
+
+    this.historyByTransaction.set(uid, events)
+
+    return [...events]
+  }
+
+  listBillingSubscriptions = (): BillingSubscription[] => [...this.billingSubscriptions]
+
+  getBillingSubscription = (uid: string): BillingSubscription | null =>
+    this.billingSubscriptions.find(subscription => subscription.uid === uid) ?? null
+
+  listUserBillingSubscriptions = (userUid: string): BillingSubscription[] =>
+    this.billingSubscriptions.filter(subscription => subscription.userUid === userUid)
+
+  /**
+   * Stops the provider renewing, leaving the paid period to run out.
+   *
+   * Returns null where the service would refuse: Apple answers 409 — an App Store
+   * subscription is cancelled by the subscriber — and a revoked or expired row is already
+   * done. Unlike a refund this writes no transaction history: `cancel` touches the
+   * subscription alone.
+   */
+  cancelBillingSubscription = (uid: string): BillingSubscription | null => {
+    const subscription = this.getBillingSubscription(uid)
+
+    if (!subscription || !canCancelSubscription(subscription)) {
+      return null
+    }
+
+    const cancelled: BillingSubscription = {
+      ...subscription,
+      status: 'CANCELLED',
+      autoRenew: false,
+      cancelledAt: nowIso(),
+      nextChargeAt: null
+    }
+
+    this.billingSubscriptions = this.billingSubscriptions.map(item => (item.uid === uid ? cancelled : item))
+    this.commit()
+
+    return cancelled
+  }
+
+  /**
+   * Refunds the last payment and revokes the entitlement on the spot.
+   *
+   * Mirrors `BillingSubscriptionService.refund`: the period ends now, and the
+   * subscription's last transaction moves to REFUNDED with a CANCEL history row credited
+   * to the provider that processed the reversal. Returns null for the cases the service
+   * rejects — Apple (409, the App Store owns it), anything other than Google Play or
+   * Multicard (400), and a row that is already revoked.
+   */
+  refundBillingSubscription = (uid: string): BillingSubscription | null => {
+    const subscription = this.getBillingSubscription(uid)
+
+    if (!subscription || !canRefundSubscription(subscription)) {
+      return null
+    }
+
+    const at = nowIso()
+
+    const refunded: BillingSubscription = {
+      ...subscription,
+      status: 'REVOKED',
+      autoRenew: false,
+      revokedAt: at,
+      currentPeriodEnd: at,
+      nextChargeAt: null
+    }
+
+    const transaction = this.getTransaction(subscription.lastTransactionUid)
+
+    if (transaction) {
+      this.transactions = this.transactions.map(item =>
+        item.uid === transaction.uid ? { ...item, status: 'REFUNDED', updatedAt: at } : item
+      )
+
+      const history = this.listTransactionHistory(transaction.uid)
+
+      this.historyByTransaction.set(transaction.uid, [
+        ...history,
+        {
+          id: (history[history.length - 1]?.id ?? transaction.id * 100) + 1,
+          createdAt: at,
+          transactionUid: transaction.uid,
+          userUid: transaction.userUid,
+          status: 'REFUNDED',
+          event: 'CANCEL',
+          changedBy: subscription.provider === 'GOOGLE_PLAY' ? 'GOOGLE_PLAY' : 'MULTICARD',
+          rawDetails: JSON.stringify({ subscriptionUid: uid })
+        }
+      ])
+    }
+
+    this.billingSubscriptions = this.billingSubscriptions.map(item => (item.uid === uid ? refunded : item))
+    this.commit()
+
+    return refunded
+  }
+
+  /* ---------------------------------------------------------------- *
    * Aggregates for the overview cards
    * ---------------------------------------------------------------- */
 
@@ -1186,6 +1343,27 @@ class WordzenMockStore {
       blockedCount: users.filter(user => user.status === 'BLOCKED').length,
       subscribedCount: users.filter(user => user.subscription !== null).length,
       staffCount: users.filter(user => user.roles.some(role => role !== 'ROLE_USER')).length
+    }
+  }
+
+  getPaymentStats = () => {
+    const transactions = this.transactions
+    const succeeded = transactions.filter(transaction => transaction.status === 'SUCCESS')
+
+    return {
+      transactionCount: transactions.length,
+      succeededCount: succeeded.length,
+      successRate: transactions.length === 0 ? 0 : succeeded.length / transactions.length,
+
+      // Currencies do not add up, and only the Uzbek providers report one at all — the
+      // stores never do — so the only honest total is the one in UZS.
+      collectedUzs: succeeded
+        .filter(transaction => transaction.currency === 'UZS')
+        .reduce((total, transaction) => total + (transaction.amount ?? 0), 0),
+      openCount: transactions.filter(transaction => OPEN_TRANSACTION_STATUSES.includes(transaction.status)).length,
+      activeSubscriptionCount: this.billingSubscriptions.filter(subscription => subscription.status === 'ACTIVE')
+        .length,
+      autoRenewCount: this.billingSubscriptions.filter(subscription => subscription.autoRenew).length
     }
   }
 }

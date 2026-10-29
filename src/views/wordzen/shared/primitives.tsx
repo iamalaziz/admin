@@ -15,7 +15,22 @@ import {
   DialogTitle
 } from '@/components/ui/dialog'
 import { useTranslation } from '@/lib/i18n'
+import { cn } from '@/lib/utils'
 import type { CourseAccessCode, LocaleCode } from '@/types/wordzen/content-types'
+import type {
+  BillingSubscriptionStatus,
+  CardBrand,
+  CurrencyCode,
+  PaymentCard,
+  ProviderCode,
+  TransactionStatusCode
+} from '@/types/wordzen/payment-types'
+import {
+  formatAmount,
+  formatAmountValue,
+  LIVE_PROVIDER_CODES,
+  OPEN_TRANSACTION_STATUSES
+} from '@/types/wordzen/payment-types'
 import type { RoleCode, UserStatusCode } from '@/types/wordzen/user-types'
 import { primaryRole } from '@/types/wordzen/user-types'
 
@@ -70,6 +85,143 @@ export function UserStatusBadge({ status }: { status: UserStatusCode }) {
   const { t } = useTranslation()
 
   return <Badge variant={status === 'BLOCKED' ? 'destructive' : 'secondary'}>{t(`manage.statuses.${status}`)}</Badge>
+}
+
+/**
+ * The brand marks under `public/images/brands`, by the code they stand for.
+ *
+ * Partial on purpose: Click has no mark to be found and Uzcard is not a brand the ledger
+ * carries, so anything missing falls back to its code in text. Plain `<img>` rather than
+ * `next/image` because these are tiny fixed-size logos, two of them SVG — the optimizer
+ * refuses SVG without `dangerouslyAllowSVG`, and there is nothing here to optimize.
+ */
+const PROVIDER_LOGOS: Partial<Record<ProviderCode, string>> = {
+  MULTICARD: '/images/brands/multicard.png',
+  PAYME: '/images/brands/payme.png',
+  TELEGRAM: '/images/brands/telegram.svg',
+  APPLE: '/images/brands/apple.svg',
+  GOOGLE_PLAY: '/images/brands/google-play.svg'
+}
+
+const CARD_BRAND_LOGOS: Record<CardBrand, string> = {
+  HUMO: '/images/brands/humo.png',
+  VISA: '/images/brands/visa.svg',
+  MASTERCARD: '/images/brands/mastercard.svg'
+}
+
+/**
+ * A logo on a white tile, the way a payment sheet shows one.
+ *
+ * The tile is what makes one asset enough for both themes: these marks are a mix of
+ * colour, black and gold, and several of them would vanish on a dark background.
+ */
+export function BrandMark({ src, className }: { src: string; className?: string }) {
+  return (
+    <span
+      className={cn(
+        'ring-border/60 flex size-6 shrink-0 items-center justify-center rounded-sm bg-white p-[3px] ring-1',
+        className
+      )}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt='' className='max-h-full max-w-full object-contain' />
+    </span>
+  )
+}
+
+/**
+ * `ProviderCode` — its mark where there is one, and the code itself, which stays because
+ * it is what the API says and what the filters are named after.
+ *
+ * CLICK and PAYME are drawn muted and say so on hover: `initiatePayment` answers 410 for
+ * both, so a payment on either is history rather than something that could recur.
+ */
+export function ProviderBadge({ provider }: { provider: ProviderCode }) {
+  const { t } = useTranslation()
+
+  const retired = !LIVE_PROVIDER_CODES.includes(provider)
+  const logo = PROVIDER_LOGOS[provider]
+
+  return (
+    <span className='inline-flex items-center gap-2' title={retired ? t('manage.payments.providerRetired') : undefined}>
+      {logo ? <BrandMark src={logo} className={cn(retired && 'opacity-70')} /> : null}
+      <Badge variant='outline' className={cn('font-mono text-[11px]', retired && 'text-muted-foreground')}>
+        {provider}
+      </Badge>
+    </span>
+  )
+}
+
+/** `card_tokens`: the network's mark and the masked number the provider returned. */
+export function CardMark({ card }: { card: PaymentCard }) {
+  return (
+    <span className='text-muted-foreground inline-flex items-center gap-2 text-xs' title={card.brand}>
+      <BrandMark src={CARD_BRAND_LOGOS[card.brand]} className='size-5' />
+      <span className='font-mono'>{card.number}</span>
+    </span>
+  )
+}
+
+/**
+ * An amount with its currency.
+ *
+ * Telegram stars are a mark rather than a code — `TG_STARS` next to a number reads like a
+ * database value, and the star is what the payer saw — while UZS and USD keep theirs.
+ */
+export function AmountCell({ amount, currency }: { amount: number; currency: CurrencyCode }) {
+  if (currency !== 'TG_STARS') {
+    return <span className='text-sm font-medium'>{formatAmount(amount, currency)}</span>
+  }
+
+  return (
+    <span className='inline-flex items-center gap-1.5 text-sm font-medium' title={currency}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src='/images/brands/telegram-stars.svg' alt='' className='size-4' />
+      {formatAmountValue(amount, currency)}
+    </span>
+  )
+}
+
+/**
+ * `TransactionStatusCode`, read at a glance: money in is green, a payment that did not go
+ * through is red, one still in flight is neutral, and a refund is its own settled outcome.
+ *
+ * Green has no token of its own — the palette carries no success colour — so it is the
+ * emerald pair the dashboard trend pills already use for "good", tinted the way the
+ * destructive badge tints red.
+ */
+export function TransactionStatusBadge({ status }: { status: TransactionStatusCode }) {
+  const { t } = useTranslation()
+
+  const failed = status === 'FAILED' || status === 'CANCELLED'
+
+  return (
+    <Badge
+      variant={failed ? 'destructive' : OPEN_TRANSACTION_STATUSES.includes(status) ? 'secondary' : 'outline'}
+      className={cn(
+        status === 'SUCCESS' &&
+          'border-transparent bg-emerald-600/10 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-500'
+      )}
+    >
+      {t(`manage.transactionStatuses.${status}`)}
+    </Badge>
+  )
+}
+
+/** `BillingSubscriptionStatus` — PAST_DUE is the one that wants attention. */
+export function SubscriptionStatusBadge({ status }: { status: BillingSubscriptionStatus }) {
+  const { t } = useTranslation()
+
+  const variant =
+    status === 'ACTIVE'
+      ? 'default'
+      : status === 'PAST_DUE'
+        ? 'destructive'
+        : status === 'CANCELLED' || status === 'PAUSED'
+          ? 'secondary'
+          : 'outline'
+
+  return <Badge variant={variant}>{t(`manage.subscriptionStatuses.${status}`)}</Badge>
 }
 
 /**

@@ -459,6 +459,8 @@
     "columns": {
       "access": "Доступ",
       "achievement": "Достижение",
+      "amount": "Сумма",
+      "card": "Карта",
       "cards": "Карточки",
       "category": "Категория",
       "code": "Код",
@@ -473,6 +475,7 @@
       "modules": "Модули",
       "name": "Название",
       "phrases": "Фразы",
+      "provider": "Провайдер",
       "received": "Получено",
       "recipients": "Получили",
       "role": "Роль",
@@ -481,6 +484,7 @@
       "status": "Статус",
       "subscription": "Подписка",
       "term": "Слово",
+      "transaction": "Транзакция",
       "translations": "Переводы",
       "user": "Пользователь"
     },
@@ -592,6 +596,8 @@
       "allGroups": "Все группы",
       "allLocales": "Все локали",
       "allPlans": "Любой тариф",
+      "allProviders": "Все провайдеры",
+      "allPurchaseTypes": "Любая покупка",
       "allRoles": "Все роли",
       "allStates": "Все состояния",
       "allStatuses": "Все статусы",
@@ -606,6 +612,10 @@
       "inUse": "Используются",
       "locale": "Фильтр по локали",
       "localePlaceholder": "Локаль",
+      "provider": "Фильтр по провайдеру",
+      "providerPlaceholder": "Провайдер",
+      "purchaseType": "Фильтр по покупке",
+      "purchaseTypePlaceholder": "Покупка",
       "role": "Фильтр по роли",
       "rolePlaceholder": "Роль",
       "state": "Фильтр по состоянию",
@@ -619,6 +629,12 @@
       "usagePlaceholder": "Использование",
       "withImage": "С изображением",
       "withoutImage": "Без изображения"
+    },
+    "historyEvents": {
+      "CANCEL": "Отмена",
+      "COMPLETE": "Завершение",
+      "INIT": "Инициализация",
+      "PREPARE": "Подготовка"
     },
     "moduleDetail": {
       "backToCourses": "Назад к курсам",
@@ -692,9 +708,101 @@
       "controls": "элементов",
       "courses": "курсов",
       "modules": "модулей",
+      "payments": "платежей",
       "recipients": "получателей",
       "screens": "экранов",
       "users": "пользователей"
+    },
+    "paymentDetail": {
+      "allPayments": "Все платежи",
+      "backToPayments": "К платежам",
+      "cancelDialog": {
+        "description": "Провайдер перестанет списывать, оплаченный период доработает до конца. Доступ сохранится до этой даты.",
+        "title": "Отменить автопродление?"
+      },
+      "customAmount": "Своя сумма",
+      "customAmountHint": "Оплата без пакета — коины рассчитаны от суммы.",
+      "fields": {
+        "amount": "Сумма",
+        "autoRenew": "Автопродление",
+        "coins": "Коины",
+        "completed": "Подтверждён",
+        "created": "Создан",
+        "email": "Email",
+        "externalId": "ID подписки у провайдера",
+        "id": "ID",
+        "idempotencyKey": "Ключ идемпотентности",
+        "nextCharge": "Следующее списание",
+        "package": "Пакет",
+        "payerPayments": "Платежей у аккаунта",
+        "paymentLink": "Ссылка на оплату",
+        "period": "Текущий период",
+        "plan": "План",
+        "renewalAttempts": "Попыток продления",
+        "uid": "UID",
+        "updated": "Обновлён",
+        "userUid": "UID пользователя"
+      },
+      "history": {
+        "by": "инициатор: {{actor}}",
+        "description": "По строке на каждую смену статуса, как в payment_transactions_history.",
+        "title": "История статусов"
+      },
+      "notFound": "Платёж не найден",
+      "notFoundHint": "Транзакции с uid {{uid}} нет.",
+      "off": "Выключено",
+      "on": "Включено",
+      "openPayer": "Открыть {{name}}",
+      "payer": {
+        "description": "Аккаунт за userUid, присоединённый из списка пользователей.",
+        "title": "Плательщик"
+      },
+      "payment": {
+        "description": "Строка транзакции, как её хранит payment-api.",
+        "title": "Платёж"
+      },
+      "provider": {
+        "description": "Идентификаторы из строки деталей самого провайдера.",
+        "title": "Детали провайдера"
+      },
+      "refundDialog": {
+        "description": "Провайдер вернёт последнее списание, период закроется сразу, и доступ пропадёт сейчас же.",
+        "title": "Вернуть платёж?"
+      },
+      "stalledAlert": {
+        "description": "Оплата открыта больше суток назад, и колбэка так и не было. Сам по себе он уже не придёт.",
+        "title": "Ждём ответа провайдера"
+      },
+      "subscription": {
+        "appleHint": "Подписки Apple отменяются и возвращаются через App Store, а не отсюда.",
+        "cancel": "Отменить автопродление",
+        "description": "Строка billing_subscriptions, открытая этим платежом.",
+        "refund": "Вернуть и отозвать",
+        "refundHint": "Возврат доступен только для Google Play и Multicard.",
+        "title": "Подписка"
+      },
+      "toast": {
+        "cancelled": "Автопродление отменено",
+        "refunded": "Платёж возвращён, доступ отозван"
+      }
+    },
+    "payments": {
+      "coinsCredited": "{{coins}} коинов",
+      "empty": "Нет платежей по этим фильтрам.",
+      "noAmount": "Не передана",
+      "noAmountHint": "App Store и Play не сообщают цену при проверке покупки.",
+      "providerRetired": "Отключён — новые платежи не принимаются",
+      "searchPlaceholder": "Поиск по uid, плательщику или id провайдера",
+      "stats": {
+        "collected": "Собрано",
+        "collectedHint": "Только успешные платежи в UZS",
+        "open": "В процессе",
+        "openHint": "Созданы или в ожидании",
+        "payments": "Платежи",
+        "subscriptions": "Подписки",
+        "subscriptionsHint": "{{count}} с автопродлением",
+        "successRate": "{{rate}} успешных"
+      }
     },
     "phraseCardForm": {
       "createDescription": "Создаёт фразовую карточку в модуле «{{module}}» через POST /api/v1/manager/phrase-cards.",
@@ -717,6 +825,10 @@
         "phraseRequired": "Укажите фразу"
       }
     },
+    "purchaseTypes": {
+      "COIN_PACKAGE": "Пакет коинов",
+      "SUBSCRIPTION_PACKAGE": "Пакет подписки"
+    },
     "roles": {
       "ROLE_ADMIN": "Администратор",
       "ROLE_AUTHOR": "Автор",
@@ -737,9 +849,25 @@
       "ACTIVE": "Активен",
       "BLOCKED": "Заблокирован"
     },
+    "subscriptionStatuses": {
+      "ACTIVE": "Активна",
+      "CANCELLED": "Отменена",
+      "EXPIRED": "Истекла",
+      "PAST_DUE": "Просрочена",
+      "PAUSED": "Приостановлена",
+      "REVOKED": "Отозвана"
+    },
     "table": {
       "rows": "Строк",
       "showing": "Показано с {{from}} по {{to}} из {{total}} {{noun}}"
+    },
+    "transactionStatuses": {
+      "CANCELLED": "Отменён",
+      "CREATED": "Создан",
+      "FAILED": "Ошибка",
+      "PENDING": "В ожидании",
+      "REFUNDED": "Возврат",
+      "SUCCESS": "Успешно"
     },
     "userAchievements": {
       "description": "Начисление — POST /api/v1/users/{uid}/achievements, его вызывают сервисы с client key. Отзыва нет ни в одном эндпоинте, так что изменится только фикстура.",
@@ -788,6 +916,15 @@
       },
       "notFound": "Пользователь не найден.",
       "notFoundHint": "Нет аккаунта с uid {{uid}}.",
+      "payments": {
+        "count": "платежей: {{count}}",
+        "description": "Последние двенадцать месяцев, из payment-api. Полосы считаются по коинам, а суммы показаны по каждой валюте отдельно — валюты не складываются.",
+        "empty": "С этого аккаунта ничего не оплачивали.",
+        "none": "без платежей",
+        "openLedger": "Открыть список платежей",
+        "summary": "начислено {{coins}} коинов",
+        "title": "Платежи"
+      },
       "roles": {
         "description": "ROLE_AUTHOR открывает /api/v1/manager/**, ROLE_ADMIN — /api/v1/admin/**. Эндпоинта для выдачи ролей пока нет, поэтому эти изменения остаются в фикстуре.",
         "implicit": "ROLE_USER есть у каждого аккаунта по умолчанию.",
@@ -876,6 +1013,7 @@
     "manageAchievements": "Достижения",
     "manageCategories": "Категории",
     "manageCourses": "Курсы",
+    "managePayments": "Платежи",
     "manageUsers": "Пользователи"
   },
   "routes": {
@@ -891,6 +1029,7 @@
     "misc": "Разное",
     "modules": "Модули",
     "pages": "Страницы",
+    "payments": "Платежи",
     "timing": "Время",
     "user-settings": "Настройки",
     "users": "Пользователи"

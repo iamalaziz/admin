@@ -459,6 +459,8 @@
     "columns": {
       "access": "Access",
       "achievement": "Achievement",
+      "amount": "Amount",
+      "card": "Card",
       "cards": "Cards",
       "category": "Category",
       "code": "Code",
@@ -473,6 +475,7 @@
       "modules": "Modules",
       "name": "Name",
       "phrases": "Phrases",
+      "provider": "Provider",
       "received": "Received",
       "recipients": "Holders",
       "role": "Role",
@@ -481,6 +484,7 @@
       "status": "Status",
       "subscription": "Subscription",
       "term": "Term",
+      "transaction": "Transaction",
       "translations": "Translations",
       "user": "User"
     },
@@ -592,6 +596,8 @@
       "allGroups": "All groups",
       "allLocales": "All locales",
       "allPlans": "Any plan",
+      "allProviders": "All providers",
+      "allPurchaseTypes": "Any purchase",
       "allRoles": "All roles",
       "allStates": "All states",
       "allStatuses": "All statuses",
@@ -606,6 +612,10 @@
       "inUse": "In use",
       "locale": "Filter by locale",
       "localePlaceholder": "Locale",
+      "provider": "Filter by provider",
+      "providerPlaceholder": "Provider",
+      "purchaseType": "Filter by purchase",
+      "purchaseTypePlaceholder": "Purchase",
       "role": "Filter by role",
       "rolePlaceholder": "Role",
       "state": "Filter by state",
@@ -619,6 +629,12 @@
       "usagePlaceholder": "Usage",
       "withImage": "With image",
       "withoutImage": "Without image"
+    },
+    "historyEvents": {
+      "CANCEL": "Cancelled",
+      "COMPLETE": "Completed",
+      "INIT": "Initiated",
+      "PREPARE": "Prepared"
     },
     "moduleDetail": {
       "backToCourses": "Back to courses",
@@ -692,9 +708,101 @@
       "controls": "controls",
       "courses": "courses",
       "modules": "modules",
+      "payments": "payments",
       "recipients": "holders",
       "screens": "screens",
       "users": "users"
+    },
+    "paymentDetail": {
+      "allPayments": "All payments",
+      "backToPayments": "Back to payments",
+      "cancelDialog": {
+        "description": "The provider stops charging and the paid period runs to its end. The subscriber keeps access until then.",
+        "title": "Cancel the renewal?"
+      },
+      "customAmount": "Custom amount",
+      "customAmountHint": "Paid without a package — the coins were calculated from the amount.",
+      "fields": {
+        "amount": "Amount",
+        "autoRenew": "Auto-renew",
+        "coins": "Coins",
+        "completed": "Confirmed",
+        "created": "Created",
+        "email": "Email",
+        "externalId": "Provider subscription id",
+        "id": "ID",
+        "idempotencyKey": "Idempotency key",
+        "nextCharge": "Next charge",
+        "package": "Package",
+        "payerPayments": "Payments by this account",
+        "paymentLink": "Checkout link",
+        "period": "Current period",
+        "plan": "Plan",
+        "renewalAttempts": "Renewal attempts",
+        "uid": "UID",
+        "updated": "Updated",
+        "userUid": "User UID"
+      },
+      "history": {
+        "by": "by {{actor}}",
+        "description": "One row per status change, as payment_transactions_history records it.",
+        "title": "Status history"
+      },
+      "notFound": "Payment not found",
+      "notFoundHint": "No transaction with uid {{uid}}.",
+      "off": "Off",
+      "on": "On",
+      "openPayer": "Open {{name}}",
+      "payer": {
+        "description": "The account behind userUid, joined from the user list.",
+        "title": "Payer"
+      },
+      "payment": {
+        "description": "The transaction row, as payment-api stores it.",
+        "title": "Payment"
+      },
+      "provider": {
+        "description": "Identifiers from the provider's own details row.",
+        "title": "Provider details"
+      },
+      "refundDialog": {
+        "description": "The provider reverses the last charge, the period ends immediately and the subscriber loses access now.",
+        "title": "Refund this payment?"
+      },
+      "stalledAlert": {
+        "description": "This checkout was opened over a day ago and no callback has followed. Nothing will arrive on its own.",
+        "title": "Still waiting on the provider"
+      },
+      "subscription": {
+        "appleHint": "Apple subscriptions are cancelled and refunded through the App Store, not from here.",
+        "cancel": "Cancel renewal",
+        "description": "The billing_subscriptions row this payment opened.",
+        "refund": "Refund and revoke",
+        "refundHint": "Refunds reach Google Play and Multicard only.",
+        "title": "Subscription"
+      },
+      "toast": {
+        "cancelled": "Renewal cancelled",
+        "refunded": "Payment refunded and access revoked"
+      }
+    },
+    "payments": {
+      "coinsCredited": "{{coins}} coins",
+      "empty": "No payments match these filters.",
+      "noAmount": "Not reported",
+      "noAmountHint": "The App Store and Play report no price when a purchase is verified.",
+      "providerRetired": "Switched off — new payments are refused",
+      "searchPlaceholder": "Search uid, payer or provider id",
+      "stats": {
+        "collected": "Collected",
+        "collectedHint": "Successful payments in UZS only",
+        "open": "Open",
+        "openHint": "Created or pending",
+        "payments": "Payments",
+        "subscriptions": "Subscriptions",
+        "subscriptionsHint": "{{count}} auto-renewing",
+        "successRate": "{{rate}} succeeded"
+      }
     },
     "phraseCardForm": {
       "createDescription": "Creates a phrase card in \"{{module}}\" via POST /api/v1/manager/phrase-cards.",
@@ -717,6 +825,10 @@
         "phraseRequired": "Phrase is required"
       }
     },
+    "purchaseTypes": {
+      "COIN_PACKAGE": "Coin package",
+      "SUBSCRIPTION_PACKAGE": "Subscription package"
+    },
     "roles": {
       "ROLE_ADMIN": "Admin",
       "ROLE_AUTHOR": "Author",
@@ -737,9 +849,25 @@
       "ACTIVE": "Active",
       "BLOCKED": "Blocked"
     },
+    "subscriptionStatuses": {
+      "ACTIVE": "Active",
+      "CANCELLED": "Cancelled",
+      "EXPIRED": "Expired",
+      "PAST_DUE": "Past due",
+      "PAUSED": "Paused",
+      "REVOKED": "Revoked"
+    },
     "table": {
       "rows": "Rows",
       "showing": "Showing {{from}} to {{to}} of {{total}} {{noun}}"
+    },
+    "transactionStatuses": {
+      "CANCELLED": "Cancelled",
+      "CREATED": "Created",
+      "FAILED": "Failed",
+      "PENDING": "Pending",
+      "REFUNDED": "Refunded",
+      "SUCCESS": "Succeeded"
     },
     "userAchievements": {
       "description": "A grant is POST /api/v1/users/{uid}/achievements, which the services call with a client key. Revoking has no endpoint at all, so it only changes the fixture.",
@@ -788,6 +916,15 @@
       },
       "notFound": "User not found.",
       "notFoundHint": "No account with uid {{uid}}.",
+      "payments": {
+        "count": "{{count}} payments",
+        "description": "The last twelve months, from payment-api. Bars are scaled by coins; the money is listed per currency, because currencies do not add up.",
+        "empty": "This account has never paid for anything.",
+        "none": "no payments",
+        "openLedger": "Open the payments ledger",
+        "summary": "{{coins}} coins credited",
+        "title": "Payments"
+      },
       "roles": {
         "description": "ROLE_AUTHOR unlocks /api/v1/manager/**, ROLE_ADMIN unlocks /api/v1/admin/**. No endpoint grants roles yet, so these changes are local to this fixture.",
         "implicit": "ROLE_USER is implicit for every account.",
@@ -876,6 +1013,7 @@
     "manageAchievements": "Achievements",
     "manageCategories": "Categories",
     "manageCourses": "Courses",
+    "managePayments": "Payments",
     "manageUsers": "Users"
   },
   "routes": {
@@ -891,6 +1029,7 @@
     "misc": "Miscellaneous",
     "modules": "Modules",
     "pages": "Pages",
+    "payments": "Payments",
     "timing": "Timing",
     "user-settings": "Settings",
     "users": "Users"

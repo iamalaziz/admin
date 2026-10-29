@@ -459,6 +459,8 @@
     "columns": {
       "access": "Kirish",
       "achievement": "Yutuq",
+      "amount": "Summa",
+      "card": "Karta",
       "cards": "Kartalar",
       "category": "Kategoriya",
       "code": "Kod",
@@ -473,6 +475,7 @@
       "modules": "Modullar",
       "name": "Nomi",
       "phrases": "Iboralar",
+      "provider": "Provayder",
       "received": "Olingan",
       "recipients": "Olganlar",
       "role": "Rol",
@@ -481,6 +484,7 @@
       "status": "Status",
       "subscription": "Obuna",
       "term": "So‘z",
+      "transaction": "Tranzaksiya",
       "translations": "Tarjimalar",
       "user": "Foydalanuvchi"
     },
@@ -592,6 +596,8 @@
       "allGroups": "Barcha guruhlar",
       "allLocales": "Barcha tillar",
       "allPlans": "Barcha tariflar",
+      "allProviders": "Barcha provayderlar",
+      "allPurchaseTypes": "Har qanday xarid",
       "allRoles": "Barcha rollar",
       "allStates": "Barcha holatlar",
       "allStatuses": "Barcha statuslar",
@@ -606,6 +612,10 @@
       "inUse": "Ishlatilmoqda",
       "locale": "Til bo‘yicha filtr",
       "localePlaceholder": "Til",
+      "provider": "Provayder bo‘yicha filtr",
+      "providerPlaceholder": "Provayder",
+      "purchaseType": "Xarid bo‘yicha filtr",
+      "purchaseTypePlaceholder": "Xarid",
       "role": "Rol bo‘yicha filtr",
       "rolePlaceholder": "Rol",
       "state": "Holat bo‘yicha filtr",
@@ -619,6 +629,12 @@
       "usagePlaceholder": "Ishlatilishi",
       "withImage": "Rasmli",
       "withoutImage": "Rasmsiz"
+    },
+    "historyEvents": {
+      "CANCEL": "Bekor qilindi",
+      "COMPLETE": "Yakunlandi",
+      "INIT": "Boshlandi",
+      "PREPARE": "Tayyorlandi"
     },
     "moduleDetail": {
       "backToCourses": "Kurslarga qaytish",
@@ -692,9 +708,101 @@
       "controls": "element",
       "courses": "kurs",
       "modules": "modul",
+      "payments": "to‘lov",
       "recipients": "foydalanuvchi",
       "screens": "ekran",
       "users": "foydalanuvchi"
+    },
+    "paymentDetail": {
+      "allPayments": "Barcha to‘lovlar",
+      "backToPayments": "To‘lovlarga qaytish",
+      "cancelDialog": {
+        "description": "Provayder pul yechishni to‘xtatadi, to‘langan davr oxirigacha ishlaydi. Obunachi shu sanagacha kirish huquqini saqlaydi.",
+        "title": "Avto-yangilash bekor qilinsinmi?"
+      },
+      "customAmount": "Ixtiyoriy summa",
+      "customAmountHint": "Paketsiz to‘lov — tangalar summadan hisoblangan.",
+      "fields": {
+        "amount": "Summa",
+        "autoRenew": "Avto-yangilash",
+        "coins": "Tangalar",
+        "completed": "Tasdiqlangan",
+        "created": "Yaratilgan",
+        "email": "Email",
+        "externalId": "Provayderdagi obuna id",
+        "id": "ID",
+        "idempotencyKey": "Idempotentlik kaliti",
+        "nextCharge": "Keyingi to‘lov",
+        "package": "Paket",
+        "payerPayments": "Akkauntning to‘lovlari",
+        "paymentLink": "To‘lov havolasi",
+        "period": "Hozirgi davr",
+        "plan": "Reja",
+        "renewalAttempts": "Yangilash urinishlari",
+        "uid": "UID",
+        "updated": "Yangilangan",
+        "userUid": "Foydalanuvchi UID"
+      },
+      "history": {
+        "by": "tashabbuskor: {{actor}}",
+        "description": "payment_transactions_history dagidek, har bir status o‘zgarishi uchun bitta qator.",
+        "title": "Status tarixi"
+      },
+      "notFound": "To‘lov topilmadi",
+      "notFoundHint": "{{uid}} uid li tranzaksiya yo‘q.",
+      "off": "O‘chiq",
+      "on": "Yoniq",
+      "openPayer": "{{name}} ni ochish",
+      "payer": {
+        "description": "userUid ortidagi akkaunt, foydalanuvchilar ro‘yxatidan olingan.",
+        "title": "To‘lovchi"
+      },
+      "payment": {
+        "description": "payment-api saqlagan tranzaksiya qatori.",
+        "title": "To‘lov"
+      },
+      "provider": {
+        "description": "Provayderning o‘z details qatoridagi identifikatorlar.",
+        "title": "Provayder ma’lumotlari"
+      },
+      "refundDialog": {
+        "description": "Provayder oxirgi to‘lovni qaytaradi, davr darhol tugaydi va obunachi kirish huquqini hoziroq yo‘qotadi.",
+        "title": "To‘lov qaytarilsinmi?"
+      },
+      "stalledAlert": {
+        "description": "Bu to‘lov bir kundan ko‘proq vaqt oldin boshlangan va callback kelmagan. O‘zidan kelmaydi.",
+        "title": "Provayderdan javob kutilmoqda"
+      },
+      "subscription": {
+        "appleHint": "Apple obunalari App Store orqali bekor qilinadi va qaytariladi, bu yerdan emas.",
+        "cancel": "Avto-yangilashni bekor qilish",
+        "description": "Bu to‘lov ochgan billing_subscriptions qatori.",
+        "refund": "Qaytarish va bekor qilish",
+        "refundHint": "Qaytarish faqat Google Play va Multicard uchun ishlaydi.",
+        "title": "Obuna"
+      },
+      "toast": {
+        "cancelled": "Avto-yangilash bekor qilindi",
+        "refunded": "To‘lov qaytarildi, kirish bekor qilindi"
+      }
+    },
+    "payments": {
+      "coinsCredited": "{{coins}} tanga",
+      "empty": "Bu filtrlarga mos to‘lov yo‘q.",
+      "noAmount": "Ko‘rsatilmagan",
+      "noAmountHint": "App Store va Play xaridni tekshirganda narxni qaytarmaydi.",
+      "providerRetired": "O‘chirilgan — yangi to‘lovlar qabul qilinmaydi",
+      "searchPlaceholder": "uid, to‘lovchi yoki provayder id bo‘yicha qidirish",
+      "stats": {
+        "collected": "Yig‘ilgan",
+        "collectedHint": "Faqat UZS dagi muvaffaqiyatli to‘lovlar",
+        "open": "Ochiq",
+        "openHint": "Yaratilgan yoki kutilmoqda",
+        "payments": "To‘lovlar",
+        "subscriptions": "Obunalar",
+        "subscriptionsHint": "{{count}} avto-yangilanadi",
+        "successRate": "{{rate}} muvaffaqiyatli"
+      }
     },
     "phraseCardForm": {
       "createDescription": "«{{module}}» modulida POST /api/v1/manager/phrase-cards orqali ibora kartasi yaratadi.",
@@ -717,6 +825,10 @@
         "phraseRequired": "Iborani kiriting"
       }
     },
+    "purchaseTypes": {
+      "COIN_PACKAGE": "Tanga paketi",
+      "SUBSCRIPTION_PACKAGE": "Obuna paketi"
+    },
     "roles": {
       "ROLE_ADMIN": "Administrator",
       "ROLE_AUTHOR": "Muallif",
@@ -737,9 +849,25 @@
       "ACTIVE": "Faol",
       "BLOCKED": "Bloklangan"
     },
+    "subscriptionStatuses": {
+      "ACTIVE": "Faol",
+      "CANCELLED": "Bekor qilingan",
+      "EXPIRED": "Tugagan",
+      "PAST_DUE": "Muddati o‘tgan",
+      "PAUSED": "To‘xtatilgan",
+      "REVOKED": "Qaytarib olingan"
+    },
     "table": {
       "rows": "Qatorlar",
       "showing": "{{total}} {{noun}}dan {{from}}–{{to}} ko‘rsatilmoqda"
+    },
+    "transactionStatuses": {
+      "CANCELLED": "Bekor qilingan",
+      "CREATED": "Yaratilgan",
+      "FAILED": "Xatolik",
+      "PENDING": "Kutilmoqda",
+      "REFUNDED": "Qaytarilgan",
+      "SUCCESS": "Muvaffaqiyatli"
     },
     "userAchievements": {
       "description": "Berish — POST /api/v1/users/{uid}/achievements, uni servislar client key bilan chaqiradi. Bekor qilish uchun endpoint yo‘q, shuning uchun faqat fikstura o‘zgaradi.",
@@ -788,6 +916,15 @@
       },
       "notFound": "Foydalanuvchi topilmadi.",
       "notFoundHint": "{{uid}} uid bilan hisob yo‘q.",
+      "payments": {
+        "count": "{{count}} ta to‘lov",
+        "description": "payment-api dagi oxirgi o‘n ikki oy. Ustunlar tangalar bo‘yicha o‘lchangan, summalar esa har bir valyuta uchun alohida — valyutalar qo‘shilmaydi.",
+        "empty": "Bu akkaunt hech narsa uchun to‘lov qilmagan.",
+        "none": "to‘lov yo‘q",
+        "openLedger": "To‘lovlar ro‘yxatini ochish",
+        "summary": "{{coins}} tanga hisoblangan",
+        "title": "To‘lovlar"
+      },
       "roles": {
         "description": "ROLE_AUTHOR /api/v1/manager/** ni ochadi, ROLE_ADMIN /api/v1/admin/** ni ochadi. Rol beradigan endpoint hali yo‘q, shuning uchun bu o‘zgarishlar faqat fiksturada qoladi.",
         "implicit": "ROLE_USER har bir hisobda sukut bo‘yicha bor.",
@@ -876,6 +1013,7 @@
     "manageAchievements": "Yutuqlar",
     "manageCategories": "Kategoriyalar",
     "manageCourses": "Kurslar",
+    "managePayments": "To‘lovlar",
     "manageUsers": "Foydalanuvchilar"
   },
   "routes": {
@@ -891,6 +1029,7 @@
     "misc": "Boshqa",
     "modules": "Modullar",
     "pages": "Sahifalar",
+    "payments": "To‘lovlar",
     "timing": "Vaqt",
     "user-settings": "Sozlamalar",
     "users": "Foydalanuvchilar"
