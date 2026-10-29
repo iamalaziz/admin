@@ -9,9 +9,13 @@ import {
   ArrowLeftIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  ImageIcon,
   ImageOffIcon,
+  LayoutGridIcon,
+  MessageSquareQuoteIcon,
   PencilIcon,
   PlusIcon,
+  QuoteIcon,
   Trash2Icon
 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -231,14 +235,27 @@ export function ModuleDetail({ moduleId }: { moduleId: number }) {
 
       <StatCards
         items={[
-          { label: t('manage.moduleDetail.stats.cards'), value: list.totals.cardCount },
-          { label: t('manage.moduleDetail.stats.withImage'), value: list.totals.withImageCount },
           {
+            icon: <LayoutGridIcon className='size-4' />,
+            label: t('manage.moduleDetail.stats.cards'),
+            value: list.totals.cardCount
+          },
+          {
+            icon: <ImageIcon className='size-4' />,
+            label: t('manage.moduleDetail.stats.withImage'),
+            value: list.totals.withImageCount
+          },
+          {
+            icon: <QuoteIcon className='size-4' />,
             label: t('manage.moduleDetail.stats.samples'),
             value: list.totals.sampleCount,
             hint: t('manage.moduleDetail.stats.samplesHint')
           },
-          { label: t('manage.moduleDetail.stats.phraseCards'), value: list.totals.phraseCardCount }
+          {
+            icon: <MessageSquareQuoteIcon className='size-4' />,
+            label: t('manage.moduleDetail.stats.phraseCards'),
+            value: list.totals.phraseCardCount
+          }
         ]}
       />
 

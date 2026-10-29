@@ -5,7 +5,17 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 
 import type { ColumnDef } from '@tanstack/react-table'
-import { ChevronDownIcon, ChevronUpIcon, PencilIcon, PlusIcon, Trash2Icon } from 'lucide-react'
+import {
+  AwardIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  EyeIcon,
+  LayersIcon,
+  PencilIcon,
+  PlusIcon,
+  Trash2Icon,
+  TrophyIcon
+} from 'lucide-react'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
@@ -162,18 +172,25 @@ export function AchievementList() {
     <div className='flex flex-col gap-3 lg:gap-6'>
       <StatCards
         items={[
-          { label: t('manage.achievements.stats.achievements'), value: list.stats.achievementCount },
           {
+            icon: <TrophyIcon className='size-4' />,
+            label: t('manage.achievements.stats.achievements'),
+            value: list.stats.achievementCount
+          },
+          {
+            icon: <EyeIcon className='size-4' />,
             label: t('manage.achievements.stats.active'),
             value: list.stats.activeCount,
             hint: t('manage.achievements.stats.activeHint')
           },
           {
+            icon: <LayersIcon className='size-4' />,
             label: t('manage.achievements.stats.groups'),
             value: list.stats.groupCount,
             hint: t('manage.achievements.stats.groupsHint')
           },
           {
+            icon: <AwardIcon className='size-4' />,
             label: t('manage.achievements.stats.grants'),
             value: list.stats.grantCount,
             hint: t('manage.achievements.stats.grantsHint')

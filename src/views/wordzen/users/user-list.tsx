@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 
 import type { ColumnDef } from '@tanstack/react-table'
-import { BanIcon, CircleCheckIcon, EyeIcon, PencilIcon } from 'lucide-react'
+import { BanIcon, CircleCheckIcon, CrownIcon, EyeIcon, PencilIcon, ShieldIcon, UsersRoundIcon } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
@@ -134,14 +134,24 @@ export function UserList() {
     <div className='flex flex-col gap-3 lg:gap-6'>
       <StatCards
         items={[
-          { label: t('manage.users.stats.users'), value: list.stats.userCount },
-          { label: t('manage.users.stats.blocked'), value: list.stats.blockedCount },
           {
+            icon: <UsersRoundIcon className='size-4' />,
+            label: t('manage.users.stats.users'),
+            value: list.stats.userCount
+          },
+          {
+            icon: <BanIcon className='size-4' />,
+            label: t('manage.users.stats.blocked'),
+            value: list.stats.blockedCount
+          },
+          {
+            icon: <CrownIcon className='size-4' />,
             label: t('manage.users.stats.subscribed'),
             value: list.stats.subscribedCount,
             hint: t('manage.users.stats.subscribedHint')
           },
           {
+            icon: <ShieldIcon className='size-4' />,
             label: t('manage.users.stats.staff'),
             value: list.stats.staffCount,
             hint: t('manage.users.stats.staffHint')

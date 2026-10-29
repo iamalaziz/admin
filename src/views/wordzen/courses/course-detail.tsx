@@ -5,7 +5,18 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 
 import type { ColumnDef } from '@tanstack/react-table'
-import { ArrowLeftIcon, ChevronDownIcon, ChevronUpIcon, PencilIcon, PlusIcon, Trash2Icon } from 'lucide-react'
+import {
+  ArrowLeftIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  EyeIcon,
+  LayersIcon,
+  LayoutGridIcon,
+  MessageSquareQuoteIcon,
+  PencilIcon,
+  PlusIcon,
+  Trash2Icon
+} from 'lucide-react'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
@@ -196,14 +207,27 @@ export function CourseDetail({ courseId }: { courseId: number }) {
 
       <StatCards
         items={[
-          { label: t('manage.courseDetail.stats.modules'), value: list.totals.moduleCount },
-          { label: t('manage.courseDetail.stats.published'), value: list.totals.publishedCount },
           {
+            icon: <LayersIcon className='size-4' />,
+            label: t('manage.courseDetail.stats.modules'),
+            value: list.totals.moduleCount
+          },
+          {
+            icon: <EyeIcon className='size-4' />,
+            label: t('manage.courseDetail.stats.published'),
+            value: list.totals.publishedCount
+          },
+          {
+            icon: <LayoutGridIcon className='size-4' />,
             label: t('manage.courseDetail.stats.cards'),
             value: list.totals.cardCount,
             hint: t('manage.courseDetail.stats.cardsHint')
           },
-          { label: t('manage.courseDetail.stats.phraseCards'), value: list.totals.phraseCardCount }
+          {
+            icon: <MessageSquareQuoteIcon className='size-4' />,
+            label: t('manage.courseDetail.stats.phraseCards'),
+            value: list.totals.phraseCardCount
+          }
         ]}
       />
 

@@ -91,13 +91,35 @@ export function FilePathCell({ path, emptyLabel }: { path: string | null; emptyL
   )
 }
 
-export function StatCards({ items }: { items: { label: string; value: ReactNode; hint?: string }[] }) {
+export type StatCardItem = {
+  label: string
+  value: ReactNode
+  hint?: string
+  icon?: ReactNode
+}
+
+/**
+ * The stat row the manage pages open with. The icon badge matches the dashboard's
+ * `MetricTile`, so a figure reads the same on either side of the panel; it is optional
+ * because the icon only ever restates the label and must not be load-bearing.
+ */
+export function StatCards({ items }: { items: StatCardItem[] }) {
   return (
     <div className='grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-6'>
       {items.map(item => (
         <Card key={item.label} className='shadow-none'>
           <CardContent className='flex flex-col gap-1'>
-            <span className='text-muted-foreground text-sm'>{item.label}</span>
+            <span className='text-muted-foreground flex items-center gap-2 text-sm'>
+              {item.icon ? (
+                <span
+                  aria-hidden
+                  className='bg-primary/10 text-primary flex size-7 shrink-0 items-center justify-center rounded-sm'
+                >
+                  {item.icon}
+                </span>
+              ) : null}
+              {item.label}
+            </span>
             <span className='text-2xl font-semibold'>{item.value}</span>
             {item.hint ? <span className='text-muted-foreground text-xs'>{item.hint}</span> : null}
           </CardContent>

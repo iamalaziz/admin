@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 
 import type { ColumnDef } from '@tanstack/react-table'
-import { PencilIcon, PlusIcon, Trash2Icon } from 'lucide-react'
+import { HashIcon, LinkIcon, PencilIcon, PlusIcon, TagsIcon, Trash2Icon, UnlinkIcon } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { Badge } from '@/components/ui/badge'
@@ -129,18 +129,25 @@ export function CategoryList() {
     <div className='flex flex-col gap-3 lg:gap-6'>
       <StatCards
         items={[
-          { label: t('manage.categories.stats.categories'), value: list.stats.categoryCount },
           {
+            icon: <TagsIcon className='size-4' />,
+            label: t('manage.categories.stats.categories'),
+            value: list.stats.categoryCount
+          },
+          {
+            icon: <LinkIcon className='size-4' />,
             label: t('manage.categories.stats.inUse'),
             value: list.stats.inUseCount,
             hint: t('manage.categories.stats.inUseHint')
           },
           {
+            icon: <UnlinkIcon className='size-4' />,
             label: t('manage.categories.stats.unused'),
             value: list.stats.unusedCount,
             hint: t('manage.categories.stats.unusedHint')
           },
           {
+            icon: <HashIcon className='size-4' />,
             label: t('manage.categories.stats.freeCodes'),
             value: list.stats.availableCodeCount,
             hint: t('manage.categories.stats.freeCodesHint')

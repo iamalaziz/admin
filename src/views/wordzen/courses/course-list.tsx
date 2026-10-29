@@ -5,7 +5,17 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 
 import type { ColumnDef } from '@tanstack/react-table'
-import { ChevronDownIcon, ChevronUpIcon, EyeIcon, PencilIcon, PlusIcon, Trash2Icon } from 'lucide-react'
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  CreditCardIcon,
+  EyeIcon,
+  LayersIcon,
+  LibraryBigIcon,
+  PencilIcon,
+  PlusIcon,
+  Trash2Icon
+} from 'lucide-react'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
@@ -170,18 +180,25 @@ export function CourseList() {
     <div className='flex flex-col gap-3 lg:gap-6'>
       <StatCards
         items={[
-          { label: t('manage.courses.stats.courses'), value: list.stats.courseCount },
           {
+            icon: <LibraryBigIcon className='size-4' />,
+            label: t('manage.courses.stats.courses'),
+            value: list.stats.courseCount
+          },
+          {
+            icon: <EyeIcon className='size-4' />,
             label: t('manage.courses.stats.published'),
             value: list.stats.publishedCourseCount,
             hint: t('manage.courses.stats.publishedHint')
           },
           {
+            icon: <LayersIcon className='size-4' />,
             label: t('manage.courses.stats.modules'),
             value: list.stats.moduleCount,
             hint: t('manage.courses.stats.modulesHint')
           },
           {
+            icon: <CreditCardIcon className='size-4' />,
             label: t('manage.courses.stats.paid'),
             value: list.stats.paidCourseCount,
             hint: t('manage.courses.stats.paidHint')
