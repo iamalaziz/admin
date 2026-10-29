@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   basePath: process.env.BASEPATH ?? '',
   reactStrictMode: true,
   pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
+
+  // Staff tool — keep the dev overlay/devtools indicator out of the UI.
+  devIndicators: false,
   redirects: async () => {
     return [
       {

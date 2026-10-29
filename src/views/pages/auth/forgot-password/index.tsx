@@ -1,3 +1,5 @@
+'use client'
+
 // Next Imports
 import Link from 'next/link'
 
@@ -13,7 +15,12 @@ import ForgotPasswordForm from '@/views/pages/auth/forgot-password/forgot-passwo
 // SVG Import
 import AuthBackgroundShape from '@/assets/svg/auth-background-shape'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const ForgotPassword = () => {
+  const { t } = useTranslation()
+
   return (
     <div className='relative flex h-auto min-h-screen items-center justify-center overflow-x-hidden px-4 py-10 sm:px-6 lg:px-8'>
       <div className='absolute'>
@@ -27,10 +34,8 @@ const ForgotPassword = () => {
           </Link>
 
           <div>
-            <CardTitle className='mb-1.5 text-2xl font-semibold'>Forgot Password?</CardTitle>
-            <CardDescription className='text-base'>
-              Enter your email and we&apos;ll send you instructions to reset your password
-            </CardDescription>
+            <CardTitle className='mb-1.5 text-2xl font-semibold'>{t('auth.forgotPassword.title')}</CardTitle>
+            <CardDescription className='text-base'>{t('auth.forgotPassword.description')}</CardDescription>
           </div>
         </CardHeader>
 
@@ -45,7 +50,7 @@ const ForgotPassword = () => {
             nativeButton={false}
           >
             <ChevronLeftIcon className='size-5 transition-transform duration-200 group-hover:-translate-x-0.5' />
-            Back to login
+            {t('auth.backToLogin')}
           </Button>
         </CardContent>
       </Card>

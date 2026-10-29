@@ -9,6 +9,7 @@ import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem } fro
 
 // Hook Imports
 import { usePagination } from '@/hooks/use-pagination'
+import { useTranslation } from '@/lib/i18n'
 
 export interface UserPaginationProps {
   showingFrom: number
@@ -27,6 +28,8 @@ export function UserPagination({
   totalPages,
   onPageChange
 }: UserPaginationProps) {
+  const { t } = useTranslation()
+
   const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
     currentPage,
     totalPages,
@@ -36,7 +39,7 @@ export function UserPagination({
   return (
     <div className='flex items-center justify-between gap-3 px-6 py-4 max-sm:flex-col md:max-lg:flex-col'>
       <p className='text-muted-foreground text-sm whitespace-nowrap' aria-live='polite'>
-        Showing <span>{showingFrom}</span> to <span>{showingTo}</span> of <span>{total}</span> entries
+        {t('users.showingEntries', { from: showingFrom, to: showingTo, total })}
       </p>
 
       <div>
@@ -48,10 +51,10 @@ export function UserPagination({
                 variant='ghost'
                 onClick={() => onPageChange(currentPage - 1)}
                 disabled={currentPage <= 1}
-                aria-label='Go to previous page'
+                aria-label={t('common.goToPreviousPage')}
               >
                 <ChevronLeftIcon aria-hidden='true' />
-                <span className='max-sm:hidden'>Previous</span>
+                <span className='max-sm:hidden'>{t('common.previous')}</span>
               </Button>
             </PaginationItem>
 
@@ -90,9 +93,9 @@ export function UserPagination({
                 variant='ghost'
                 onClick={() => onPageChange(currentPage + 1)}
                 disabled={currentPage >= totalPages}
-                aria-label='Go to next page'
+                aria-label={t('common.goToNextPage')}
               >
-                <span className='max-sm:hidden'>Next</span>
+                <span className='max-sm:hidden'>{t('common.next')}</span>
                 <ChevronRightIcon aria-hidden='true' />
               </Button>
             </PaginationItem>

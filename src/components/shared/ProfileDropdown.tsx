@@ -1,8 +1,10 @@
+'use client'
+
 // Next Imports
 import Link from 'next/link'
 
 // Third-party Imports
-import { LogOutIcon, SettingsIcon, UserIcon } from 'lucide-react'
+import { LogOutIcon, SettingsIcon } from 'lucide-react'
 
 // Component Imports
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -17,6 +19,9 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const STATIC_USER = {
   fullName: 'John Doe',
   email: 'john.doe@example.com',
@@ -25,6 +30,8 @@ const STATIC_USER = {
 }
 
 const ProfileDropdown = () => {
+  const { t } = useTranslation()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -56,13 +63,9 @@ const ProfileDropdown = () => {
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem render={<Link href='/pages/user-profile?view=profile' />}>
-            <UserIcon />
-            <span>My Account</span>
-          </DropdownMenuItem>
           <DropdownMenuItem render={<Link href='/pages/user-settings?setting=general' />}>
             <SettingsIcon />
-            <span>Settings</span>
+            <span>{t('chrome.settings')}</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
 
@@ -71,7 +74,7 @@ const ProfileDropdown = () => {
         <DropdownMenuGroup>
           <DropdownMenuItem variant='destructive' render={<Link href='/pages/auth/login' />}>
             <LogOutIcon />
-            <span>Sign out</span>
+            <span>{t('chrome.signOut')}</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

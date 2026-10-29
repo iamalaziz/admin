@@ -24,10 +24,26 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+import type { TranslationKey } from '@/lib/i18n'
+
+// Title-cases a path segment, for a route no `routes.*` key covers yet.
+const prettifySegment = (segment: string) => segment.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+
 const Header = () => {
   const pathname = usePathname()
+  const { t } = useTranslation()
 
   const segments = pathname.split('/').filter(Boolean)
+
+  // `t` echoes the key back when nothing matches, which is the signal to fall back.
+  const segmentLabel = (segment: string) => {
+    const key = `routes.${segment}` as TranslationKey
+    const translated = t(key)
+
+    return translated === key ? prettifySegment(segment) : translated
+  }
 
   return (
     <header className='bg-card sticky top-0 z-50 border-b'>
@@ -39,7 +55,7 @@ const Header = () => {
             <BreadcrumbList>
               {segments.map((segment, index) => {
                 const isLast = index === segments.length - 1
-                const label = segment.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+                const label = segmentLabel(segment)
                 const href = '/' + segments.slice(0, index + 1).join('/')
 
                 return (
@@ -58,7 +74,7 @@ const Header = () => {
           <ModeToggle />
           <LanguageDropdown
             trigger={
-              <Button variant='ghost' size='icon-lg'>
+              <Button variant='ghost' size='icon-lg' aria-label={t('chrome.changeLanguage')}>
                 <LanguagesIcon />
               </Button>
             }

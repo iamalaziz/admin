@@ -15,29 +15,6 @@ export interface UserProject {
   updatedAt?: string
 }
 
-export type ActivityFileType = 'pdf' | 'image' | 'doc' | 'excel'
-
-export interface ActivityPerson {
-  name: string
-  role?: string
-  avatar?: string
-  initials: string
-}
-
-export interface UserActivityItem {
-  id: string
-  description: string
-  detail?: string
-  timestamp: string
-  attachment?: {
-    name: string
-    fileType: ActivityFileType
-  }
-  person?: ActivityPerson
-  teamMembers?: ActivityPerson[]
-  teamExtraCount?: number
-}
-
 export interface UserBillingPlan {
   name: string
   price: number
@@ -100,15 +77,6 @@ export interface UserRecentDevice {
   isCurrentDevice?: boolean
 }
 
-export interface UserNotificationSetting {
-  id: string
-  title: string
-  description: string
-  email: boolean
-  browser: boolean
-  app: boolean
-}
-
 export interface AppUser {
   id: string
   name: string
@@ -133,14 +101,12 @@ export interface AppUser {
   taxId?: string
   language?: string
   projects?: UserProject[]
-  activityLog?: UserActivityItem[]
   billingPlan?: UserBillingPlan
   invoices?: UserInvoice[]
   connections?: UserConnection[]
   teamMemberships?: UserTeamMembership[]
   recentDevices?: UserRecentDevice[]
   twoFactorEnabled?: boolean
-  notificationSettings?: UserNotificationSetting[]
 }
 
 export interface UserFilters {

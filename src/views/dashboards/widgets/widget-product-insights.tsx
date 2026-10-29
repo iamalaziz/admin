@@ -8,47 +8,58 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { type ChartConfig, ChartContainer } from '@/components/ui/chart'
 import { Separator } from '@/components/ui/separator'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 // Product reached data
 const productReachChartData = [
-  { month: 'January', reached: 168 },
-  { month: 'February', reached: 305 },
-  { month: 'March', reached: 213 },
-  { month: 'April', reached: 330 },
-  { month: 'May', reached: 305 }
+  { month: 'january', reached: 168 },
+  { month: 'february', reached: 305 },
+  { month: 'march', reached: 213 },
+  { month: 'april', reached: 330 },
+  { month: 'may', reached: 305 }
 ]
-
-const productReachChartConfig = {
-  reached: {
-    label: 'Reached',
-    color: 'var(--primary)'
-  }
-} satisfies ChartConfig
 
 // Order placed data
 const orderPlacedChartData = [
-  { month: 'January', orders: 168 },
-  { month: 'February', orders: 305 },
-  { month: 'March', orders: 213 },
-  { month: 'April', orders: 330 },
-  { month: 'May', orders: 305 }
+  { month: 'january', orders: 168 },
+  { month: 'february', orders: 305 },
+  { month: 'march', orders: 213 },
+  { month: 'april', orders: 330 },
+  { month: 'may', orders: 305 }
 ]
 
-const orderPlacedChartConfig = {
-  orders: {
-    label: 'Orders',
-    color: 'color-mix(in oklab, var(--primary) 10%, transparent)'
-  }
-} satisfies ChartConfig
-
 const ProductInsightsCard = ({ className }: { className?: string }) => {
+  const { t } = useTranslation()
+
+  const productReachChartConfig = {
+    reached: {
+      label: t('dashboard.productInsights.reached'),
+      color: 'var(--primary)'
+    }
+  } satisfies ChartConfig
+
+  const orderPlacedChartConfig = {
+    orders: {
+      label: t('dashboard.productInsights.orders'),
+      color: 'color-mix(in oklab, var(--primary) 10%, transparent)'
+    }
+  } satisfies ChartConfig
+
   return (
     <Card className={className}>
       <CardHeader className='flex justify-between'>
         <div className='flex flex-col gap-1'>
-          <span className='text-lg font-semibold'>Product insight</span>
-          <span className='text-muted-foreground text-sm'>Published on 12 MAY 2025 - 6:10 PM</span>
+          <span className='text-lg font-semibold'>{t('dashboard.productInsights.title')}</span>
+          <span className='text-muted-foreground text-sm'>
+            {t('dashboard.productInsights.publishedOn', { date: '12 MAY 2025 - 6:10 PM' })}
+          </span>
         </div>
-        <img src='/images/widgets/image-7.webp' alt='Product' className='w-20.5 rounded-md' />
+        <img
+          src='/images/widgets/image-7.webp'
+          alt={t('dashboard.productInsights.imageAlt')}
+          className='w-20.5 rounded-md'
+        />
       </CardHeader>
       <CardContent>
         <Separator />
@@ -56,7 +67,7 @@ const ProductInsightsCard = ({ className }: { className?: string }) => {
       <CardContent className='space-y-4'>
         <div className='flex items-center justify-between gap-1'>
           <div className='flex flex-col gap-1'>
-            <span className='text-xs'>Product reached</span>
+            <span className='text-xs'>{t('dashboard.productInsights.productReached')}</span>
             <span className='text-2xl font-semibold'>21,153</span>
           </div>
           <ChartContainer config={productReachChartConfig} className='min-h-13 max-w-18'>
@@ -68,7 +79,7 @@ const ProductInsightsCard = ({ className }: { className?: string }) => {
 
         <div className='flex items-center justify-between gap-1'>
           <div className='flex flex-col gap-1'>
-            <span className='text-xs'>Order placed </span>
+            <span className='text-xs'>{t('dashboard.productInsights.orderPlaced')}</span>
             <span className='text-2xl font-semibold'>2,123</span>
           </div>
           <ChartContainer config={orderPlacedChartConfig} className='min-h-13 max-w-18'>

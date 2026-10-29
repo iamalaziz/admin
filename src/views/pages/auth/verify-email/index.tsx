@@ -1,3 +1,5 @@
+'use client'
+
 // Next Imports
 import Link from 'next/link'
 
@@ -9,7 +11,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 // SVG Import
 import AuthBackgroundShape from '@/assets/svg/auth-background-shape'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const VerifyEmail = () => {
+  const { t } = useTranslation()
+
   return (
     <div className='relative flex h-auto min-h-screen items-center justify-center overflow-x-hidden px-4 py-10 sm:px-6 lg:px-8'>
       <div className='absolute'>
@@ -23,10 +30,9 @@ const VerifyEmail = () => {
           </Link>
 
           <div className='text-center'>
-            <CardTitle className='mb-2 text-2xl font-semibold'>Verify your email</CardTitle>
+            <CardTitle className='mb-2 text-2xl font-semibold'>{t('auth.verifyEmail.title')}</CardTitle>
             <CardDescription className='text-base'>
-              An activation link has been sent to your email address: hello@example.com. Please check your inbox and
-              click on the link to complete the activation process.
+              {t('auth.verifyEmail.description', { email: 'hello@example.com' })}
             </CardDescription>
           </div>
         </CardHeader>
@@ -34,13 +40,13 @@ const VerifyEmail = () => {
         <CardContent className='px-6'>
           <div className='space-y-4'>
             <Button className='w-full' render={<Link href='#' />} nativeButton={false}>
-              Skip for now
+              {t('auth.verifyEmail.skipForNow')}
             </Button>
 
             <p className='text-muted-foreground text-center text-base'>
-              Didn&apos;t get the mail?{' '}
+              {t('auth.verifyEmail.noMailPrefix')}{' '}
               <Link href='#' className='text-card-foreground hover:underline'>
-                Resend
+                {t('auth.verifyEmail.resend')}
               </Link>
             </p>
           </div>

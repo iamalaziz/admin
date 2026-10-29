@@ -1,0 +1,336 @@
+'use client'
+
+import { useMemo, useState } from 'react'
+
+import Link from 'next/link'
+
+import type { ColumnDef } from '@tanstack/react-table'
+import { ArrowLeftIcon, ChevronDownIcon, ChevronUpIcon, PencilIcon, PlusIcon, Trash2Icon } from 'lucide-react'
+import { toast } from 'sonner'
+
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Separator } from '@/components/ui/separator'
+import { mockStore } from '@/hooks/wordzen/use-mock-store'
+import type { ModuleSortColumn } from '@/hooks/wordzen/use-module-list'
+import { useModuleList } from '@/hooks/wordzen/use-module-list'
+import type { CoursePayload, Module, ModulePayload } from '@/types/wordzen/content-types'
+
+import { ModuleFormSheet } from '../modules/module-form-sheet'
+import { DataTable } from '../shared/data-table'
+import {
+  AccessBadge,
+  ConfirmDialog,
+  DetailRow,
+  FilePathCell,
+  LocaleBadge,
+  PublishedBadge,
+  StatCards,
+  Timestamp
+} from '../shared/primitives'
+import { TablePagination, TableToolbar } from '../shared/table-chrome'
+import { CourseFormSheet } from './course-form-sheet'
+
+export function CourseDetail({ courseId }: { courseId: number }) {
+  const list = useModuleList(courseId)
+
+  const [courseFormOpen, setCourseFormOpen] = useState(false)
+  const [moduleFormOpen, setModuleFormOpen] = useState(false)
+  const [editingModule, setEditingModule] = useState<Module | null>(null)
+  const [pendingDelete, setPendingDelete] = useState<Module | null>(null)
+
+  const course = list.course
+
+  const columns = useMemo<ColumnDef<Module>[]>(
+    () => [
+      {
+        id: 'title',
+        header: 'Module',
+        cell: ({ row }) => (
+          <div className='flex min-w-0 flex-col'>
+            <Link href={`/manage/modules/${row.original.id}`} className='truncate font-medium hover:underline'>
+              {row.original.title}
+            </Link>
+            <span className='text-muted-foreground text-xs'>#{row.original.displayOrder}</span>
+          </div>
+        )
+      },
+      {
+        id: 'published',
+        header: 'State',
+        cell: ({ row }) => <PublishedBadge isPublic={row.original.isPublic} />
+      },
+      {
+        id: 'cards',
+        header: 'Cards',
+        cell: ({ row }) => <span className='text-sm'>{row.original.cardCount}</span>
+      },
+      {
+        id: 'phrases',
+        header: 'Phrases',
+        cell: ({ row }) => <span className='text-sm'>{row.original.phraseCardCount}</span>
+      },
+      {
+        id: 'created',
+        header: 'Created',
+        cell: ({ row }) => (
+          <span className='text-muted-foreground text-sm'>
+            <Timestamp value={row.original.createdAt} />
+          </span>
+        )
+      },
+      {
+        id: 'actions',
+        header: () => <span className='sr-only'>Actions</span>,
+        enableSorting: false,
+        cell: ({ row }) => (
+          <div className='flex items-center justify-end gap-1'>
+            <Button
+              variant='ghost'
+              size='icon'
+              aria-label={`Move ${row.original.title} up`}
+              disabled={row.original.displayOrder <= 1}
+              onClick={() => list.moveModule(row.original, -1)}
+            >
+              <ChevronUpIcon className='size-4' />
+            </Button>
+            <Button
+              variant='ghost'
+              size='icon'
+              aria-label={`Move ${row.original.title} down`}
+              disabled={row.original.displayOrder >= list.totals.moduleCount}
+              onClick={() => list.moveModule(row.original, 1)}
+            >
+              <ChevronDownIcon className='size-4' />
+            </Button>
+            <Button
+              variant='ghost'
+              size='icon'
+              aria-label={`Edit ${row.original.title}`}
+              onClick={() => {
+                setEditingModule(row.original)
+                setModuleFormOpen(true)
+              }}
+            >
+              <PencilIcon className='size-4' />
+            </Button>
+            <Button
+              variant='ghost'
+              size='icon'
+              aria-label={`Delete ${row.original.title}`}
+              className='text-muted-foreground hover:text-destructive'
+              onClick={() => setPendingDelete(row.original)}
+            >
+              <Trash2Icon className='size-4' />
+            </Button>
+          </div>
+        )
+      }
+    ],
+    [list]
+  )
+
+  if (!course) {
+    return (
+      <Card className='shadow-none'>
+        <CardContent className='flex flex-col items-start gap-3 py-10'>
+          <p className='font-medium'>Course {courseId} not found.</p>
+          <p className='text-muted-foreground text-sm'>
+            It may have been deleted, or the fixtures were regenerated by a reload.
+          </p>
+          <Button render={<Link href='/manage/courses' />} nativeButton={false} variant='outline'>
+            <ArrowLeftIcon className='size-4' />
+            Back to courses
+          </Button>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  const handleCourseSubmit = (payload: CoursePayload) => {
+    mockStore.updateCourse(courseId, payload)
+    toast.success(`Course "${payload.title}" updated`)
+  }
+
+  const handleModuleSubmit = (payload: ModulePayload) => {
+    if (editingModule) {
+      list.updateModule(editingModule.id, payload)
+      toast.success(`Module "${payload.title}" updated`)
+
+      return
+    }
+
+    list.createModule(payload)
+    toast.success(`Module "${payload.title}" created`)
+  }
+
+  return (
+    <div className='flex flex-col gap-3 lg:gap-6'>
+      <div className='flex flex-wrap items-start justify-between gap-3'>
+        <div className='flex min-w-0 flex-col gap-1'>
+          <Button
+            render={<Link href='/manage/courses' />}
+            nativeButton={false}
+            variant='ghost'
+            size='sm'
+            className='-ml-2 w-fit'
+          >
+            <ArrowLeftIcon className='size-4' />
+            All courses
+          </Button>
+          <h1 className='truncate text-2xl font-semibold'>{course.title}</h1>
+          <div className='flex flex-wrap items-center gap-2'>
+            <PublishedBadge isPublic={course.isPublic} />
+            <AccessBadge accessCode={course.accessCode} />
+            <span className='text-muted-foreground text-sm'>
+              {course.category.code} · {course.category.name}
+            </span>
+          </div>
+        </div>
+        <Button variant='outline' onClick={() => setCourseFormOpen(true)}>
+          <PencilIcon className='size-4' />
+          Edit course
+        </Button>
+      </div>
+
+      <StatCards
+        items={[
+          { label: 'Modules', value: list.totals.moduleCount },
+          { label: 'Published', value: list.totals.publishedCount },
+          { label: 'Cards', value: list.totals.cardCount, hint: 'Across all modules' },
+          { label: 'Phrase cards', value: list.totals.phraseCardCount }
+        ]}
+      />
+
+      <div className='grid gap-3 lg:grid-cols-3 lg:gap-6'>
+        <Card className='shadow-none lg:col-span-1'>
+          <CardHeader>
+            <CardTitle className='text-base'>Course</CardTitle>
+          </CardHeader>
+          <CardContent className='flex flex-col divide-y'>
+            <DetailRow label='Id'>{course.id}</DetailRow>
+            <DetailRow label='Author'>{course.authorUsername}</DetailRow>
+            <DetailRow label='Display order'>#{course.displayOrder}</DetailRow>
+            <DetailRow label='Created'>
+              <Timestamp value={course.createdAt} withTime />
+            </DetailRow>
+            <DetailRow label='Cover'>
+              <FilePathCell path={course.cover} />
+            </DetailRow>
+          </CardContent>
+        </Card>
+
+        <Card className='shadow-none lg:col-span-2'>
+          <CardHeader>
+            <CardTitle className='text-base'>Descriptions</CardTitle>
+          </CardHeader>
+          <CardContent className='flex flex-col gap-3'>
+            {course.descriptions.length === 0 ? (
+              <p className='text-muted-foreground text-sm'>No descriptions. Learners will see the title on its own.</p>
+            ) : (
+              course.descriptions.map((description, index) => (
+                <div key={description.id} className='flex flex-col gap-1.5'>
+                  {index > 0 ? <Separator className='mb-2' /> : null}
+                  <LocaleBadge locale={description.locale} />
+                  <p className='text-sm leading-relaxed'>{description.value}</p>
+                </div>
+              ))
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      <Card className='py-0 shadow-none'>
+        <div className='w-full'>
+          <TableToolbar
+            search={list.search}
+            onSearchChange={list.setSearch}
+            searchPlaceholder='Search modules'
+            rowsPerPage={list.rowsPerPage}
+            onRowsPerPageChange={list.setRowsPerPage}
+            filters={
+              <Select value={list.published} onValueChange={value => list.setPublished(value as typeof list.published)}>
+                <SelectTrigger className='w-32' aria-label='Filter by state'>
+                  <SelectValue placeholder='State' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='all'>All states</SelectItem>
+                  <SelectItem value='public'>Public</SelectItem>
+                  <SelectItem value='draft'>Draft</SelectItem>
+                </SelectContent>
+              </Select>
+            }
+            actions={
+              <Button
+                onClick={() => {
+                  setEditingModule(null)
+                  setModuleFormOpen(true)
+                }}
+              >
+                <PlusIcon className='size-4' />
+                New module
+              </Button>
+            }
+          />
+
+          <DataTable<Module, ModuleSortColumn>
+            rows={list.modules}
+            columns={columns}
+            sorting={list.sorting}
+            onSortingChange={list.setSorting}
+            getRowId={module => String(module.id)}
+            emptyMessage='No modules match these filters.'
+          />
+
+          <TablePagination
+            showingFrom={list.showingFrom}
+            showingTo={list.showingTo}
+            total={list.total}
+            page={list.page}
+            totalPages={list.totalPages}
+            onPageChange={list.setPage}
+            noun='modules'
+          />
+        </div>
+      </Card>
+
+      <CourseFormSheet
+        open={courseFormOpen}
+        course={course}
+        onOpenChange={setCourseFormOpen}
+        onSubmit={handleCourseSubmit}
+      />
+
+      <ModuleFormSheet
+        open={moduleFormOpen}
+        module={editingModule}
+        course={course}
+        onOpenChange={setModuleFormOpen}
+        onSubmit={handleModuleSubmit}
+      />
+
+      <ConfirmDialog
+        open={pendingDelete !== null}
+        onOpenChange={open => !open && setPendingDelete(null)}
+        title='Delete module?'
+        description={
+          pendingDelete ? (
+            <>
+              <strong>{pendingDelete.title}</strong> and its {pendingDelete.cardCount} cards will be removed. The
+              manager API deletes the rows outright — this cannot be undone.
+            </>
+          ) : null
+        }
+        onConfirm={() => {
+          if (!pendingDelete) {
+            return
+          }
+
+          list.deleteModule(pendingDelete.id)
+          toast.success(`Module "${pendingDelete.title}" deleted`)
+        }}
+      />
+    </div>
+  )
+}

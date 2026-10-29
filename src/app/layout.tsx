@@ -53,10 +53,11 @@ const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
         <NuqsAdapter>
           <Providers sidebarDefaultOpen={true}>
             <TooltipProvider>{children}</TooltipProvider>
+
+            {/* Inside Providers: ScrollToTop reads its label through useTranslation. */}
+            <ScrollToTop />
           </Providers>
         </NuqsAdapter>
-
-        <ScrollToTop />
       </body>
     </html>
   )

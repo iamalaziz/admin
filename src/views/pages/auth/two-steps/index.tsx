@@ -1,3 +1,5 @@
+'use client'
+
 // Next Imports
 import Link from 'next/link'
 
@@ -9,7 +11,12 @@ import TwoStepsForm from '@/views/pages/auth/two-steps/two-steps-form'
 // SVG Imports
 import AuthBackgroundShape from '@/assets/svg/auth-background-shape'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const TwoSteps = () => {
+  const { t } = useTranslation()
+
   return (
     <div className='relative flex h-auto min-h-screen items-center justify-center overflow-x-hidden px-4 py-10 sm:px-6 lg:px-8'>
       <div className='absolute'>
@@ -25,10 +32,8 @@ const TwoSteps = () => {
 
         <CardContent className='space-y-6 px-6'>
           <div>
-            <CardTitle className='mb-2 text-2xl font-semibold'>Two Steps Verification</CardTitle>
-            <CardDescription className='text-base'>
-              Please confirm access to your account by entering the code provided by your authenticator application
-            </CardDescription>
+            <CardTitle className='mb-2 text-2xl font-semibold'>{t('auth.twoSteps.title')}</CardTitle>
+            <CardDescription className='text-base'>{t('auth.twoSteps.description')}</CardDescription>
           </div>
 
           {/* TwoSteps Form */}

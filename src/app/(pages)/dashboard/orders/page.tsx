@@ -1,3 +1,5 @@
+'use client'
+
 import { TruckIcon, TriangleAlertIcon, CalendarX2Icon } from 'lucide-react'
 
 import { Card } from '@/components/ui/card'
@@ -8,24 +10,27 @@ import StatisticsCard from '@/views/dashboards/statistics/statistics-card-01'
 import TotalEarningCard from '@/views/dashboards/widgets/widget-total-earning'
 import TransactionDatatable, { type Item } from '@/views/datatables/datatable-transaction'
 
+import { useTranslation } from '@/lib/i18n'
+import type { TranslationKey } from '@/lib/i18n'
+
 // Statistics card data
 const StatisticsCardData = [
   {
     icon: <TruckIcon className='size-4' />,
     value: '42',
-    title: 'Shipped Orders',
+    titleKey: 'dashboard.stats.shippedOrders' as TranslationKey,
     changePercentage: '+18.2%'
   },
   {
     icon: <TriangleAlertIcon className='size-4' />,
     value: '8',
-    title: 'Damaged Returns',
+    titleKey: 'dashboard.stats.damagedReturns' as TranslationKey,
     changePercentage: '-8.7%'
   },
   {
     icon: <CalendarX2Icon className='size-4' />,
     value: '27',
-    title: 'Missed Delivery Slots',
+    titleKey: 'dashboard.stats.missedDeliverySlots' as TranslationKey,
     changePercentage: '+4.3%'
   }
 ]
@@ -303,6 +308,8 @@ const transactionData: Item[] = [
 ]
 
 const OrdersDashboard = () => {
+  const { t } = useTranslation()
+
   return (
     <div className='grid grid-cols-2 gap-6 lg:grid-cols-3'>
       {/* Statistics Cards */}
@@ -311,7 +318,7 @@ const OrdersDashboard = () => {
           <StatisticsCard
             key={index}
             icon={card.icon}
-            title={card.title}
+            title={t(card.titleKey)}
             value={card.value}
             changePercentage={card.changePercentage}
           />
@@ -324,11 +331,11 @@ const OrdersDashboard = () => {
 
         {/* Total Earning Card */}
         <TotalEarningCard
-          title='Total Earning'
+          title={t('dashboard.totalEarning.title')}
           earning={24650}
           trend='up'
           percentage={10}
-          comparisonText='Compare to last year ($84,325)'
+          comparisonText={t('dashboard.totalEarning.comparison', { amount: '84,325' })}
           earningData={earningData}
           className='justify-between gap-5 sm:min-w-0'
         />

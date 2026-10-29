@@ -1,10 +1,13 @@
 // Third-party Imports
 import type * as Icon from 'lucide-react'
 
+// Type Imports
+import type { TranslationKey } from '@/lib/i18n'
+
 type IconName = keyof typeof Icon
 
 export type MenuLeafSubItem = {
-  label: string
+  labelKey: TranslationKey
   href: string
   activePath?: string
   badge?: string
@@ -13,7 +16,7 @@ export type MenuLeafSubItem = {
 }
 
 export type MenuGroupSubItem = {
-  label: string
+  labelKey: TranslationKey
   childItems: MenuLeafSubItem[]
 }
 
@@ -21,7 +24,7 @@ export type MenuSubItem = MenuLeafSubItem | MenuGroupSubItem
 
 export type MenuItem = {
   icon: IconName
-  label: string
+  labelKey: TranslationKey
 } & (
   | {
       href: string
@@ -39,122 +42,101 @@ export type MenuItem = {
 )
 
 export type NavItem = {
-  groupLabel?: string
+  groupLabelKey?: TranslationKey
   items: MenuItem[]
 }
 
 export const navItems: NavItem[] = [
+  // The real tools come first; the groups below are template pages kept as reference.
   {
-    groupLabel: 'Dashboard',
+    groupLabelKey: 'nav.groups.manage',
+    items: [
+      {
+        icon: 'LibraryBig',
+        labelKey: 'nav.manageCourses',
+        href: '/manage/courses'
+      },
+      {
+        icon: 'UsersRound',
+        labelKey: 'nav.manageUsers',
+        href: '/manage/users'
+      }
+    ]
+  },
+  {
+    groupLabelKey: 'nav.groups.dashboard',
     items: [
       {
         icon: 'Package',
-        label: 'Orders',
+        labelKey: 'nav.orders',
         href: '/dashboard/orders'
       }
     ]
   },
   {
-    groupLabel: 'Apps',
+    groupLabelKey: 'nav.groups.apps',
     items: [
       {
-        icon: 'MailIcon',
-        label: 'Mail',
-        href: '/apps/mail'
-      },
-      {
-        icon: 'CalendarIcon',
-        label: 'Calendar',
-        href: '/apps/calendar'
-      },
-      {
         icon: 'UsersIcon',
-        label: 'Users',
+        labelKey: 'nav.users',
         childItems: [
-          { label: 'List', href: '/apps/users/list' },
-          { label: 'View', href: '/apps/users/view' }
+          { labelKey: 'nav.usersList', href: '/apps/users/list' },
+          { labelKey: 'nav.usersView', href: '/apps/users/view' }
         ]
       }
     ]
   },
   {
-    groupLabel: 'Pages',
+    groupLabelKey: 'nav.groups.pages',
     items: [
       {
         icon: 'UserCogIcon',
-        label: 'User Settings',
+        labelKey: 'nav.userSettings',
         childItems: [
-          { label: 'General', href: '/pages/user-settings?setting=general' },
-          { label: 'Workspace', href: '/pages/user-settings?setting=workspace' }
-        ]
-      },
-      {
-        icon: 'UserIcon',
-        label: 'User Profile',
-        childItems: [
-          { label: 'Profile', href: '/pages/user-profile?view=profile' },
-          { label: 'Connections', href: '/pages/user-profile?view=connections' }
+          { labelKey: 'nav.settingsGeneral', href: '/pages/user-settings?setting=general' },
+          { labelKey: 'nav.settingsWorkspace', href: '/pages/user-settings?setting=workspace' }
         ]
       },
       {
         icon: 'LockKeyholeIcon',
-        label: 'Authentication',
+        labelKey: 'nav.authentication',
         childItems: [
-          { label: 'Login', href: '/pages/auth/login', target: '_blank' },
-          { label: 'Register', href: '/pages/auth/register', target: '_blank' },
-          { label: 'Forgot Password', href: '/pages/auth/forgot-password', target: '_blank' },
-          { label: 'Verify Email', href: '/pages/auth/verify-email', target: '_blank' },
-          { label: 'Reset Password', href: '/pages/auth/reset-password', target: '_blank' },
-          { label: 'Two Steps', href: '/pages/auth/two-steps', target: '_blank' }
+          { labelKey: 'nav.authLogin', href: '/pages/auth/login', target: '_blank' },
+          { labelKey: 'nav.authRegister', href: '/pages/auth/register', target: '_blank' },
+          { labelKey: 'nav.authForgotPassword', href: '/pages/auth/forgot-password', target: '_blank' },
+          { labelKey: 'nav.authVerifyEmail', href: '/pages/auth/verify-email', target: '_blank' },
+          { labelKey: 'nav.authResetPassword', href: '/pages/auth/reset-password', target: '_blank' },
+          { labelKey: 'nav.authTwoSteps', href: '/pages/auth/two-steps', target: '_blank' }
         ]
       },
       {
         icon: 'BugIcon',
-        label: 'Error Page',
+        labelKey: 'nav.errorPage',
         href: '/pages/misc/error-page',
         target: '_blank'
       }
     ]
   },
   {
-    groupLabel: 'Forms & Tables',
+    groupLabelKey: 'nav.groups.formsAndTables',
     items: [
       {
         icon: 'LayoutTemplateIcon',
-        label: 'Form Layouts',
+        labelKey: 'nav.formLayouts',
         childItems: [
-          { label: 'Vertical Layout', href: '/forms/form-layouts/vertical' },
-          { label: 'Horizontal Layout', href: '/forms/form-layouts/horizontal' }
+          { labelKey: 'nav.formLayoutsVertical', href: '/forms/form-layouts/vertical' },
+          { labelKey: 'nav.formLayoutsHorizontal', href: '/forms/form-layouts/horizontal' }
         ]
       },
       {
         icon: 'BadgeCheckIcon',
-        label: 'Form Validation',
+        labelKey: 'nav.formValidation',
         href: '/forms/form-validation'
       },
       {
         icon: 'TableIcon',
-        label: 'Data Table',
+        labelKey: 'nav.dataTable',
         href: '/datatable'
-      }
-    ]
-  },
-  {
-    groupLabel: 'Miscellaneous',
-    items: [
-      {
-        icon: 'MenuIcon',
-        label: 'Menu Level',
-        childItems: [
-          {
-            label: 'Menu Item ',
-            href: '#'
-          },
-          {
-            label: 'Menu Level 1',
-            childItems: [{ label: 'Menu Level 2', href: '#' }]
-          }
-        ]
       }
     ]
   }

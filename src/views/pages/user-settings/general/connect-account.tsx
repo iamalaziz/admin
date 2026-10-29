@@ -20,6 +20,9 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 interface ConnectedAccount {
   id: string
   name: string
@@ -40,6 +43,8 @@ const initialAccounts: ConnectedAccount[] = [
 ]
 
 const ConnectedAccount = () => {
+  const { t } = useTranslation()
+
   const [connectedAccounts, setConnectedAccounts] = useState<ConnectedAccount[]>(initialAccounts)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -81,8 +86,8 @@ const ConnectedAccount = () => {
     <div className='grid grid-cols-1 gap-10 lg:grid-cols-3'>
       {/* Vertical Tabs List */}
       <div className='flex flex-col'>
-        <h3 className='text-base font-semibold'>Connect Accounts</h3>
-        <p className='text-muted-foreground text-sm'>Manage your connected accounts.</p>
+        <h3 className='text-base font-semibold'>{t('settings.connectAccounts.title')}</h3>
+        <p className='text-muted-foreground text-sm'>{t('settings.connectAccounts.description')}</p>
       </div>
 
       {/* Content */}
@@ -103,7 +108,7 @@ const ConnectedAccount = () => {
                 size='icon-xs'
                 variant='ghost'
                 className='text-primary bg-primary/10 size-5 shrink-0 rounded-md transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none'
-                aria-label={`Remove ${account.name}`}
+                aria-label={t('settings.connectAccounts.remove', { name: account.name })}
                 onClick={() => handleRemoveAccount(account.id)}
               >
                 <XIcon className='size-3' aria-hidden='true' />
@@ -123,36 +128,40 @@ const ConnectedAccount = () => {
               }
             >
               <PlusIcon className='size-4' />
-              Add App
+              {t('settings.connectAccounts.addApp')}
             </DialogTrigger>
 
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Connect New App</DialogTitle>
-                <DialogDescription>Add a new integration by providing the details below.</DialogDescription>
+                <DialogTitle>{t('settings.connectAccounts.dialogTitle')}</DialogTitle>
+                <DialogDescription>{t('settings.connectAccounts.dialogDescription')}</DialogDescription>
               </DialogHeader>
 
               <div className='grid gap-3 py-2'>
                 <div className='grid gap-1'>
-                  <Label>App Name</Label>
-                  <Input value={appName} onChange={e => setAppName(e.target.value)} placeholder='e.g., Zoom' />
-                </div>
-
-                <div className='grid gap-1'>
-                  <Label>App URL or Integration Key</Label>
+                  <Label>{t('settings.connectAccounts.appName')}</Label>
                   <Input
-                    value={appUrl}
-                    onChange={e => setAppUrl(e.target.value)}
-                    placeholder='https://app.example.com or key_abc123'
+                    value={appName}
+                    onChange={e => setAppName(e.target.value)}
+                    placeholder={t('settings.connectAccounts.appNamePlaceholder')}
                   />
                 </div>
 
                 <div className='grid gap-1'>
-                  <Label>Optional Description</Label>
+                  <Label>{t('settings.connectAccounts.appUrl')}</Label>
+                  <Input
+                    value={appUrl}
+                    onChange={e => setAppUrl(e.target.value)}
+                    placeholder={t('settings.connectAccounts.appUrlPlaceholder')}
+                  />
+                </div>
+
+                <div className='grid gap-1'>
+                  <Label>{t('settings.connectAccounts.optionalDescription')}</Label>
                   <Input
                     value={description}
                     onChange={e => setDescription(e.target.value)}
-                    placeholder='Notes about this integration (optional)'
+                    placeholder={t('settings.connectAccounts.optionalDescriptionPlaceholder')}
                   />
                 </div>
               </div>
@@ -165,18 +174,16 @@ const ConnectedAccount = () => {
                     setIsDialogOpen(false)
                   }}
                 >
-                  Cancel
+                  {t('common.cancel')}
                 </Button>
                 <Button onClick={handleConnect} disabled={!appName.trim() || !appUrl.trim()}>
-                  Connect
+                  {t('settings.connectAccounts.connect')}
                 </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
         </div>
-        <p className='text-muted-foreground text-sm'>
-          Connected accounts allow you to integrate with third-party services for enhanced functionality.
-        </p>
+        <p className='text-muted-foreground text-sm'>{t('settings.connectAccounts.footnote')}</p>
       </div>
     </div>
   )

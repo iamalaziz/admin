@@ -13,7 +13,11 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/in
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const WorkspaceDetail = () => {
+  const { t } = useTranslation()
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
@@ -41,14 +45,14 @@ const WorkspaceDetail = () => {
     if (!f) return
 
     if (!f.type.startsWith('image/')) {
-      window.alert('Please select an image file')
+      window.alert(t('settings.upload.notAnImage'))
       e.currentTarget.value = ''
 
       return
     }
 
     if (f.size > 1024 * 1024) {
-      window.alert('File must be smaller than 1MB')
+      window.alert(t('settings.upload.tooLarge'))
       e.currentTarget.value = ''
 
       return
@@ -69,19 +73,19 @@ const WorkspaceDetail = () => {
       <div className='grid grid-cols-1 gap-10 lg:grid-cols-3'>
         {/* Workspace Detail */}
         <div className='flex flex-col space-y-1'>
-          <h3 className='text-base font-semibold'>Workspace Detail</h3>
-          <p className='text-muted-foreground text-sm'>Manage your workspace details and settings.</p>
+          <h3 className='text-base font-semibold'>{t('settings.workspaceDetail.title')}</h3>
+          <p className='text-muted-foreground text-sm'>{t('settings.workspaceDetail.description')}</p>
         </div>
         {/* Content */}
         <div className='space-y-6 lg:col-span-2'>
           {/* Workspace logo */}
           <div className='w-full space-y-2'>
-            <Label>Workspace Logo</Label>
+            <Label>{t('settings.workspaceDetail.logo')}</Label>
             <div className='flex items-center gap-4'>
               <div
                 role='button'
                 tabIndex={0}
-                aria-label='Upload workspace logo'
+                aria-label={t('settings.workspaceDetail.uploadLogoAria')}
                 onClick={openPicker}
                 onKeyDown={e => {
                   if (e.key === 'Enter' || e.key === ' ') {
@@ -92,7 +96,11 @@ const WorkspaceDetail = () => {
                 className='flex h-20 w-20 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-dashed hover:opacity-95'
               >
                 {preview ? (
-                  <img src={preview} alt='logo preview' className='h-full w-full object-cover' />
+                  <img
+                    src={preview}
+                    alt={t('settings.workspaceDetail.logoPreviewAlt')}
+                    className='h-full w-full object-cover'
+                  />
                 ) : (
                   <ImageIcon />
                 )}
@@ -102,18 +110,18 @@ const WorkspaceDetail = () => {
                 <input ref={inputRef} type='file' accept='image/*' className='hidden' onChange={onSelect} />
                 <Button variant='outline' onClick={openPicker} className='flex items-center gap-2'>
                   <UploadCloudIcon />
-                  Upload logo
+                  {t('settings.workspaceDetail.uploadLogo')}
                 </Button>
                 <Button variant='ghost' onClick={remove} disabled={!file} className='text-destructive'>
                   <TrashIcon />
                 </Button>
               </div>
             </div>
-            <p className='text-muted-foreground text-sm'>Pick a photo up to 1MB.</p>
+            <p className='text-muted-foreground text-sm'>{t('settings.upload.sizeHint')}</p>
           </div>
           {/* Workspace URl */}
           <div className='w-full space-y-2'>
-            <Label htmlFor='workspace-url'>Workspace URL</Label>
+            <Label htmlFor='workspace-url'>{t('settings.workspaceDetail.url')}</Label>
             <InputGroup>
               <InputGroupAddon className='text-foreground font-normal'>https://example.com/</InputGroupAddon>
               <InputGroupInput id='workspace-url' placeholder='wordzen' />
@@ -124,20 +132,18 @@ const WorkspaceDetail = () => {
           </div>
           {/* Workspace slug */}
           <div className='w-full space-y-2'>
-            <Label htmlFor='workspace-slug'>Workspace Slug</Label>
-            <Input id='workspace-slug' type='text' placeholder='shadcn-studio' />
-            <p className='text-muted-foreground text-xs'>
-              Only lowercase letters, numbers, and hyphens. Max 48 Characters
-            </p>
+            <Label htmlFor='workspace-slug'>{t('settings.workspaceDetail.slug')}</Label>
+            <Input id='workspace-slug' type='text' placeholder='wordzen-admin' />
+            <p className='text-muted-foreground text-xs'>{t('settings.workspaceDetail.slugHint')}</p>
           </div>
           {/* Workspace Description */}
           <div className='w-full space-y-2'>
-            <Label htmlFor='workspace-description'>Workspace Description</Label>
-            <Textarea placeholder='Type your feedback here' id='workspace-description' />
+            <Label htmlFor='workspace-description'>{t('settings.workspaceDetail.descriptionLabel')}</Label>
+            <Textarea placeholder={t('settings.workspaceDetail.descriptionPlaceholder')} id='workspace-description' />
           </div>
           <div className='flex justify-end'>
             <Button type='submit' className='max-sm:w-full'>
-              Save Changes
+              {t('common.saveChanges')}
             </Button>
           </div>
         </div>

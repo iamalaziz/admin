@@ -1,14 +1,21 @@
+'use client'
+
 // Component Imports
 import { Card, CardContent } from '@/components/ui/card'
 import BasicForm from './basic-form'
 import BasicFormWithIcon from './basic-form-with-icon'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const HorizontalForm = () => {
+  const { t } = useTranslation()
+
   return (
     <div className='flex flex-col gap-6'>
       <div className='grid gap-6 lg:grid-cols-2'>
         <div className='space-y-3'>
-          <h2 className='text-lg font-semibold'>Basic Form</h2>
+          <h2 className='text-lg font-semibold'>{t('forms.basicForm')}</h2>
           <Card>
             <CardContent>
               <BasicForm />
@@ -17,7 +24,7 @@ const HorizontalForm = () => {
         </div>
 
         <div className='space-y-3'>
-          <h2 className='text-lg font-semibold'>Basic Form with Icon</h2>
+          <h2 className='text-lg font-semibold'>{t('forms.basicFormWithIcon')}</h2>
           <Card>
             <CardContent>
               <BasicFormWithIcon />

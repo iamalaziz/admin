@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import type { ColumnDef, PaginationState } from '@tanstack/react-table'
 import {
@@ -28,6 +28,8 @@ import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem } fro
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
 import { usePagination } from '@/hooks/use-pagination'
+import { useTranslation } from '@/lib/i18n'
+import type { TranslationKey } from '@/lib/i18n'
 
 export type Item = {
   id: string
@@ -40,14 +42,17 @@ export type Item = {
   paidBy: 'mastercard' | 'visa'
 }
 
-export const columns: ColumnDef<Item>[] = [
+type Translate = (key: TranslationKey, params?: Record<string, string | number>) => string
+
+// A factory rather than a constant: the header labels have to be re-read when the language changes.
+export const getColumns = (t: Translate): ColumnDef<Item>[] => [
   {
     accessorKey: 'name',
-    header: 'Customer',
+    header: t('datatable.columns.customer'),
     cell: ({ row }) => (
       <div className='flex items-center gap-2'>
         <Avatar className='size-9'>
-          <AvatarImage src={row.original.avatar} alt='Hallie Richards' />
+          <AvatarImage src={row.original.avatar} alt={row.original.name} />
           <AvatarFallback className='text-xs'>{row.original.avatarFallback}</AvatarFallback>
         </Avatar>
         <div className='flex flex-col text-sm'>
@@ -59,7 +64,7 @@ export const columns: ColumnDef<Item>[] = [
   },
   {
     accessorKey: 'amount',
-    header: 'Amount',
+    header: t('datatable.columns.amount'),
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue('amount'))
 
@@ -73,27 +78,29 @@ export const columns: ColumnDef<Item>[] = [
   },
   {
     accessorKey: 'status',
-    header: 'Status',
+    header: t('datatable.columns.status'),
     cell: ({ row }) => (
-      <Badge className='bg-primary/10 text-primary h-auto rounded-sm px-1.5 capitalize'>{row.getValue('status')}</Badge>
+      <Badge className='bg-primary/10 text-primary h-auto rounded-sm px-1.5'>
+        {t(`datatable.paymentStatus.${row.getValue('status') as Item['status']}`)}
+      </Badge>
     )
   },
   {
     accessorKey: 'paidBy',
-    header: () => <span className='w-fit'>Paid by</span>,
+    header: () => <span className='w-fit'>{t('datatable.columns.paidBy')}</span>,
     cell: ({ row }) => (
       <img
         src={
           row.getValue('paidBy') === 'mastercard' ? '/images/datatable/image-1.webp' : '/images/datatable/image-2.webp'
         }
-        alt='Payment platform'
+        alt={t('datatable.paymentPlatformAlt')}
         className='w-10.5'
       />
     )
   },
   {
     id: 'actions',
-    header: () => 'Actions',
+    header: () => t('common.actions'),
     cell: () => <RowActions />,
     size: 60,
     enableHiding: false
@@ -101,12 +108,15 @@ export const columns: ColumnDef<Item>[] = [
 ]
 
 const TransactionDatatable = ({ data }: { data: Item[] }) => {
+  const { t } = useTranslation()
   const pageSize = 5
 
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: pageSize
   })
+
+  const columns = useMemo(() => getColumns(t), [t])
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
@@ -127,6 +137,17 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
     totalPages: table.getPageCount(),
     paginationItemsToDisplay: 2
   })
+
+  const showingFrom = table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1
+
+  const showingTo = Math.min(
+    Math.max(
+      table.getState().pagination.pageIndex * table.getState().pagination.pageSize +
+        table.getState().pagination.pageSize,
+      0
+    ),
+    table.getRowCount()
+  )
 
   return (
     <div className='w-full'>
@@ -159,7 +180,7 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className='h-24 text-center'>
-                  No results.
+                  {t('common.noResults')}
                 </TableCell>
               </TableRow>
             )}
@@ -169,19 +190,11 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
 
       <div className='flex items-center justify-between gap-3 px-6 py-4 max-sm:flex-col md:max-lg:flex-col'>
         <p className='text-muted-foreground text-sm whitespace-nowrap' aria-live='polite'>
-          Showing{' '}
-          <span>
-            {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} to{' '}
-            {Math.min(
-              Math.max(
-                table.getState().pagination.pageIndex * table.getState().pagination.pageSize +
-                  table.getState().pagination.pageSize,
-                0
-              ),
-              table.getRowCount()
-            )}
-          </span>{' '}
-          of <span>{table.getRowCount().toString()} entries</span>
+          {t('datatable.showingEntries', {
+            from: showingFrom,
+            to: showingTo,
+            total: table.getRowCount()
+          })}
         </p>
 
         <div>
@@ -193,10 +206,10 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
                   variant='ghost'
                   onClick={() => table.previousPage()}
                   disabled={!table.getCanPreviousPage()}
-                  aria-label='Go to previous page'
+                  aria-label={t('common.goToPreviousPage')}
                 >
                   <ChevronLeftIcon aria-hidden='true' />
-                  Previous
+                  {t('common.previous')}
                 </Button>
               </PaginationItem>
 
@@ -235,9 +248,9 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
                   variant='ghost'
                   onClick={() => table.nextPage()}
                   disabled={!table.getCanNextPage()}
-                  aria-label='Go to next page'
+                  aria-label={t('common.goToNextPage')}
                 >
-                  Next
+                  {t('common.next')}
                   <ChevronRightIcon aria-hidden='true' />
                 </Button>
               </PaginationItem>
@@ -252,21 +265,23 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
 export default TransactionDatatable
 
 function RowActions() {
+  const { t } = useTranslation()
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button size='icon' variant='ghost' aria-label='Edit item' />}>
+      <DropdownMenuTrigger render={<Button size='icon' variant='ghost' aria-label={t('datatable.editItem')} />}>
         <EllipsisVerticalIcon className='size-5' aria-hidden='true' />
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <span>Edit</span>
+            <span>{t('common.edit')}</span>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <span>Duplicate</span>
+            <span>{t('datatable.duplicate')}</span>
           </DropdownMenuItem>
           <DropdownMenuItem variant='destructive'>
-            <span>Delete</span>
+            <span>{t('common.delete')}</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

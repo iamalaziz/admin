@@ -17,6 +17,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 // Util Imports
 import { cn } from '@/lib/utils'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const INVOICE_STATUS_STYLES: Record<InvoiceStatus, string> = {
   paid: 'bg-green-600/10 text-green-600 dark:bg-green-400/10 dark:text-green-400',
   pending: 'bg-amber-600/10 text-amber-600 dark:bg-amber-400/10 dark:text-amber-400',
@@ -24,15 +27,12 @@ const INVOICE_STATUS_STYLES: Record<InvoiceStatus, string> = {
   draft: 'bg-muted text-muted-foreground'
 }
 
-const formatInvoiceStatus = (status: InvoiceStatus): string => {
-  return status.charAt(0).toUpperCase() + status.slice(1)
-}
-
 export interface BillingTabProps {
   user: AppUser
 }
 
 export function BillingTab({ user }: BillingTabProps) {
+  const { t } = useTranslation()
   const billingPlan = user.billingPlan
   const invoices = user.invoices ?? []
   const daysProgress = billingPlan ? Math.round((billingPlan.daysUsed / billingPlan.totalDays) * 100) : 0
@@ -41,21 +41,24 @@ export function BillingTab({ user }: BillingTabProps) {
     <div className='space-y-6'>
       <Card>
         <CardHeader>
-          <CardTitle className='text-base'>Current Plan</CardTitle>
+          <CardTitle className='text-base'>{t('users.billing.currentPlan')}</CardTitle>
         </CardHeader>
         <CardContent className='space-y-6'>
           {!billingPlan ? (
-            <p className='text-muted-foreground text-sm'>No billing plan assigned.</p>
+            <p className='text-muted-foreground text-sm'>{t('users.billing.noPlan')}</p>
           ) : (
             <>
               <div className='flex flex-wrap items-start justify-between gap-4'>
                 <div>
                   <div className='flex items-center gap-2'>
                     <h3 className='text-lg font-semibold'>{billingPlan.name}</h3>
-                    {billingPlan.isPopular ? <Badge variant='secondary'>Popular</Badge> : null}
+                    {billingPlan.isPopular ? <Badge variant='secondary'>{t('users.billing.popular')}</Badge> : null}
                   </div>
                   <p className='text-muted-foreground mt-1 text-sm'>
-                    {user.plan} plan · {user.billing}
+                    {t('users.billing.planLine', {
+                      plan: t(`users.plans.${user.plan}`),
+                      billing: user.billing
+                    })}
                   </p>
                 </div>
                 <div className='text-right'>
@@ -64,20 +67,22 @@ export function BillingTab({ user }: BillingTabProps) {
                     <span className='text-muted-foreground text-sm font-normal'>/{billingPlan.period}</span>
                   </p>
                   <Button variant='outline' size='sm' className='mt-2'>
-                    Upgrade Plan
+                    {t('users.billing.upgradePlan')}
                   </Button>
                 </div>
               </div>
 
               <div className='space-y-2'>
                 <div className='flex items-center justify-between text-sm'>
-                  <span className='text-muted-foreground'>Days</span>
+                  <span className='text-muted-foreground'>{t('users.billing.days')}</span>
                   <span>
-                    {billingPlan.daysUsed} of {billingPlan.totalDays} Days
+                    {t('users.billing.daysUsed', { used: billingPlan.daysUsed, total: billingPlan.totalDays })}
                   </span>
                 </div>
                 <Progress value={daysProgress} className='*:data-[slot=progress-track]:h-2' />
-                <p className='text-muted-foreground text-xs'>{daysProgress}% of billing period used</p>
+                <p className='text-muted-foreground text-xs'>
+                  {t('users.billing.periodUsed', { percent: daysProgress })}
+                </p>
               </div>
 
               <ul className='grid gap-2 sm:grid-cols-2'>
@@ -95,24 +100,24 @@ export function BillingTab({ user }: BillingTabProps) {
 
       <Card>
         <CardHeader>
-          <CardTitle className='text-base'>Billing Details</CardTitle>
+          <CardTitle className='text-base'>{t('users.billing.billingDetails')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className='grid gap-4 sm:grid-cols-2'>
             <div>
-              <p className='text-muted-foreground text-sm'>Company</p>
+              <p className='text-muted-foreground text-sm'>{t('users.billing.company')}</p>
               <p className='font-medium'>{user.company ?? '—'}</p>
             </div>
             <div>
-              <p className='text-muted-foreground text-sm'>Billing Email</p>
+              <p className='text-muted-foreground text-sm'>{t('users.billing.billingEmail')}</p>
               <p className='font-medium'>{user.billingEmail ?? user.email}</p>
             </div>
             <div>
-              <p className='text-muted-foreground text-sm'>Tax ID</p>
+              <p className='text-muted-foreground text-sm'>{t('users.billing.taxId')}</p>
               <p className='font-medium'>{user.taxId ?? '—'}</p>
             </div>
             <div>
-              <p className='text-muted-foreground text-sm'>Country</p>
+              <p className='text-muted-foreground text-sm'>{t('users.billing.country')}</p>
               <p className='font-medium'>{user.country ?? '—'}</p>
             </div>
           </div>
@@ -121,21 +126,21 @@ export function BillingTab({ user }: BillingTabProps) {
 
       <Card className='gap-0 py-0'>
         <CardHeader className='border-b px-6 py-4'>
-          <CardTitle className='text-base'>Invoice History</CardTitle>
+          <CardTitle className='text-base'>{t('users.billing.invoiceHistory')}</CardTitle>
         </CardHeader>
         {invoices.length === 0 ? (
           <CardContent className='py-8'>
-            <p className='text-muted-foreground text-sm'>No invoices found.</p>
+            <p className='text-muted-foreground text-sm'>{t('users.billing.noInvoices')}</p>
           </CardContent>
         ) : (
           <Table>
             <TableHeader>
               <TableRow className='hover:bg-transparent'>
-                <TableHead className='text-muted-foreground pl-6'>Invoice</TableHead>
-                <TableHead className='text-muted-foreground'>Status</TableHead>
-                <TableHead className='text-muted-foreground'>Total</TableHead>
-                <TableHead className='text-muted-foreground'>Issued Date</TableHead>
-                <TableHead className='text-muted-foreground pr-6 text-right'>Action</TableHead>
+                <TableHead className='text-muted-foreground pl-6'>{t('users.billing.invoice')}</TableHead>
+                <TableHead className='text-muted-foreground'>{t('users.billing.status')}</TableHead>
+                <TableHead className='text-muted-foreground'>{t('users.billing.total')}</TableHead>
+                <TableHead className='text-muted-foreground'>{t('users.billing.issuedDate')}</TableHead>
+                <TableHead className='text-muted-foreground pr-6 text-right'>{t('users.billing.action')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -143,8 +148,8 @@ export function BillingTab({ user }: BillingTabProps) {
                 <TableRow key={invoice.id}>
                   <TableCell className='pl-6 font-medium'>{invoice.number}</TableCell>
                   <TableCell>
-                    <Badge className={cn('rounded-sm font-normal capitalize', INVOICE_STATUS_STYLES[invoice.status])}>
-                      {formatInvoiceStatus(invoice.status)}
+                    <Badge className={cn('rounded-sm font-normal', INVOICE_STATUS_STYLES[invoice.status])}>
+                      {t(`users.billing.invoiceStatus.${invoice.status}`)}
                     </Badge>
                   </TableCell>
                   <TableCell>${invoice.total.toLocaleString()}</TableCell>
@@ -152,7 +157,11 @@ export function BillingTab({ user }: BillingTabProps) {
                     {format(new Date(invoice.issuedDate), 'MMM dd, yyyy')}
                   </TableCell>
                   <TableCell className='pr-6 text-right'>
-                    <Button variant='ghost' size='icon' aria-label={`Download ${invoice.number}`}>
+                    <Button
+                      variant='ghost'
+                      size='icon'
+                      aria-label={t('users.billing.downloadInvoice', { number: invoice.number })}
+                    >
                       <DownloadIcon className='size-4' />
                     </Button>
                   </TableCell>

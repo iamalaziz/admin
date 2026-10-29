@@ -12,10 +12,13 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 
 // Config Imports
-import { getInitialsFromName } from '@/configs/mailConfig'
+import { getInitialsFromName } from '@/lib/utils'
 
 // Util Imports
 import { cn } from '@/lib/utils'
+
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
 
 const STATUS_DOT_STYLES: Record<UserStatus, string> = {
   Active: 'bg-green-500',
@@ -42,15 +45,17 @@ export interface UserViewLeftPanelProps {
 }
 
 export function UserViewLeftPanel({ user, onEdit }: UserViewLeftPanelProps) {
+  const { t } = useTranslation()
+
   const detailRows = [
-    { label: 'Username', value: user.username ?? '—' },
-    { label: 'Email', value: user.email },
-    { label: 'Status', value: user.status, isStatus: true },
-    { label: 'Role', value: user.role },
-    { label: 'Tax ID', value: user.taxId ?? '—' },
-    { label: 'Contact', value: user.contact ?? '—' },
-    { label: 'Language', value: user.language ?? '—' },
-    { label: 'Country', value: user.country ?? '—' }
+    { id: 'username', label: t('users.panel.username'), value: user.username ?? '—' },
+    { id: 'email', label: t('users.panel.email'), value: user.email },
+    { id: 'status', label: t('users.panel.status'), value: t(`users.statuses.${user.status}`), isStatus: true },
+    { id: 'role', label: t('users.panel.role'), value: t(`users.roles.${user.role}`) },
+    { id: 'taxId', label: t('users.panel.taxId'), value: user.taxId ?? '—' },
+    { id: 'contact', label: t('users.panel.contact'), value: user.contact ?? '—' },
+    { id: 'language', label: t('users.panel.language'), value: user.language ?? '—' },
+    { id: 'country', label: t('users.panel.country'), value: user.country ?? '—' }
   ] as const
 
   return (
@@ -63,7 +68,7 @@ export function UserViewLeftPanel({ user, onEdit }: UserViewLeftPanelProps) {
           </Avatar>
           <h2 className='mt-4 line-clamp-4 text-xl font-semibold'>{user.name}</h2>
           <Badge variant='secondary' className='mt-2'>
-            {user.role}
+            {t(`users.roles.${user.role}`)}
           </Badge>
         </div>
 
@@ -71,20 +76,20 @@ export function UserViewLeftPanel({ user, onEdit }: UserViewLeftPanelProps) {
           <div className='bg-muted/40 flex flex-col items-center rounded-lg border p-4 text-center'>
             <CheckSquareIcon className='text-primary mb-2 size-5' />
             <span className='text-lg font-semibold'>{formatCompactNumber(user.tasksDone)}</span>
-            <span className='text-muted-foreground text-xs'>Task Done</span>
+            <span className='text-muted-foreground text-xs'>{t('users.panel.taskDone')}</span>
           </div>
           <div className='bg-muted/40 flex flex-col items-center rounded-lg border p-4 text-center'>
             <LayoutGridIcon className='text-primary mb-2 size-5' />
             <span className='text-lg font-semibold'>{formatCompactNumber(user.projectsDone)}</span>
-            <span className='text-muted-foreground text-xs'>Project Done</span>
+            <span className='text-muted-foreground text-xs'>{t('users.panel.projectDone')}</span>
           </div>
         </div>
 
         <div className='space-y-3'>
-          <h3 className='text-sm font-semibold'>Details</h3>
+          <h3 className='text-sm font-semibold'>{t('users.panel.details')}</h3>
           <Separator />
           {detailRows.map(row => (
-            <div key={row.label} className='flex items-center justify-between gap-4 text-sm'>
+            <div key={row.id} className='flex items-center justify-between gap-4 text-sm'>
               <span className='text-muted-foreground'>{row.label}</span>
               {'isStatus' in row && row.isStatus ? (
                 <span className='flex items-center gap-2 font-medium'>
@@ -100,13 +105,13 @@ export function UserViewLeftPanel({ user, onEdit }: UserViewLeftPanelProps) {
 
         <div className='flex gap-2 max-sm:flex-col'>
           <Button className='sm:flex-1' onClick={onEdit}>
-            Edit
+            {t('common.edit')}
           </Button>
           <Button
             variant='outline'
             className='text-destructive hover:bg-destructive/10 hover:text-destructive sm:flex-1'
           >
-            Suspend
+            {t('users.panel.suspend')}
           </Button>
         </div>
       </CardContent>

@@ -7,8 +7,7 @@ import { useMemo, useState } from 'react'
 import type { AppUser } from '@/types/apps/user-types'
 
 // Component Imports
-import { Card, CardContent } from '@/components/ui/card'
-import { ActivityTimeline } from '@/views/apps/users/view/activity-timeline'
+import { Card } from '@/components/ui/card'
 import { ProjectsDatatable } from '@/views/apps/users/view/projects-datatable'
 
 // Hook Imports
@@ -23,8 +22,6 @@ export interface AccountTabProps {
 export function AccountTab({ user }: AccountTabProps) {
   const [search, setSearch] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
-
-  const activityLog = user.activityLog ?? []
 
   const filteredProjects = useMemo(() => {
     const projects = user.projects ?? []
@@ -78,21 +75,6 @@ export function AccountTab({ user }: AccountTabProps) {
           onSearchChange={handleSearchChange}
           onPageChange={setCurrentPage}
         />
-      </Card>
-
-      <Card>
-        <CardContent>
-          <div className='flex items-center'>
-            <span className='text-lg font-medium'>User Activity Timeline</span>
-          </div>
-          <div>
-            {activityLog.length === 0 ? (
-              <p className='text-muted-foreground py-4 text-sm'>No activity yet</p>
-            ) : (
-              <ActivityTimeline activityLog={activityLog} />
-            )}
-          </div>
-        </CardContent>
       </Card>
     </div>
   )

@@ -15,7 +15,11 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 
 import { cn } from '@/lib/utils'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const WorkspaceName = () => {
+  const { t } = useTranslation()
   const id = useId()
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState<string>('Indian/Cocos')
@@ -51,23 +55,23 @@ const WorkspaceName = () => {
       <div className='grid grid-cols-1 gap-10 lg:grid-cols-3'>
         {/* Workspace Name */}
         <div className='flex flex-col space-y-1'>
-          <h3 className='text-base font-semibold'>Workspace Name & TimeZone</h3>
-          <p className='text-muted-foreground text-sm'>Manage your workspace name and time zone settings.</p>
+          <h3 className='text-base font-semibold'>{t('settings.workspaceName.title')}</h3>
+          <p className='text-muted-foreground text-sm'>{t('settings.workspaceName.description')}</p>
         </div>
         {/* Content */}
         <div className='space-y-6 lg:col-span-2'>
           {/* Workspace Name */}
           <div className='flex flex-col items-start gap-1'>
-            <Label htmlFor='workspace-name'>Workspace Name</Label>
+            <Label htmlFor='workspace-name'>{t('settings.workspaceName.nameLabel')}</Label>
             <Input id='workspace-name' placeholder='WordZen' defaultValue='WordZen' />
           </div>
           {/* Workspace ID */}
           <div className='w-full space-y-2'>
-            <Label htmlFor='app-id'>App ID</Label>
+            <Label htmlFor='app-id'>{t('settings.workspaceName.appId')}</Label>
             <Input
               id='app-id'
               type='text'
-              placeholder='App ID'
+              placeholder={t('settings.workspaceName.appId')}
               defaultValue='0b1c2d3e'
               className='read-only:bg-muted'
               readOnly
@@ -75,7 +79,7 @@ const WorkspaceName = () => {
           </div>
           {/* Workspace timezone */}
           <div className='w-full space-y-2'>
-            <Label htmlFor={id}>Timezone</Label>
+            <Label htmlFor={id}>{t('settings.workspaceName.timezone')}</Label>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger
                 render={
@@ -92,16 +96,16 @@ const WorkspaceName = () => {
                   {value ? (
                     formattedTimezones.find(timezone => timezone.value === value)?.label
                   ) : (
-                    <span className='text-muted-foreground'>Select timezone</span>
+                    <span className='text-muted-foreground'>{t('settings.workspaceName.selectTimezone')}</span>
                   )}
                 </span>
                 <ChevronsUpDownIcon className='text-muted-foreground/80 shrink-0' aria-hidden='true' />
               </PopoverTrigger>
               <PopoverContent className='w-(--anchor-width) p-0'>
                 <Command>
-                  <CommandInput placeholder='Search timezone' />
+                  <CommandInput placeholder={t('settings.workspaceName.searchTimezone')} />
                   <CommandList>
-                    <CommandEmpty>No timezone found.</CommandEmpty>
+                    <CommandEmpty>{t('settings.workspaceName.noTimezone')}</CommandEmpty>
                     <CommandGroup>
                       {formattedTimezones.map(({ value: itemValue, label }) => (
                         <CommandItem
@@ -124,7 +128,7 @@ const WorkspaceName = () => {
           </div>
           <div className='flex justify-end'>
             <Button type='submit' className='max-sm:w-full'>
-              Save Changes
+              {t('common.saveChanges')}
             </Button>
           </div>
         </div>

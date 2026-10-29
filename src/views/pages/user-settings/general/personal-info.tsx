@@ -12,63 +12,71 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
-const countries = [
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+import type { TranslationKey } from '@/lib/i18n'
+
+const countries: { value: string; labelKey: TranslationKey; flag: string }[] = [
   {
     value: 'india',
-    label: 'India',
+    labelKey: 'settings.personal.countries.india',
     flag: '/images/flags/india.webp'
   },
   {
     value: 'china',
-    label: 'China',
+    labelKey: 'settings.personal.countries.china',
     flag: '/images/flags/china.webp'
   },
   {
     value: 'monaco',
-    label: 'Monaco',
+    labelKey: 'settings.personal.countries.monaco',
     flag: '/images/flags/monaco.webp'
   },
   {
     value: 'serbia',
-    label: 'Serbia',
+    labelKey: 'settings.personal.countries.serbia',
     flag: '/images/flags/serbia.webp'
   },
   {
     value: 'romania',
-    label: 'Romania',
+    labelKey: 'settings.personal.countries.romania',
     flag: '/images/flags/romania.webp'
   },
   {
     value: 'mayotte',
-    label: 'Mayotte',
+    labelKey: 'settings.personal.countries.mayotte',
     flag: '/images/flags/mayotte.webp'
   },
   {
     value: 'iraq',
-    label: 'Iraq',
+    labelKey: 'settings.personal.countries.iraq',
     flag: '/images/flags/iraq.webp'
   },
   {
     value: 'syria',
-    label: 'Syria',
+    labelKey: 'settings.personal.countries.syria',
     flag: '/images/flags/syria.webp'
   },
   {
     value: 'korea',
-    label: 'Korea',
+    labelKey: 'settings.personal.countries.korea',
     flag: '/images/flags/korea.webp'
   },
   {
     value: 'zimbabwe',
-    label: 'Zimbabwe',
+    labelKey: 'settings.personal.countries.zimbabwe',
     flag: '/images/flags/zimbabwe.webp'
   }
 ]
 
 const PersonalInfo = () => {
+  const { t } = useTranslation()
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
+
+  // The Select needs plain {label, value} pairs, so resolve the keys here.
+  const countryItems = countries.map(country => ({ label: t(country.labelKey), value: country.value }))
 
   useEffect(() => {
     if (!file) {
@@ -93,14 +101,14 @@ const PersonalInfo = () => {
     if (!f) return
 
     if (!f.type.startsWith('image/')) {
-      window.alert('Please select an image file')
+      window.alert(t('settings.upload.notAnImage'))
       e.currentTarget.value = ''
 
       return
     }
 
     if (f.size > 1024 * 1024) {
-      window.alert('File must be smaller than 1MB')
+      window.alert(t('settings.upload.tooLarge'))
       e.currentTarget.value = ''
 
       return
@@ -120,20 +128,20 @@ const PersonalInfo = () => {
     <div className='grid grid-cols-1 gap-10 lg:grid-cols-3'>
       {/* Vertical Tabs List */}
       <div className='flex flex-col space-y-1'>
-        <h3 className='text-base font-semibold'>Personal Information</h3>
-        <p className='text-muted-foreground text-sm'>Manage your personal information and role.</p>
+        <h3 className='text-base font-semibold'>{t('settings.personal.title')}</h3>
+        <p className='text-muted-foreground text-sm'>{t('settings.personal.description')}</p>
       </div>
 
       {/* Content */}
       <div className='space-y-6 lg:col-span-2'>
         <form className='mx-auto'>
           <div className='mb-6 w-full space-y-2'>
-            <Label>Your Avatar</Label>
+            <Label>{t('settings.personal.avatar')}</Label>
             <div className='flex items-center gap-4'>
               <div
                 role='button'
                 tabIndex={0}
-                aria-label='Upload your avatar'
+                aria-label={t('settings.personal.uploadAvatarAria')}
                 onClick={openPicker}
                 onKeyDown={e => {
                   if (e.key === 'Enter' || e.key === ' ') {
@@ -144,7 +152,11 @@ const PersonalInfo = () => {
                 className='flex h-20 w-20 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-dashed hover:opacity-95'
               >
                 {preview ? (
-                  <img src={preview} alt='avatar preview' className='h-full w-full object-cover' />
+                  <img
+                    src={preview}
+                    alt={t('settings.personal.avatarPreviewAlt')}
+                    className='h-full w-full object-cover'
+                  />
                 ) : (
                   <ImageIcon />
                 )}
@@ -154,43 +166,47 @@ const PersonalInfo = () => {
                 <input ref={inputRef} type='file' accept='image/*' className='hidden' onChange={onSelect} />
                 <Button type='button' variant='outline' onClick={openPicker} className='flex items-center gap-2'>
                   <UploadCloudIcon />
-                  Upload avatar
+                  {t('settings.personal.uploadAvatar')}
                 </Button>
                 <Button type='button' variant='ghost' onClick={remove} disabled={!file} className='text-destructive!'>
                   <Trash2Icon />
                 </Button>
               </div>
             </div>
-            <p className='text-muted-foreground text-sm'>Pick a photo up to 1MB.</p>
+            <p className='text-muted-foreground text-sm'>{t('settings.upload.sizeHint')}</p>
           </div>
           <div className='grid grid-cols-1 gap-6 sm:grid-cols-2'>
             <div className='flex flex-col items-start gap-2'>
-              <Label htmlFor='multi-step-personal-info-first-name'>First Name</Label>
-              <Input id='multi-step-personal-info-first-name' placeholder='John' />
+              <Label htmlFor='multi-step-personal-info-first-name'>{t('forms.fields.firstName')}</Label>
+              <Input id='multi-step-personal-info-first-name' placeholder={t('forms.placeholders.firstName')} />
             </div>
             <div className='flex flex-col items-start gap-2'>
-              <Label htmlFor='multi-step-personal-info-last-name'>Last Name</Label>
-              <Input id='multi-step-personal-info-last-name' placeholder='Doe' />
+              <Label htmlFor='multi-step-personal-info-last-name'>{t('forms.fields.lastName')}</Label>
+              <Input id='multi-step-personal-info-last-name' placeholder={t('forms.placeholders.lastName')} />
             </div>
             <div className='flex flex-col items-start gap-2'>
-              <Label htmlFor='multi-step-personal-info-mobile'>Mobile</Label>
-              <Input id='multi-step-personal-info-mobile' type='tel' placeholder='+1 (555) 123-4567' />
+              <Label htmlFor='multi-step-personal-info-mobile'>{t('forms.fields.mobile')}</Label>
+              <Input id='multi-step-personal-info-mobile' type='tel' placeholder={t('forms.placeholders.mobile')} />
             </div>
             <div className='flex flex-col items-start gap-2'>
-              <Label htmlFor='country'>Country</Label>
-              <Select defaultValue='1' required items={countries}>
+              <Label htmlFor='country'>{t('settings.personal.country')}</Label>
+              <Select defaultValue='1' required items={countryItems}>
                 <SelectTrigger id='country' className='w-full'>
-                  <SelectValue placeholder='Select Country'>
+                  <SelectValue placeholder={t('settings.personal.selectCountry')}>
                     {(value: string) => {
                       const country = countries.find(c => c.value === value)
 
                       return country ? (
                         <span className='flex items-center gap-2'>
-                          <img src={country.flag} alt={`${country.label} flag`} className='h-4 w-5 shrink-0' />
-                          <span className='truncate'>{country.label}</span>
+                          <img
+                            src={country.flag}
+                            alt={t('settings.personal.countryFlagAlt', { country: t(country.labelKey) })}
+                            className='h-4 w-5 shrink-0'
+                          />
+                          <span className='truncate'>{t(country.labelKey)}</span>
                         </span>
                       ) : (
-                        <span>Select Country</span>
+                        <span>{t('settings.personal.selectCountry')}</span>
                       )
                     }}
                   </SelectValue>
@@ -199,8 +215,12 @@ const PersonalInfo = () => {
                   <SelectGroup>
                     {countries.map(country => (
                       <SelectItem key={country.value} value={country.value}>
-                        <img src={country.flag} alt={`${country.label} flag`} className='h-4 w-5' />{' '}
-                        <span className='truncate'>{country.label}</span>
+                        <img
+                          src={country.flag}
+                          alt={t('settings.personal.countryFlagAlt', { country: t(country.labelKey) })}
+                          className='h-4 w-5'
+                        />{' '}
+                        <span className='truncate'>{t(country.labelKey)}</span>
                       </SelectItem>
                     ))}
                   </SelectGroup>
@@ -209,32 +229,32 @@ const PersonalInfo = () => {
             </div>
 
             <div className='space-y-2'>
-              <Label htmlFor='gender'>Gender</Label>
+              <Label htmlFor='gender'>{t('settings.personal.gender')}</Label>
               <Select>
                 <SelectTrigger id='gender' className='w-full'>
-                  <SelectValue placeholder='Select a gender' />
+                  <SelectValue placeholder={t('settings.personal.selectGender')} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value='male'>Male</SelectItem>
-                    <SelectItem value='female'>Female</SelectItem>
-                    <SelectItem value='other'>Other</SelectItem>
+                    <SelectItem value='male'>{t('settings.personal.genderOptions.male')}</SelectItem>
+                    <SelectItem value='female'>{t('settings.personal.genderOptions.female')}</SelectItem>
+                    <SelectItem value='other'>{t('settings.personal.genderOptions.other')}</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
             </div>
 
             <div className='space-y-2'>
-              <Label htmlFor='role'>Role</Label>
+              <Label htmlFor='role'>{t('settings.personal.role')}</Label>
               <Select>
                 <SelectTrigger id='role' className='w-full'>
-                  <SelectValue placeholder='Select a role' />
+                  <SelectValue placeholder={t('settings.personal.selectRole')} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value='admin'>Admin</SelectItem>
-                    <SelectItem value='user'>User</SelectItem>
-                    <SelectItem value='other'>Other</SelectItem>
+                    <SelectItem value='admin'>{t('settings.personal.roleOptions.admin')}</SelectItem>
+                    <SelectItem value='user'>{t('settings.personal.roleOptions.user')}</SelectItem>
+                    <SelectItem value='other'>{t('settings.personal.roleOptions.other')}</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -243,7 +263,7 @@ const PersonalInfo = () => {
         </form>
         <div className='flex justify-end'>
           <Button type='submit' className='max-sm:w-full'>
-            Save Changes
+            {t('common.saveChanges')}
           </Button>
         </div>
       </div>

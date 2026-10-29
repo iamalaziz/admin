@@ -16,6 +16,10 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+import type { TranslationKey } from '@/lib/i18n'
+
 const salesPlanPercentage = 54
 const totalBars = 24
 const filledBars = Math.round((salesPlanPercentage * totalBars) / 100)
@@ -36,31 +40,25 @@ const salesChartData = Array.from({ length: totalBars }, (_, index) => {
   }
 })
 
-const salesChartConfig = {
-  sales: {
-    label: 'Sales'
-  }
-} satisfies ChartConfig
-
-const MetricsData = [
+const MetricsData: { icons: React.ReactNode; titleKey: TranslationKey; value: string }[] = [
   {
     icons: <TrendingUpIcon className='size-5' />,
-    title: 'Sales trend',
+    titleKey: 'dashboard.salesMetrics.salesTrend',
     value: '$11,548'
   },
   {
     icons: <BadgePercentIcon className='size-5' />,
-    title: 'Discount offers',
+    titleKey: 'dashboard.salesMetrics.discountOffers',
     value: '$1,326'
   },
   {
     icons: <DollarSignIcon className='size-5' />,
-    title: 'Net profit',
+    titleKey: 'dashboard.salesMetrics.netProfit',
     value: '$17,356'
   },
   {
     icons: <ShoppingBagIcon className='size-5' />,
-    title: 'Total orders',
+    titleKey: 'dashboard.salesMetrics.totalOrders',
     value: '248'
   }
 ]
@@ -71,33 +69,45 @@ const revenueChartData = [
   { month: 'march', sales: 200, fill: 'var(--color-march)' }
 ]
 
-const revenueChartConfig = {
-  sales: {
-    label: 'Sales'
-  },
-  january: {
-    label: 'January',
-    color: 'var(--primary)'
-  },
-  february: {
-    label: 'February',
-    color: 'color-mix(in oklab, var(--primary) 60%, transparent)'
-  },
-  march: {
-    label: 'March',
-    color: 'color-mix(in oklab, var(--primary) 20%, transparent)'
-  }
-} satisfies ChartConfig
-
 const SalesMetricsCard = ({ className }: { className?: string }) => {
+  const { t } = useTranslation()
+
+  const salesChartConfig = {
+    sales: {
+      label: t('dashboard.salesMetrics.sales')
+    }
+  } satisfies ChartConfig
+
+  const revenueChartConfig = {
+    sales: {
+      label: t('dashboard.salesMetrics.sales')
+    },
+    january: {
+      label: t('months.january'),
+      color: 'var(--primary)'
+    },
+    february: {
+      label: t('months.february'),
+      color: 'color-mix(in oklab, var(--primary) 60%, transparent)'
+    },
+    march: {
+      label: t('months.march'),
+      color: 'color-mix(in oklab, var(--primary) 20%, transparent)'
+    }
+  } satisfies ChartConfig
+
   return (
     <Card className={className}>
       <CardContent>
         <div className='grid gap-6 lg:grid-cols-5'>
           <div className='flex flex-col justify-between gap-7 lg:col-span-3'>
-            <span className='text-lg font-semibold'>Sales metrics</span>
+            <span className='text-lg font-semibold'>{t('dashboard.salesMetrics.title')}</span>
             <div className='flex items-center gap-3'>
-              <img src='/images/brands/logo-square.webp' className='size-10.5 rounded-lg' alt='logo' />
+              <img
+                src='/images/brands/logo-square.webp'
+                className='size-10.5 rounded-lg'
+                alt={t('dashboard.salesMetrics.logoAlt')}
+              />
               <div className='flex flex-col gap-0.5'>
                 <span className='text-xl font-medium'>Sandy&apos; Company</span>
                 <span className='text-muted-foreground text-sm'>sandy@company.com</span>
@@ -114,7 +124,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
                       </AvatarFallback>
                     </Avatar>
                     <div className='flex flex-col gap-0.5'>
-                      <span className='text-muted-foreground text-sm font-medium'>{metric.title}</span>
+                      <span className='text-muted-foreground text-sm font-medium'>{t(metric.titleKey)}</span>
                       <span className='text-lg font-medium'>{metric.value}</span>
                     </div>
                   </CardContent>
@@ -124,7 +134,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
           </div>
           <Card className='ring-foreground/10 justify-between gap-4 shadow-none ring-1 lg:col-span-2'>
             <CardHeader className='gap-1'>
-              <CardTitle className='text-lg font-semibold'>Revenue goal</CardTitle>
+              <CardTitle className='text-lg font-semibold'>{t('dashboard.salesMetrics.revenueGoal')}</CardTitle>
             </CardHeader>
 
             <CardContent className='space-y-4'>
@@ -158,7 +168,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
                                 y={(viewBox.cy || 0) + 19}
                                 className='fill-muted-foreground text-sm'
                               >
-                                Total Profit
+                                {t('dashboard.salesMetrics.totalProfit')}
                               </tspan>
                             </text>
                           )
@@ -169,7 +179,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
                 </PieChart>
               </ChartContainer>
               <div className='flex items-center justify-between'>
-                <span className='text-xl'>Plan completed</span>
+                <span className='text-xl'>{t('dashboard.salesMetrics.planCompleted')}</span>
                 <span className='text-2xl font-medium'>56%</span>
               </div>
             </CardContent>
@@ -180,24 +190,21 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
         <Card className='ring-foreground/10 shadow-none ring-1'>
           <CardContent className='grid gap-4 lg:grid-cols-5'>
             <div className='flex flex-col justify-center gap-6'>
-              <span className='text-lg font-semibold'>Sales plan</span>
+              <span className='text-lg font-semibold'>{t('dashboard.salesMetrics.salesPlan')}</span>
               <span className='max-lg:5xl text-6xl'>{salesPlanPercentage}%</span>
-              <span className='text-muted-foreground text-sm'>Percentage profit from total sales</span>
+              <span className='text-muted-foreground text-sm'>{t('dashboard.salesMetrics.percentageProfit')}</span>
             </div>
             <div className='flex flex-col gap-6 text-lg md:col-span-4'>
-              <span className='font-medium'>Cohort analysis indicators</span>
-              <span className='text-muted-foreground text-wrap'>
-                Analyzes the behaviour of a group of users who joined a product/service at the same time. over a certain
-                period.
-              </span>
+              <span className='font-medium'>{t('dashboard.salesMetrics.cohortTitle')}</span>
+              <span className='text-muted-foreground text-wrap'>{t('dashboard.salesMetrics.cohortDescription')}</span>
               <div className='grid gap-6 md:grid-cols-2'>
                 <div className='flex items-center gap-2'>
                   <ChartNoAxesCombinedIcon className='size-6' />
-                  <span className='text-lg font-medium'>Open Statistics</span>
+                  <span className='text-lg font-medium'>{t('dashboard.salesMetrics.openStatistics')}</span>
                 </div>
                 <div className='flex items-center gap-2'>
                   <CirclePercentIcon className='size-6' />
-                  <span className='text-lg font-medium'>Percentage Change</span>
+                  <span className='text-lg font-medium'>{t('dashboard.salesMetrics.percentageChange')}</span>
                 </div>
               </div>
 

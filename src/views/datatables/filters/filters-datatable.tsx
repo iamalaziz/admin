@@ -24,6 +24,9 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
+import { useTranslation } from '@/lib/i18n'
+import type { TranslationKey } from '@/lib/i18n'
+
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ColumnMeta<TData extends RowData, TValue> {
@@ -31,17 +34,31 @@ declare module '@tanstack/react-table' {
   }
 }
 
+export type Availability = 'In Stock' | 'Out of Stock' | 'Limited'
+
 export type Item = {
   id: string
   product: string
   productImage: string
   fallback: string
   price: number
-  availability: 'In Stock' | 'Out of Stock' | 'Limited'
+  availability: Availability
   rating: number
 }
 
-export const columns: ColumnDef<Item>[] = [
+type Translate = (key: TranslationKey, params?: Record<string, string | number>) => string
+
+const AVAILABILITY_STYLES: Record<Availability, string> = {
+  'In Stock':
+    'bg-green-600/10 text-green-600 focus-visible:ring-green-600/20 dark:bg-green-400/10 dark:text-green-400 dark:focus-visible:ring-green-400/40 [a&]:hover:bg-green-600/5 dark:[a&]:hover:bg-green-400/5',
+  'Out of Stock':
+    'bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive',
+  Limited:
+    'bg-amber-600/10 text-amber-600 focus-visible:ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-400 dark:focus-visible:ring-amber-400/40 [a&]:hover:bg-amber-600/5 dark:[a&]:hover:bg-amber-400/5'
+}
+
+// A factory rather than a constant: the header labels have to be re-read when the language changes.
+export const getColumns = (t: Translate): ColumnDef<Item>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -49,19 +66,19 @@ export const columns: ColumnDef<Item>[] = [
         checked={table.getIsAllPageRowsSelected()}
         indeterminate={table.getIsSomePageRowsSelected()}
         onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
-        aria-label='Select all'
+        aria-label={t('datatable.selectAll')}
       />
     ),
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={value => row.toggleSelected(!!value)}
-        aria-label='Select row'
+        aria-label={t('datatable.selectRow')}
       />
     )
   },
   {
-    header: 'Product',
+    header: t('datatable.columns.product'),
     accessorKey: 'product',
     cell: ({ row }) => (
       <div className='flex items-center gap-3'>
@@ -74,7 +91,7 @@ export const columns: ColumnDef<Item>[] = [
     )
   },
   {
-    header: 'Price',
+    header: t('datatable.columns.price'),
     accessorKey: 'price',
     cell: ({ row }) => <div>${row.getValue('price')}</div>,
     enableSorting: false,
@@ -83,21 +100,14 @@ export const columns: ColumnDef<Item>[] = [
     }
   },
   {
-    header: 'Availability',
+    header: t('datatable.columns.availability'),
     accessorKey: 'availability',
     cell: ({ row }) => {
-      const availability = row.getValue('availability') as string
+      const availability = row.getValue('availability') as Availability
 
-      const styles = {
-        'In Stock':
-          'bg-green-600/10 text-green-600 focus-visible:ring-green-600/20 dark:bg-green-400/10 dark:text-green-400 dark:focus-visible:ring-green-400/40 [a&]:hover:bg-green-600/5 dark:[a&]:hover:bg-green-400/5',
-        'Out of Stock':
-          'bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive',
-        Limited:
-          'bg-amber-600/10 text-amber-600 focus-visible:ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-400 dark:focus-visible:ring-amber-400/40 [a&]:hover:bg-amber-600/5 dark:[a&]:hover:bg-amber-400/5'
-      }[availability]
-
-      return <Badge className={styles}>{row.getValue('availability')}</Badge>
+      return (
+        <Badge className={AVAILABILITY_STYLES[availability]}>{t(`datatable.availabilityValues.${availability}`)}</Badge>
+      )
     },
     enableSorting: false,
     meta: {
@@ -105,7 +115,7 @@ export const columns: ColumnDef<Item>[] = [
     }
   },
   {
-    header: 'Rating',
+    header: t('datatable.columns.rating'),
     accessorKey: 'rating',
     cell: ({ row }) => <div>{row.getValue('rating')}</div>,
     meta: {
@@ -115,6 +125,7 @@ export const columns: ColumnDef<Item>[] = [
 ]
 
 const DataTableFilters = ({ data }: { data: Item[] }) => {
+  const { t } = useTranslation()
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
   const [sorting, setSorting] = useState<SortingState>([
@@ -123,6 +134,8 @@ const DataTableFilters = ({ data }: { data: Item[] }) => {
       desc: false
     }
   ])
+
+  const columns = useMemo(() => getColumns(t), [t])
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
@@ -186,7 +199,7 @@ const DataTableFilters = ({ data }: { data: Item[] }) => {
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className='h-24 text-center'>
-                  No results.
+                  {t('common.noResults')}
                 </TableCell>
               </TableRow>
             )}
@@ -198,9 +211,12 @@ const DataTableFilters = ({ data }: { data: Item[] }) => {
 }
 
 function Filter({ column }: { column: Column<Item, unknown> }) {
+  const { t } = useTranslation()
   const id = useId()
   const columnFilterValue = column.getFilterValue()
   const { filterVariant } = column.columnDef.meta ?? {}
+
+  // The column defs carry already-translated header strings, so this label follows the language.
   const columnHeader = typeof column.columnDef.header === 'string' ? column.columnDef.header : ''
   const facetedUniqueValues = column.getFacetedUniqueValues()
 
@@ -235,9 +251,9 @@ function Filter({ column }: { column: Column<Item, unknown> }) {
                 old?.[1]
               ])
             }
-            placeholder='Min'
+            placeholder={t('datatable.min')}
             type='number'
-            aria-label={`${columnHeader} min`}
+            aria-label={t('datatable.minAria', { column: columnHeader })}
           />
           <Input
             id={`${id}-range-2`}
@@ -249,9 +265,9 @@ function Filter({ column }: { column: Column<Item, unknown> }) {
                 e.target.value ? Number(e.target.value) : undefined
               ])
             }
-            placeholder='Max'
+            placeholder={t('datatable.max')}
             type='number'
-            aria-label={`${columnHeader} max`}
+            aria-label={t('datatable.maxAria', { column: columnHeader })}
           />
         </div>
       </div>
@@ -259,10 +275,11 @@ function Filter({ column }: { column: Column<Item, unknown> }) {
   }
 
   if (filterVariant === 'select') {
+    // `value` stays the raw row value so filtering keeps working; only the label is localized.
     const selectItems = [
-      { label: 'All', value: 'all' },
+      { label: t('datatable.all'), value: 'all' },
       ...sortedUniqueValues.map(value => ({
-        label: String(value),
+        label: t(`datatable.availabilityValues.${value as Availability}`),
         value: String(value)
       }))
     ]
@@ -301,7 +318,7 @@ function Filter({ column }: { column: Column<Item, unknown> }) {
           className='peer pl-9'
           value={(columnFilterValue ?? '') as string}
           onChange={e => column.setFilterValue(e.target.value)}
-          placeholder={`Search ${columnHeader.toLowerCase()}`}
+          placeholder={t('datatable.searchColumn', { column: columnHeader.toLowerCase() })}
           type='text'
         />
         <div className='text-muted-foreground/80 pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50'>

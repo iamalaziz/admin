@@ -1,3 +1,5 @@
+'use client'
+
 // Third-party Imports
 import { Trash2Icon } from 'lucide-react'
 
@@ -6,16 +8,21 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const DangerZone = () => {
+  const { t } = useTranslation()
+
   return (
     <div className='grid grid-cols-1 gap-10 lg:grid-cols-3'>
       {/* Vertical Tabs List */}
       <div className='flex flex-col space-y-1'>
-        <h3 className='text-base font-semibold'>Danger Zone</h3>
+        <h3 className='text-base font-semibold'>{t('settings.dangerZone.title')}</h3>
         <p className='text-muted-foreground text-sm'>
-          Delete your account permanently. This action will remove all your data and cannot be undone{' '}
+          {t('settings.dangerZone.description')}{' '}
           <a href='#' className='text-card-foreground font-medium hover:underline'>
-            Learn more
+            {t('settings.dangerZone.learnMore')}
           </a>
         </p>
       </div>
@@ -26,10 +33,8 @@ const DangerZone = () => {
           <CardContent>
             <div className='flex justify-between gap-4 max-lg:flex-col lg:items-center'>
               <div className='space-y-1'>
-                <h3 className='text-sm font-medium'>Delete account</h3>
-                <p className='text-muted-foreground text-sm'>
-                  Delete your account permanently. This action will remove all your data and cannot be undone.
-                </p>
+                <h3 className='text-sm font-medium'>{t('settings.dangerZone.deleteAccount')}</h3>
+                <p className='text-muted-foreground text-sm'>{t('settings.dangerZone.deleteAccountDescription')}</p>
               </div>
               <Dialog>
                 <DialogTrigger
@@ -41,18 +46,18 @@ const DangerZone = () => {
                   }
                 >
                   <Trash2Icon />
-                  Delete
+                  {t('common.delete')}
                 </DialogTrigger>
                 <DialogContent className='sm:max-w-md'>
                   <DialogHeader className='space-y-2'>
-                    <DialogTitle>Delete account</DialogTitle>
+                    <DialogTitle>{t('settings.dangerZone.deleteAccount')}</DialogTitle>
                     <div className='text-muted-foreground text-sm'>
-                      Delete your account permanently. This action will remove all your data and cannot be undone.
+                      {t('settings.dangerZone.deleteAccountDescription')}
                     </div>
                   </DialogHeader>
                   <div className='flex flex-col-reverse gap-4 sm:flex-row sm:justify-end'>
-                    <DialogClose render={<Button variant='outline' />}>Cancel</DialogClose>
-                    <DialogClose render={<Button variant='destructive' />}>Delete</DialogClose>
+                    <DialogClose render={<Button variant='outline' />}>{t('common.cancel')}</DialogClose>
+                    <DialogClose render={<Button variant='destructive' />}>{t('common.delete')}</DialogClose>
                   </div>
                 </DialogContent>
               </Dialog>

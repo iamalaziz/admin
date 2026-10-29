@@ -1,3 +1,5 @@
+'use client'
+
 // Next Imports
 import Link from 'next/link'
 
@@ -10,25 +12,31 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+import type { TranslationKey } from '@/lib/i18n'
+
 const WorkspaceOrganizations = () => {
-  const organizations = [
+  const { t } = useTranslation()
+
+  const organizations: { id: string; name: string; img: string; descriptionKey: TranslationKey }[] = [
     {
       id: 'notion',
       name: 'Notion',
       img: '/images/brands/notion-white.webp',
-      description: 'member and collaborator on product and docs projects'
+      descriptionKey: 'settings.organizations.notionDescription'
     },
     {
       id: 'github',
       name: 'Github',
       img: '/images/brands/github-white.webp',
-      description: 'repository collaborator and CI maintainer'
+      descriptionKey: 'settings.organizations.githubDescription'
     },
     {
       id: 'discord',
       name: 'Discord',
       img: '/images/brands/discord.webp',
-      description: 'community moderator and support channel member'
+      descriptionKey: 'settings.organizations.discordDescription'
     }
   ]
 
@@ -37,8 +45,8 @@ const WorkspaceOrganizations = () => {
       <div className='grid grid-cols-1 gap-10 lg:grid-cols-3'>
         {/* Workspace Organizations */}
         <div className='flex flex-col space-y-1'>
-          <h3 className='text-base font-semibold'>Organizations</h3>
-          <p className='text-muted-foreground text-sm'>Manage your workspace organizations and settings.</p>
+          <h3 className='text-base font-semibold'>{t('settings.organizations.title')}</h3>
+          <p className='text-muted-foreground text-sm'>{t('settings.organizations.description')}</p>
         </div>
         {/* Content */}
         <div className='space-y-6 lg:col-span-2'>
@@ -53,7 +61,7 @@ const WorkspaceOrganizations = () => {
                         <Link href='#' className='font-medium text-sky-600 hover:underline dark:text-sky-400'>
                           {org.name}
                         </Link>{' '}
-                        {org.description}
+                        {t(org.descriptionKey)}
                       </p>
                     </div>
                     <Dialog>
@@ -66,18 +74,20 @@ const WorkspaceOrganizations = () => {
                         }
                       >
                         <Trash2Icon />
-                        Leave
+                        {t('settings.organizations.leave')}
                       </DialogTrigger>
                       <DialogContent className='sm:max-w-md'>
                         <DialogHeader className='space-y-2'>
-                          <DialogTitle>Are you sure?</DialogTitle>
+                          <DialogTitle>{t('settings.organizations.confirmTitle')}</DialogTitle>
                           <div className='text-muted-foreground text-sm'>
-                            Are you sure you want to leave this organization?
+                            {t('settings.organizations.confirmDescription')}
                           </div>
                         </DialogHeader>
                         <div className='flex flex-col-reverse gap-4 sm:flex-row sm:justify-end'>
-                          <DialogClose render={<Button variant='outline' />}>Cancel</DialogClose>
-                          <DialogClose render={<Button variant='destructive' />}>Leave</DialogClose>
+                          <DialogClose render={<Button variant='outline' />}>{t('common.cancel')}</DialogClose>
+                          <DialogClose render={<Button variant='destructive' />}>
+                            {t('settings.organizations.leave')}
+                          </DialogClose>
                         </div>
                       </DialogContent>
                     </Dialog>

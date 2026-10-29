@@ -10,7 +10,12 @@ import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const WorkspaceData = () => {
+  const { t } = useTranslation()
+
   const promise = () =>
     new Promise(resolve =>
       setTimeout(() => {
@@ -21,14 +26,14 @@ const WorkspaceData = () => {
   const exports = [
     {
       id: 1,
-      type: 'CSV Export',
+      type: t('settings.workspaceData.csvExport'),
       date: 'Mar 12, 2023',
       status: 'progress',
       progress: 25
     },
     {
       id: 2,
-      type: 'CSV Export',
+      type: t('settings.workspaceData.csvExport'),
       date: 'Jan 12, 2023',
       status: 'completed',
       progress: 100
@@ -40,8 +45,8 @@ const WorkspaceData = () => {
       <div className='grid grid-cols-1 gap-10 lg:grid-cols-3'>
         {/* Workspace Data */}
         <div className='flex flex-col space-y-1'>
-          <h3 className='text-base font-semibold'>Export Workspace data</h3>
-          <p className='text-muted-foreground text-sm'>Export your workspace data for backup or migration purposes.</p>
+          <h3 className='text-base font-semibold'>{t('settings.workspaceData.title')}</h3>
+          <p className='text-muted-foreground text-sm'>{t('settings.workspaceData.description')}</p>
         </div>
         {/* Content */}
         <div className='space-y-6 lg:col-span-2'>
@@ -49,22 +54,22 @@ const WorkspaceData = () => {
             variant='outline'
             onClick={() =>
               toast.promise(promise, {
-                loading: 'Loading...',
-                success: 'Download successfully!',
+                loading: t('settings.workspaceData.loading'),
+                success: t('settings.workspaceData.downloadSuccess'),
                 position: 'top-right'
               })
             }
           >
             <DownloadIcon />
-            Get started
+            {t('settings.workspaceData.getStarted')}
           </Button>
 
           <div className='overflow-hidden rounded-lg border'>
             <Table>
               <TableHeader>
                 <TableRow className='bg-muted'>
-                  <TableHead className='px-6'>TYPE</TableHead>
-                  <TableHead className='px-6'>DATE</TableHead>
+                  <TableHead className='px-6'>{t('settings.workspaceData.type')}</TableHead>
+                  <TableHead className='px-6'>{t('settings.workspaceData.date')}</TableHead>
                   <TableHead className='px-6'></TableHead>
                   <TableHead className='w-[50px]'></TableHead>
                 </TableRow>
@@ -77,7 +82,9 @@ const WorkspaceData = () => {
                     <TableCell className='px-6'>
                       {item.status === 'progress' ? (
                         <div className='flex flex-col items-start gap-1'>
-                          <span className='text-xs'>Progress {item.progress}%</span>
+                          <span className='text-xs'>
+                            {t('settings.workspaceData.progress', { percent: item.progress })}
+                          </span>
                           <Progress
                             value={item.progress}
                             className='**:data-[slot=progress-track]:bg-primary/20 w-20 **:data-[slot=progress-track]:h-2 md:w-60'
@@ -85,7 +92,7 @@ const WorkspaceData = () => {
                         </div>
                       ) : (
                         <div className='flex items-center gap-2'>
-                          <span className='text-sm'>Completed</span>
+                          <span className='text-sm'>{t('settings.workspaceData.completed')}</span>
                           <CheckCircle2Icon className='h-4 w-4 text-green-600 dark:text-green-400' />
                         </div>
                       )}
@@ -96,8 +103,8 @@ const WorkspaceData = () => {
                         size='icon'
                         onClick={() =>
                           toast.promise(promise, {
-                            loading: 'Loading...',
-                            success: 'Download successfully!',
+                            loading: t('settings.workspaceData.loading'),
+                            success: t('settings.workspaceData.downloadSuccess'),
                             position: 'top-right'
                           })
                         }

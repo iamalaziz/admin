@@ -11,20 +11,26 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import UserGeneral from '@/views/pages/user-settings/general'
 import Workspace from '@/views/pages/user-settings/workspace'
 
-const tabs = [
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+import type { TranslationKey } from '@/lib/i18n'
+
+const tabs: { nameKey: TranslationKey; value: string; content: React.ReactNode }[] = [
   {
-    name: 'General',
+    nameKey: 'settings.tabs.general',
     value: 'general',
     content: <UserGeneral />
   },
   {
-    name: 'Workspace',
+    nameKey: 'settings.tabs.workspace',
     value: 'workspace',
     content: <Workspace />
   }
 ]
 
 const UserSettingsTabs = () => {
+  const { t } = useTranslation()
+
   const [activeSetting, setActiveSetting] = useQueryState(
     'setting',
     parseAsString.withDefault('general').withOptions({
@@ -58,7 +64,7 @@ const UserSettingsTabs = () => {
                 value={tab.value}
                 className='not-data-active:hover:group-data-horizontal/tabs:after:bg-muted-foreground/30 shrink-0 border-0 group-data-horizontal/tabs:after:bottom-[-0.5px] not-data-active:hover:group-data-horizontal/tabs:after:opacity-100 sm:flex-0'
               >
-                {tab.name}
+                {t(tab.nameKey)}
               </TabsTrigger>
             ))}
           </TabsList>

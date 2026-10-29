@@ -1,8 +1,13 @@
+'use client'
+
 // Type Imports
 import type { ReactNode } from 'react'
 
 // Component Imports
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
+
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
 
 // Statistics card data type
 type StatisticsCardProps = {
@@ -14,6 +19,8 @@ type StatisticsCardProps = {
 }
 
 const StatisticsCard = ({ icon, value, title, changePercentage, className }: StatisticsCardProps) => {
+  const { t } = useTranslation()
+
   return (
     <Card className={className}>
       <CardHeader className='flex items-center gap-2'>
@@ -26,7 +33,7 @@ const StatisticsCard = ({ icon, value, title, changePercentage, className }: Sta
         <span className='text-base font-semibold'>{title}</span>
         <p className='space-x-2'>
           <span>{changePercentage}</span>
-          <span className='text-muted-foreground'>than last week</span>
+          <span className='text-muted-foreground'>{t('dashboard.stats.thanLastWeek')}</span>
         </p>
       </CardContent>
     </Card>

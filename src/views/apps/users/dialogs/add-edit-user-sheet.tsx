@@ -1,7 +1,7 @@
 'use client'
 
 // React Imports
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 // Third-party Imports
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -17,6 +17,12 @@ import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet'
+
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+import type { TranslationKey } from '@/lib/i18n'
+
+type Translate = (key: TranslationKey, params?: Record<string, string | number>) => string
 
 const ROLES: UserRole[] = ['Admin', 'Editor', 'Subscriber', 'Maintainer', 'Guest']
 const PLANS: UserPlan[] = ['Basic', 'Team', 'Enterprise']
@@ -38,20 +44,22 @@ const COUNTRIES = [
   'Italy',
   'Mexico',
   'South Korea'
-]
+] as const
 
-const userFormSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.string().min(1, 'Email is required').email('Enter a valid email'),
-  contact: z.string().optional(),
-  company: z.string().optional(),
-  country: z.string().optional(),
-  role: z.enum(['Admin', 'Editor', 'Subscriber', 'Maintainer', 'Guest']),
-  plan: z.enum(['Basic', 'Team', 'Enterprise']),
-  status: z.enum(['Active', 'Pending', 'Suspended', 'Inactive'])
-})
+// Built from `t` so the validation messages follow the active language.
+const buildUserFormSchema = (t: Translate) =>
+  z.object({
+    name: z.string().min(1, t('users.sheet.errors.nameRequired')),
+    email: z.string().min(1, t('users.sheet.errors.emailRequired')).email(t('users.sheet.errors.emailInvalid')),
+    contact: z.string().optional(),
+    company: z.string().optional(),
+    country: z.string().optional(),
+    role: z.enum(['Admin', 'Editor', 'Subscriber', 'Maintainer', 'Guest']),
+    plan: z.enum(['Basic', 'Team', 'Enterprise']),
+    status: z.enum(['Active', 'Pending', 'Suspended', 'Inactive'])
+  })
 
-type UserFormValues = z.infer<typeof userFormSchema>
+type UserFormValues = z.infer<ReturnType<typeof buildUserFormSchema>>
 
 const defaultValues: UserFormValues = {
   name: '',
@@ -73,6 +81,10 @@ export interface AddEditUserSheetProps {
 }
 
 export function AddEditUserSheet({ mode, user, onClose, onAdd, onEdit }: AddEditUserSheetProps) {
+  const { t } = useTranslation()
+
+  const userFormSchema = useMemo(() => buildUserFormSchema(t), [t])
+
   const form = useForm<UserFormValues>({
     resolver: zodResolver(userFormSchema),
     defaultValues
@@ -124,7 +136,9 @@ export function AddEditUserSheet({ mode, user, onClose, onAdd, onEdit }: AddEdit
     <Sheet open={mode !== null} onOpenChange={open => !open && onClose()}>
       <SheetContent side='right' className='w-full overflow-y-auto sm:max-w-[420px]'>
         <SheetHeader className='pb-0'>
-          <SheetTitle className='text-lg font-medium'>{mode === 'edit' ? 'Edit User' : 'Add New User'}</SheetTitle>
+          <SheetTitle className='text-lg font-medium'>
+            {mode === 'edit' ? t('users.sheet.editTitle') : t('users.sheet.addTitle')}
+          </SheetTitle>
         </SheetHeader>
 
         <form onSubmit={form.handleSubmit(handleSubmit)} className='flex flex-col gap-4 px-4 pb-4'>
@@ -134,8 +148,13 @@ export function AddEditUserSheet({ mode, user, onClose, onAdd, onEdit }: AddEdit
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className='gap-2'>
-                  <FieldLabel htmlFor={field.name}>Name</FieldLabel>
-                  <Input {...field} id={field.name} placeholder='Full name' aria-invalid={fieldState.invalid} />
+                  <FieldLabel htmlFor={field.name}>{t('users.sheet.name')}</FieldLabel>
+                  <Input
+                    {...field}
+                    id={field.name}
+                    placeholder={t('users.sheet.namePlaceholder')}
+                    aria-invalid={fieldState.invalid}
+                  />
                   {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
                 </Field>
               )}
@@ -146,12 +165,12 @@ export function AddEditUserSheet({ mode, user, onClose, onAdd, onEdit }: AddEdit
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className='gap-2'>
-                  <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                  <FieldLabel htmlFor={field.name}>{t('users.sheet.email')}</FieldLabel>
                   <Input
                     {...field}
                     id={field.name}
                     type='email'
-                    placeholder='name@example.com'
+                    placeholder={t('users.sheet.emailPlaceholder')}
                     aria-invalid={fieldState.invalid}
                   />
                   {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
@@ -164,12 +183,12 @@ export function AddEditUserSheet({ mode, user, onClose, onAdd, onEdit }: AddEdit
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className='gap-2'>
-                  <FieldLabel htmlFor={field.name}>Contact</FieldLabel>
+                  <FieldLabel htmlFor={field.name}>{t('users.sheet.contact')}</FieldLabel>
                   <Input
                     {...field}
                     id={field.name}
                     type='tel'
-                    placeholder='+1 (555) 000-0000'
+                    placeholder={t('users.sheet.contactPlaceholder')}
                     aria-invalid={fieldState.invalid}
                   />
                   {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
@@ -182,8 +201,13 @@ export function AddEditUserSheet({ mode, user, onClose, onAdd, onEdit }: AddEdit
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className='gap-2'>
-                  <FieldLabel htmlFor={field.name}>Company</FieldLabel>
-                  <Input {...field} id={field.name} placeholder='Company name' aria-invalid={fieldState.invalid} />
+                  <FieldLabel htmlFor={field.name}>{t('users.sheet.company')}</FieldLabel>
+                  <Input
+                    {...field}
+                    id={field.name}
+                    placeholder={t('users.sheet.companyPlaceholder')}
+                    aria-invalid={fieldState.invalid}
+                  />
                   {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
                 </Field>
               )}
@@ -194,16 +218,16 @@ export function AddEditUserSheet({ mode, user, onClose, onAdd, onEdit }: AddEdit
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className='gap-2'>
-                  <FieldLabel htmlFor='country'>Country</FieldLabel>
+                  <FieldLabel htmlFor='country'>{t('users.sheet.country')}</FieldLabel>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger id='country' className='w-full'>
-                      <SelectValue placeholder='Select country' />
+                      <SelectValue placeholder={t('users.sheet.selectCountry')} />
                     </SelectTrigger>
                     <SelectContent alignItemWithTrigger={false}>
                       <SelectGroup>
                         {COUNTRIES.map(country => (
                           <SelectItem key={country} value={country}>
-                            {country}
+                            {t(`users.countries.${country}`)}
                           </SelectItem>
                         ))}
                       </SelectGroup>
@@ -219,16 +243,16 @@ export function AddEditUserSheet({ mode, user, onClose, onAdd, onEdit }: AddEdit
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className='gap-2'>
-                  <FieldLabel htmlFor='role'>Role</FieldLabel>
+                  <FieldLabel htmlFor='role'>{t('users.sheet.role')}</FieldLabel>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger id='role' className='w-full'>
-                      <SelectValue placeholder='Select role' />
+                      <SelectValue placeholder={t('users.sheet.selectRole')} />
                     </SelectTrigger>
                     <SelectContent alignItemWithTrigger={false}>
                       <SelectGroup>
                         {ROLES.map(role => (
                           <SelectItem key={role} value={role}>
-                            {role}
+                            {t(`users.roles.${role}`)}
                           </SelectItem>
                         ))}
                       </SelectGroup>
@@ -244,16 +268,16 @@ export function AddEditUserSheet({ mode, user, onClose, onAdd, onEdit }: AddEdit
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className='gap-2'>
-                  <FieldLabel htmlFor='plan'>Plan</FieldLabel>
+                  <FieldLabel htmlFor='plan'>{t('users.sheet.plan')}</FieldLabel>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger id='plan' className='w-full'>
-                      <SelectValue placeholder='Select plan' />
+                      <SelectValue placeholder={t('users.sheet.selectPlan')} />
                     </SelectTrigger>
                     <SelectContent alignItemWithTrigger={false}>
                       <SelectGroup>
                         {PLANS.map(plan => (
                           <SelectItem key={plan} value={plan}>
-                            {plan}
+                            {t(`users.plans.${plan}`)}
                           </SelectItem>
                         ))}
                       </SelectGroup>
@@ -269,16 +293,16 @@ export function AddEditUserSheet({ mode, user, onClose, onAdd, onEdit }: AddEdit
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className='gap-2'>
-                  <FieldLabel htmlFor='status'>Status</FieldLabel>
+                  <FieldLabel htmlFor='status'>{t('users.sheet.status')}</FieldLabel>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger id='status' className='w-full'>
-                      <SelectValue placeholder='Select status' />
+                      <SelectValue placeholder={t('users.sheet.selectStatus')} />
                     </SelectTrigger>
                     <SelectContent alignItemWithTrigger={false}>
                       <SelectGroup>
                         {STATUSES.map(status => (
                           <SelectItem key={status} value={status}>
-                            {status}
+                            {t(`users.statuses.${status}`)}
                           </SelectItem>
                         ))}
                       </SelectGroup>
@@ -292,10 +316,10 @@ export function AddEditUserSheet({ mode, user, onClose, onAdd, onEdit }: AddEdit
 
           <SheetFooter className='px-0 sm:flex-row'>
             <Button type='submit' variant='outline' onClick={onClose} className='sm:flex-1'>
-              Cancel
+              {t('common.cancel')}
             </Button>
             <Button type='submit' className='sm:flex-1'>
-              Save Changes
+              {t('common.saveChanges')}
             </Button>
           </SheetFooter>
         </form>

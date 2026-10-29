@@ -12,7 +12,12 @@ import { Button } from '@/components/ui/button'
 // Util Imports
 import { cn } from '@/lib/utils'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const ScrollToTop = () => {
+  const { t } = useTranslation()
+
   // States
   const [showScrollButton, setShowScrollButton] = useState(false)
 
@@ -46,7 +51,7 @@ const ScrollToTop = () => {
       onClick={scrollToTop}
     >
       <ArrowUpIcon />
-      <span className='sr-only'>Scroll to top</span>
+      <span className='sr-only'>{t('chrome.scrollToTop')}</span>
     </Button>
   )
 }

@@ -16,7 +16,11 @@ import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const LoginForm = () => {
+  const { t } = useTranslation()
   const [isVisible, setIsVisible] = useState(false)
 
   return (
@@ -25,14 +29,14 @@ const LoginForm = () => {
         {/* Email */}
         <Field className='gap-2'>
           <FieldLabel htmlFor='userEmail' className='leading-5'>
-            Email address*
+            {t('auth.emailLabel')}
           </FieldLabel>
-          <Input type='email' id='userEmail' placeholder='Enter your email address' />
+          <Input type='email' id='userEmail' placeholder={t('auth.emailPlaceholder')} />
         </Field>
         {/* Password */}
         <Field className='w-full gap-2'>
           <FieldLabel htmlFor='password' className='leading-5'>
-            Password*
+            {t('auth.passwordLabel')}
           </FieldLabel>
           <InputGroup>
             <InputGroupInput id='password' type={isVisible ? 'text' : 'password'} placeholder='••••••••••••••••' />
@@ -45,7 +49,7 @@ const LoginForm = () => {
                 className='text-muted-foreground rounded-l-none hover:bg-transparent'
               >
                 {isVisible ? <EyeOffIcon /> : <EyeIcon />}
-                <span className='sr-only'>{isVisible ? 'Hide password' : 'Show password'}</span>
+                <span className='sr-only'>{isVisible ? t('common.hidePassword') : t('common.showPassword')}</span>
               </Button>
             </InputGroupAddon>
           </InputGroup>
@@ -56,16 +60,16 @@ const LoginForm = () => {
             <Checkbox id='rememberMe' />
             <FieldLabel htmlFor='rememberMe' className='text-muted-foreground'>
               {' '}
-              Remember Me
+              {t('auth.login.rememberMe')}
             </FieldLabel>
           </Field>
           <Link href='/pages/auth/forgot-password' className='text-base text-nowrap hover:underline'>
-            Forgot Password?
+            {t('auth.login.forgotPassword')}
           </Link>
         </div>
         <Field>
           <Button className='w-full' type='submit'>
-            Sign in to WordZen
+            {t('auth.login.submit')}
           </Button>
         </Field>
       </FieldGroup>

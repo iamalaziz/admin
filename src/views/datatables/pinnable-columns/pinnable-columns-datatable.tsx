@@ -1,7 +1,7 @@
 'use client'
 
 import type { CSSProperties } from 'react'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import type { Column, ColumnDef, SortingState } from '@tanstack/react-table'
 import { flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
@@ -12,6 +12,9 @@ import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
+import { useTranslation } from '@/lib/i18n'
+import type { TranslationKey } from '@/lib/i18n'
+
 export type Product = {
   productId: number
   productName: string
@@ -21,6 +24,8 @@ export type Product = {
   supplier: string
   discontinued: 'no' | 'yes'
 }
+
+type Translate = (key: TranslationKey, params?: Record<string, string | number>) => string
 
 const getPinningStyles = (column: Column<Product>): CSSProperties => {
   const isPinned = column.getIsPinned()
@@ -33,24 +38,25 @@ const getPinningStyles = (column: Column<Product>): CSSProperties => {
   }
 }
 
-export const columns: ColumnDef<Product>[] = [
+// A factory rather than a constant: the header labels have to be re-read when the language changes.
+export const getColumns = (t: Translate): ColumnDef<Product>[] => [
   {
-    header: 'Product Name',
+    header: t('datatable.columns.productName'),
     accessorKey: 'productName',
     cell: ({ row }) => <div className='font-medium'>{row.getValue('productName')}</div>
   },
   {
-    header: 'Category',
+    header: t('datatable.columns.category'),
     accessorKey: 'category',
     cell: ({ row }) => <div>{row.getValue('category')}</div>
   },
   {
-    header: 'Stock Quantity',
+    header: t('datatable.columns.stockQuantity'),
     accessorKey: 'stockQuantity',
     cell: ({ row }) => <div>{row.getValue('stockQuantity')}</div>
   },
   {
-    header: 'Price',
+    header: t('datatable.columns.price'),
     accessorKey: 'price',
     cell: ({ row }) => {
       const price = parseFloat(row.getValue('price'))
@@ -64,19 +70,22 @@ export const columns: ColumnDef<Product>[] = [
     }
   },
   {
-    header: 'Supplier',
+    header: t('datatable.columns.supplier'),
     accessorKey: 'supplier',
     cell: ({ row }) => <div>{row.getValue('supplier')}</div>
   },
   {
-    header: 'Discontinued',
+    header: t('datatable.columns.discontinued'),
     accessorKey: 'discontinued',
-    cell: ({ row }) => <div className='capitalize'>{row.getValue('discontinued')}</div>
+    cell: ({ row }) => <div>{t(`datatable.discontinuedValues.${row.getValue('discontinued') as 'yes' | 'no'}`)}</div>
   }
 ]
 
 const DataTablePinnableColumns = ({ data }: { data: Product[] }) => {
+  const { t } = useTranslation()
   const [sorting, setSorting] = useState<SortingState>([])
+
+  const columns = useMemo(() => getColumns(t), [t])
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
@@ -103,6 +112,7 @@ const DataTablePinnableColumns = ({ data }: { data: Product[] }) => {
                   const isPinned = column.getIsPinned()
                   const isLastLeftPinned = isPinned === 'left' && column.getIsLastColumn('left')
                   const isFirstRightPinned = isPinned === 'right' && column.getIsFirstColumn('right')
+                  const columnLabel = typeof column.columnDef.header === 'string' ? column.columnDef.header : ''
 
                   return (
                     <TableHead
@@ -128,8 +138,8 @@ const DataTablePinnableColumns = ({ data }: { data: Product[] }) => {
                               variant='ghost'
                               className='-mr-1 size-7'
                               onClick={() => header.column.pin(false)}
-                              aria-label={`Unpin ${header.column.columnDef.header as string} column`}
-                              title={`Unpin ${header.column.columnDef.header as string} column`}
+                              aria-label={t('datatable.unpinColumn', { column: columnLabel })}
+                              title={t('datatable.unpinColumn', { column: columnLabel })}
                             >
                               <PinOffIcon className='opacity-60' aria-hidden='true' />
                             </Button>
@@ -141,8 +151,8 @@ const DataTablePinnableColumns = ({ data }: { data: Product[] }) => {
                                     size='icon'
                                     variant='ghost'
                                     className='-mr-1 size-7'
-                                    aria-label={`Pin options for ${header.column.columnDef.header as string} column`}
-                                    title={`Pin options for ${header.column.columnDef.header as string} column`}
+                                    aria-label={t('datatable.pinOptions', { column: columnLabel })}
+                                    title={t('datatable.pinOptions', { column: columnLabel })}
                                   >
                                     <EllipsisIcon className='opacity-60' aria-hidden='true' />
                                   </Button>
@@ -151,11 +161,11 @@ const DataTablePinnableColumns = ({ data }: { data: Product[] }) => {
                               <DropdownMenuContent align='end' className='w-35'>
                                 <DropdownMenuItem onClick={() => header.column.pin('left')}>
                                   <ArrowLeftFromLineIcon size={16} className='opacity-60' aria-hidden='true' />
-                                  Stick to left
+                                  {t('datatable.stickToLeft')}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onClick={() => header.column.pin('right')}>
                                   <ArrowRightFromLineIcon size={16} className='opacity-60' aria-hidden='true' />
-                                  Stick to right
+                                  {t('datatable.stickToRight')}
                                 </DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
@@ -194,7 +204,7 @@ const DataTablePinnableColumns = ({ data }: { data: Product[] }) => {
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className='h-24 text-center'>
-                  No results.
+                  {t('common.noResults')}
                 </TableCell>
               </TableRow>
             )}

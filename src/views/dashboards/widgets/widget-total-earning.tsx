@@ -14,7 +14,11 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Progress } from '@/components/ui/progress'
 
-const listItems = ['Share', 'Update', 'Refresh']
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+import type { TranslationKey } from '@/lib/i18n'
+
+const MENU_ITEM_KEYS: TranslationKey[] = ['common.share', 'common.update', 'common.refresh']
 
 type Props = {
   title: string
@@ -33,6 +37,8 @@ type Props = {
 }
 
 const TotalEarningCard = ({ earningData, title, earning, trend, percentage, comparisonText, className }: Props) => {
+  const { t } = useTranslation()
+
   return (
     <Card className={className}>
       <CardContent className='flex flex-col gap-6'>
@@ -43,12 +49,12 @@ const TotalEarningCard = ({ earningData, title, earning, trend, percentage, comp
               render={<Button variant='ghost' size='icon' className='text-muted-foreground size-6 rounded-full' />}
             >
               <EllipsisVerticalIcon />
-              <span className='sr-only'>Menu</span>
+              <span className='sr-only'>{t('common.menu')}</span>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end'>
               <DropdownMenuGroup>
-                {listItems.map((item, index) => (
-                  <DropdownMenuItem key={index}>{item}</DropdownMenuItem>
+                {MENU_ITEM_KEYS.map(key => (
+                  <DropdownMenuItem key={key}>{t(key)}</DropdownMenuItem>
                 ))}
               </DropdownMenuGroup>
             </DropdownMenuContent>

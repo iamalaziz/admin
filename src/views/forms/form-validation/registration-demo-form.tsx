@@ -18,34 +18,48 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 
-// Define the form schema
-const formSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters.'),
-  phone: z
-    .string()
-    .min(1, 'Phone is required')
-    .regex(/^\+?[0-9()\-\s]{8,20}$/, 'Please enter a valid phone number.'),
-  company: z.string().min(2, 'Company name must be at least 2 characters.'),
-  email: z.string().min(1, 'Email is required').email({ message: 'Please enter a valid email address.' }),
-  orderId: z.string().min(3, 'Order ID is required.'),
-  issue: z.string().min(1, {
-    message: 'Kindly select an issue.'
-  }),
-  department: z.string().min(1, {
-    message: 'Kindly select a department.'
-  }),
-  priority: z.string().min(1, {
-    message: 'Kindly select a priority.'
-  }),
-  selectedOption: z.enum(['replace', 'refund', 'support'], {
-    required_error: 'Selection of an option is required.'
-  }),
-  message: z.string().min(50, 'Describe your issue using at least 50 characters.')
-})
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+import type { TranslationKey } from '@/lib/i18n'
 
-type FormValues = z.infer<typeof formSchema>
+type Translate = (key: TranslationKey, params?: Record<string, string | number>) => string
+
+// Built from `t` so the validation messages follow the active language.
+const buildFormSchema = (t: Translate) =>
+  z.object({
+    name: z.string().min(2, t('forms.validation.errors.nameMin')),
+    phone: z
+      .string()
+      .min(1, t('forms.validation.errors.phoneRequired'))
+      .regex(/^\+?[0-9()\-\s]{8,20}$/, t('forms.validation.errors.phoneInvalid')),
+    company: z.string().min(2, t('forms.validation.errors.companyMin')),
+    email: z
+      .string()
+      .min(1, t('forms.validation.errors.emailRequired'))
+      .email({ message: t('forms.validation.errors.emailInvalid') }),
+    orderId: z.string().min(3, t('forms.validation.errors.orderIdRequired')),
+    issue: z.string().min(1, {
+      message: t('forms.validation.errors.issueRequired')
+    }),
+    department: z.string().min(1, {
+      message: t('forms.validation.errors.departmentRequired')
+    }),
+    priority: z.string().min(1, {
+      message: t('forms.validation.errors.priorityRequired')
+    }),
+    selectedOption: z.enum(['replace', 'refund', 'support'], {
+      required_error: t('forms.validation.errors.optionRequired')
+    }),
+    message: z.string().min(50, t('forms.validation.errors.messageMin'))
+  })
+
+type FormValues = z.infer<ReturnType<typeof buildFormSchema>>
 
 const ContactUSFormDemo = () => {
+  const { t } = useTranslation()
+
+  const formSchema = React.useMemo(() => buildFormSchema(t), [t])
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -66,7 +80,7 @@ const ContactUSFormDemo = () => {
     toast.custom(() => (
       <Alert className='border-green-600 text-green-600 sm:w-122 dark:border-green-400 dark:text-green-400 *:[svg]:row-span-1'>
         <CheckCheckIcon />
-        <AlertTitle>Issue submitted successfully! Our team will reach out to you shortly.</AlertTitle>
+        <AlertTitle>{t('forms.validation.submittedToast')}</AlertTitle>
       </Alert>
     ))
   }
@@ -74,8 +88,8 @@ const ContactUSFormDemo = () => {
   return (
     <Card className='w-full shadow-none'>
       <CardHeader>
-        <CardTitle>Report Issue</CardTitle>
-        <CardDescription>Describe the issue you&apos;re facing; our team will help you.</CardDescription>
+        <CardTitle>{t('forms.validation.reportIssue')}</CardTitle>
+        <CardDescription>{t('forms.validation.reportIssueDescription')}</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)} className='grid w-full grid-cols-1 gap-6 md:grid-cols-2'>
@@ -84,12 +98,12 @@ const ContactUSFormDemo = () => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor={field.name}>Name</FieldLabel>
+                <FieldLabel htmlFor={field.name}>{t('forms.fields.name')}</FieldLabel>
                 <Input
                   {...field}
                   id={field.name}
                   aria-invalid={fieldState.invalid}
-                  placeholder='Your full name'
+                  placeholder={t('forms.validation.namePlaceholder')}
                   autoComplete='name'
                 />
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -102,13 +116,13 @@ const ContactUSFormDemo = () => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor={field.name}>Phone</FieldLabel>
+                <FieldLabel htmlFor={field.name}>{t('forms.fields.phone')}</FieldLabel>
                 <Input
                   {...field}
                   id={field.name}
                   type='tel'
                   aria-invalid={fieldState.invalid}
-                  placeholder='Phone number'
+                  placeholder={t('forms.validation.phonePlaceholder')}
                   autoComplete='tel'
                 />
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -121,12 +135,12 @@ const ContactUSFormDemo = () => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor={field.name}>Company</FieldLabel>
+                <FieldLabel htmlFor={field.name}>{t('forms.fields.company')}</FieldLabel>
                 <Input
                   {...field}
                   id={field.name}
                   aria-invalid={fieldState.invalid}
-                  placeholder='Company name'
+                  placeholder={t('forms.validation.companyPlaceholder')}
                   autoComplete='organization'
                 />
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -140,13 +154,13 @@ const ContactUSFormDemo = () => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                <FieldLabel htmlFor={field.name}>{t('forms.fields.email')}</FieldLabel>
                 <Input
                   {...field}
                   id={field.name}
                   type='email'
                   aria-invalid={fieldState.invalid}
-                  placeholder='Email address'
+                  placeholder={t('forms.validation.emailPlaceholder')}
                   autoComplete='email'
                 />
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -159,8 +173,13 @@ const ContactUSFormDemo = () => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor={field.name}>Order ID</FieldLabel>
-                <Input {...field} id={field.name} aria-invalid={fieldState.invalid} placeholder='Order ID' />
+                <FieldLabel htmlFor={field.name}>{t('forms.validation.orderId')}</FieldLabel>
+                <Input
+                  {...field}
+                  id={field.name}
+                  aria-invalid={fieldState.invalid}
+                  placeholder={t('forms.validation.orderIdPlaceholder')}
+                />
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
               </Field>
             )}
@@ -172,16 +191,16 @@ const ContactUSFormDemo = () => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor='issue'>Issue</FieldLabel>
+                <FieldLabel htmlFor='issue'>{t('forms.validation.issue')}</FieldLabel>
                 <Select name={field.name} value={field.value} onValueChange={field.onChange}>
                   <SelectTrigger id='issue' className='w-full' aria-invalid={fieldState.invalid}>
-                    <SelectValue placeholder='Issue you are facing' />
+                    <SelectValue placeholder={t('forms.validation.issuePlaceholder')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value='damaged'>Product is Damaged</SelectItem>
-                    <SelectItem value='got-different'>Received wrong product</SelectItem>
-                    <SelectItem value='not-like'>Not as expectation</SelectItem>
-                    <SelectItem value='other'>Other</SelectItem>
+                    <SelectItem value='damaged'>{t('forms.validation.issueOptions.damaged')}</SelectItem>
+                    <SelectItem value='got-different'>{t('forms.validation.issueOptions.got-different')}</SelectItem>
+                    <SelectItem value='not-like'>{t('forms.validation.issueOptions.not-like')}</SelectItem>
+                    <SelectItem value='other'>{t('forms.validation.issueOptions.other')}</SelectItem>
                   </SelectContent>
                 </Select>
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -194,16 +213,16 @@ const ContactUSFormDemo = () => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor='department'>Department</FieldLabel>
+                <FieldLabel htmlFor='department'>{t('forms.validation.department')}</FieldLabel>
                 <Select name={field.name} value={field.value} onValueChange={field.onChange}>
                   <SelectTrigger id='department' className='w-full' aria-invalid={fieldState.invalid}>
-                    <SelectValue placeholder='Select department' />
+                    <SelectValue placeholder={t('forms.validation.departmentPlaceholder')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value='sales'>Sales</SelectItem>
-                    <SelectItem value='billing'>Billing</SelectItem>
-                    <SelectItem value='returns'>Returns</SelectItem>
-                    <SelectItem value='technical'>Technical Support</SelectItem>
+                    <SelectItem value='sales'>{t('forms.validation.departmentOptions.sales')}</SelectItem>
+                    <SelectItem value='billing'>{t('forms.validation.departmentOptions.billing')}</SelectItem>
+                    <SelectItem value='returns'>{t('forms.validation.departmentOptions.returns')}</SelectItem>
+                    <SelectItem value='technical'>{t('forms.validation.departmentOptions.technical')}</SelectItem>
                   </SelectContent>
                 </Select>
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -216,16 +235,16 @@ const ContactUSFormDemo = () => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor='priority'>Priority</FieldLabel>
+                <FieldLabel htmlFor='priority'>{t('forms.validation.priority')}</FieldLabel>
                 <Select name={field.name} value={field.value} onValueChange={field.onChange}>
                   <SelectTrigger id='priority' className='w-full' aria-invalid={fieldState.invalid}>
-                    <SelectValue placeholder='Select priority' />
+                    <SelectValue placeholder={t('forms.validation.priorityPlaceholder')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value='low'>Low</SelectItem>
-                    <SelectItem value='medium'>Medium</SelectItem>
-                    <SelectItem value='high'>High</SelectItem>
-                    <SelectItem value='urgent'>Urgent</SelectItem>
+                    <SelectItem value='low'>{t('forms.validation.priorityOptions.low')}</SelectItem>
+                    <SelectItem value='medium'>{t('forms.validation.priorityOptions.medium')}</SelectItem>
+                    <SelectItem value='high'>{t('forms.validation.priorityOptions.high')}</SelectItem>
+                    <SelectItem value='urgent'>{t('forms.validation.priorityOptions.urgent')}</SelectItem>
                   </SelectContent>
                 </Select>
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -239,24 +258,24 @@ const ContactUSFormDemo = () => {
             control={form.control}
             render={({ field, fieldState }) => (
               <FieldSet className='md:col-span-2'>
-                <FieldLegend variant='label'>How can we help you?</FieldLegend>
+                <FieldLegend variant='label'>{t('forms.validation.howCanWeHelp')}</FieldLegend>
                 <RadioGroup name={field.name} value={field.value ?? ''} onValueChange={field.onChange}>
                   <Field orientation='horizontal' data-invalid={fieldState.invalid}>
                     <RadioGroupItem value='replace' id='want-replace' aria-invalid={fieldState.invalid} />
                     <FieldLabel htmlFor='want-replace' className='font-normal'>
-                      Need a product replacement
+                      {t('forms.validation.optionReplace')}
                     </FieldLabel>
                   </Field>
                   <Field orientation='horizontal' data-invalid={fieldState.invalid}>
                     <RadioGroupItem value='refund' id='want-refund' aria-invalid={fieldState.invalid} />
                     <FieldLabel htmlFor='want-refund' className='font-normal'>
-                      Need a refund
+                      {t('forms.validation.optionRefund')}
                     </FieldLabel>
                   </Field>
                   <Field orientation='horizontal' data-invalid={fieldState.invalid}>
                     <RadioGroupItem value='support' id='want-support' aria-invalid={fieldState.invalid} />
                     <FieldLabel htmlFor='want-support' className='font-normal'>
-                      Need guidance or support
+                      {t('forms.validation.optionSupport')}
                     </FieldLabel>
                   </Field>
                 </RadioGroup>
@@ -271,12 +290,12 @@ const ContactUSFormDemo = () => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid} className='md:col-span-2'>
-                <FieldLabel htmlFor={field.name}>Please describe your issue</FieldLabel>
+                <FieldLabel htmlFor={field.name}>{t('forms.validation.describeIssue')}</FieldLabel>
                 <Textarea
                   {...field}
                   id={field.name}
                   aria-invalid={fieldState.invalid}
-                  placeholder='Provide detailed information about your issue'
+                  placeholder={t('forms.validation.describeIssuePlaceholder')}
                   className='min-h-30 resize-none'
                 />
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -285,7 +304,7 @@ const ContactUSFormDemo = () => {
           />
 
           <Button type='submit' className='md:col-span-2 md:w-fit'>
-            Submit
+            {t('common.submit')}
           </Button>
         </form>
       </CardContent>

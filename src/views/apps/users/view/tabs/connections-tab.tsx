@@ -22,6 +22,10 @@ import { Switch } from '@/components/ui/switch'
 // Util Imports
 import { cn } from '@/lib/utils'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+import type { TranslationKey } from '@/lib/i18n'
+
 interface BrandItem {
   image?: string
   icon?: string
@@ -30,7 +34,7 @@ interface BrandItem {
 interface ConnectedIntegration extends BrandItem {
   id: string
   name: string
-  description: string
+  descriptionKey: TranslationKey
   enabled?: boolean
 }
 
@@ -52,35 +56,35 @@ const CONNECTED_INTEGRATIONS: ConnectedIntegration[] = [
   {
     id: 'google',
     name: 'Google',
-    description: 'Calendar and contacts',
+    descriptionKey: 'users.connections.integrations.googleDescription',
     image: '/images/brands/google-icon.webp',
     enabled: true
   },
   {
     id: 'slack',
     name: 'Slack',
-    description: 'Communication',
+    descriptionKey: 'users.connections.integrations.slackDescription',
     image: '/images/brands/slack-icon.webp',
     enabled: false
   },
   {
     id: 'github',
     name: 'Github',
-    description: 'Manage your Git repository',
+    descriptionKey: 'users.connections.integrations.githubDescription',
     image: '/images/brands/github-white.webp',
     enabled: true
   },
   {
     id: 'mailchimp',
     name: 'Mailchimp',
-    description: 'Email marketing service',
+    descriptionKey: 'users.connections.integrations.mailchimpDescription',
     image: '/images/brands/mailchimp-icon.webp',
     enabled: false
   },
   {
     id: 'asana',
     name: 'Asana',
-    description: 'Communication',
+    descriptionKey: 'users.connections.integrations.asanaDescription',
     image: '/images/brands/asana-icon-circle.webp',
     enabled: false
   }
@@ -115,6 +119,8 @@ export interface ConnectionsTabProps {
 }
 
 export function ConnectionsTab({ user }: ConnectionsTabProps) {
+  const { t } = useTranslation()
+
   const [integrationToggles, setIntegrationToggles] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(CONNECTED_INTEGRATIONS.map(integration => [integration.id, integration.enabled ?? false]))
   )
@@ -125,8 +131,8 @@ export function ConnectionsTab({ user }: ConnectionsTabProps) {
     <div className='space-y-6'>
       <Card className='gap-0 py-0'>
         <CardHeader className='border-b px-6 py-4!'>
-          <CardTitle className='text-base'>Connected Accounts</CardTitle>
-          <p className='text-muted-foreground text-sm'>Display content from your connected accounts on your site</p>
+          <CardTitle className='text-base'>{t('users.connections.connectedAccounts')}</CardTitle>
+          <p className='text-muted-foreground text-sm'>{t('users.connections.connectedAccountsDescription')}</p>
         </CardHeader>
         <CardContent className='px-0 pb-0'>
           <div className='divide-y'>
@@ -136,13 +142,13 @@ export function ConnectionsTab({ user }: ConnectionsTabProps) {
                   <BrandAvatar item={integration} alt={integration.name} />
                   <div className='min-w-0'>
                     <p className='font-medium'>{integration.name}</p>
-                    <p className='text-muted-foreground text-sm'>{integration.description}</p>
+                    <p className='text-muted-foreground text-sm'>{t(integration.descriptionKey)}</p>
                   </div>
                 </div>
                 <Switch
                   checked={integrationToggles[integration.id] ?? false}
                   onCheckedChange={value => setIntegrationToggles(prev => ({ ...prev, [integration.id]: value }))}
-                  aria-label={`Toggle ${integration.name}`}
+                  aria-label={t('users.connections.toggle', { name: integration.name })}
                 />
               </div>
             ))}
@@ -152,8 +158,8 @@ export function ConnectionsTab({ user }: ConnectionsTabProps) {
 
       <Card className='gap-0 py-0'>
         <CardHeader className='border-b px-6 py-4!'>
-          <CardTitle className='text-base'>Social Accounts</CardTitle>
-          <p className='text-muted-foreground text-sm'>Display content from social accounts on your site</p>
+          <CardTitle className='text-base'>{t('users.connections.socialAccounts')}</CardTitle>
+          <p className='text-muted-foreground text-sm'>{t('users.connections.socialAccountsDescription')}</p>
         </CardHeader>
         <CardContent className='px-0 pb-0'>
           <div className='divide-y'>
@@ -177,7 +183,7 @@ export function ConnectionsTab({ user }: ConnectionsTabProps) {
                           {getSocialHandle(linkedAccount.url)}
                         </a>
                       ) : (
-                        <p className='text-muted-foreground text-sm'>Not Connected</p>
+                        <p className='text-muted-foreground text-sm'>{t('users.connections.notConnected')}</p>
                       )}
                     </div>
                   </div>
@@ -190,7 +196,11 @@ export function ConnectionsTab({ user }: ConnectionsTabProps) {
                         ? 'bg-destructive/10 text-destructive hover:bg-destructive/15 hover:text-destructive'
                         : 'bg-muted text-muted-foreground hover:bg-muted/80'
                     )}
-                    aria-label={isConnected ? `Disconnect ${account.label}` : `Connect ${account.label}`}
+                    aria-label={
+                      isConnected
+                        ? t('users.connections.disconnect', { name: account.label })
+                        : t('users.connections.connect', { name: account.label })
+                    }
                   >
                     {isConnected ? <Trash2Icon className='size-4.5' /> : <LinkIcon className='size-4.5' />}
                   </Button>

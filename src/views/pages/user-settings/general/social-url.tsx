@@ -10,7 +10,11 @@ import { PlusIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const SocialUrl = () => {
+  const { t } = useTranslation()
   const [urls, setUrls] = useState<string[]>(['', '', ''])
 
   const addUrl = () => setUrls(prev => [...prev, ''])
@@ -21,8 +25,8 @@ const SocialUrl = () => {
     <div className='grid grid-cols-1 gap-10 lg:grid-cols-3'>
       {/* Vertical Tabs List */}
       <div className='flex flex-col'>
-        <h3 className='text-base font-semibold'>Social URLs</h3>
-        <p className='text-muted-foreground text-sm'>Manage your social URLs.</p>
+        <h3 className='text-base font-semibold'>{t('settings.socialUrls.title')}</h3>
+        <p className='text-muted-foreground text-sm'>{t('settings.socialUrls.description')}</p>
       </div>
 
       {/* Content */}
@@ -32,7 +36,7 @@ const SocialUrl = () => {
             <Input
               key={idx}
               type='text'
-              placeholder='Link to social profile'
+              placeholder={t('settings.socialUrls.placeholder')}
               value={url}
               onChange={e => updateUrl(idx, e.target.value)}
             />
@@ -41,9 +45,9 @@ const SocialUrl = () => {
         <div className='flex items-center justify-between gap-4'>
           <Button type='button' variant='outline' onClick={addUrl}>
             <PlusIcon className='size-4' />
-            Add URL
+            {t('settings.socialUrls.addUrl')}
           </Button>
-          <Button type='submit'>Save Changes</Button>
+          <Button type='submit'>{t('common.saveChanges')}</Button>
         </div>
       </div>
     </div>

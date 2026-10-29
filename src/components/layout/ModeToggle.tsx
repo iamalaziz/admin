@@ -7,8 +7,12 @@ import { MoonStarIcon, SunIcon } from 'lucide-react'
 // Component Imports
 import { Button } from '@/components/ui/button'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const ModeToggle = () => {
   const { setTheme, resolvedTheme } = useTheme()
+  const { t } = useTranslation()
 
   const handleModeChange = () => {
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
@@ -18,7 +22,7 @@ const ModeToggle = () => {
     <Button variant='ghost' size='icon' className='relative' onClick={handleModeChange}>
       <MoonStarIcon className='scale-100 dark:scale-0' />
       <SunIcon className='absolute scale-0 dark:scale-100' />
-      <span className='sr-only'>Toggle theme</span>
+      <span className='sr-only'>{t('chrome.toggleTheme')}</span>
     </Button>
   )
 }

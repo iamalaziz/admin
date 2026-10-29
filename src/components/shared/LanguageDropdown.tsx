@@ -1,8 +1,11 @@
 'use client'
 
-import { useState } from 'react'
 import type { ReactElement } from 'react'
 
+// Config Imports
+import { LANGUAGE_LABELS, UI_LANGUAGES, type UILanguage } from '@/configs/i18nConfig'
+
+// Component Imports
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +14,9 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 type Props = {
   trigger: ReactElement
   defaultOpen?: boolean
@@ -18,18 +24,18 @@ type Props = {
 }
 
 const LanguageDropdown = ({ defaultOpen, align, trigger }: Props) => {
-  const [language, setLanguage] = useState('english')
+  const { language, setLanguage } = useTranslation()
 
   return (
     <DropdownMenu defaultOpen={defaultOpen}>
       <DropdownMenuTrigger render={trigger} />
       <DropdownMenuContent className='w-50' align={align || 'end'}>
-        <DropdownMenuRadioGroup value={language} onValueChange={setLanguage}>
-          <DropdownMenuRadioItem value='english'>English</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value='german'>Deutsch</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value='spanish'>Española</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value='portuguese'>Português</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value='korean'>한국인</DropdownMenuRadioItem>
+        <DropdownMenuRadioGroup value={language} onValueChange={value => setLanguage(value as UILanguage)}>
+          {UI_LANGUAGES.map(code => (
+            <DropdownMenuRadioItem key={code} value={code}>
+              {LANGUAGE_LABELS[code]}
+            </DropdownMenuRadioItem>
+          ))}
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>

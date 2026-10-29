@@ -41,10 +41,16 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 // Config Imports
-import { getInitialsFromName } from '@/configs/mailConfig'
+import { getInitialsFromName } from '@/lib/utils'
 
 // Util Imports
 import { cn } from '@/lib/utils'
+
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+import type { TranslationKey } from '@/lib/i18n'
+
+type Translate = (key: TranslationKey, params?: Record<string, string | number>) => string
 
 const ROLE_ICONS: Record<UserRole, ReactNode> = {
   Admin: <UserRoundIcon className='size-4 text-green-600 dark:text-green-400' />,
@@ -65,19 +71,21 @@ const STATUS_STYLES: Record<UserStatus, string> = {
     'bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive'
 }
 
-const formatBilling = (billing: UserBilling): string => {
+const formatBilling = (billing: UserBilling, t: Translate): string => {
   if (billing === 'Auto Debit') {
-    return 'Auto debit'
+    return t('users.billingMethods.autoDebit')
   }
 
   if (billing === 'Credit Card') {
-    return 'Credit Card'
+    return t('users.billingMethods.creditCard')
   }
 
-  return 'Manual - PayPal'
+  return t('users.billingMethods.manualPaypal')
 }
 
 function UserRowActions({ user }: { user: AppUser }) {
+  const { t } = useTranslation()
+
   return (
     <div className='flex items-center gap-1'>
       <Tooltip>
@@ -86,7 +94,7 @@ function UserRowActions({ user }: { user: AppUser }) {
             <Button
               variant='ghost'
               size='icon'
-              aria-label='View user'
+              aria-label={t('users.rowActions.viewUser')}
               render={<Link href='/apps/users/view' />}
               nativeButton={false}
             />
@@ -95,46 +103,48 @@ function UserRowActions({ user }: { user: AppUser }) {
           <EyeIcon className='size-4.5' />
         </TooltipTrigger>
         <TooltipContent>
-          <p>View</p>
+          <p>{t('common.view')}</p>
         </TooltipContent>
       </Tooltip>
 
       <Tooltip>
-        <TooltipTrigger render={<Button variant='ghost' size='icon' aria-label='Delete user' />}>
+        <TooltipTrigger render={<Button variant='ghost' size='icon' aria-label={t('users.rowActions.deleteUser')} />}>
           <Trash2Icon className='size-4.5' />
         </TooltipTrigger>
         <TooltipContent>
-          <p>Delete</p>
+          <p>{t('common.delete')}</p>
         </TooltipContent>
       </Tooltip>
 
       <DropdownMenu>
-        <DropdownMenuTrigger render={<Button size='icon' variant='ghost' aria-label='Open actions' />}>
+        <DropdownMenuTrigger
+          render={<Button size='icon' variant='ghost' aria-label={t('users.rowActions.openActions')} />}
+        >
           <EllipsisVerticalIcon className='size-4.5' aria-hidden='true' />
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
           <DropdownMenuGroup>
             <DropdownMenuItem>
               <PencilIcon className='size-4' />
-              Edit User
+              {t('users.rowActions.editUser')}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             {user.status !== 'Suspended' ? (
               <DropdownMenuItem>
                 <UserXIcon className='size-4' />
-                Suspend
+                {t('users.rowActions.suspend')}
               </DropdownMenuItem>
             ) : null}
             {user.status !== 'Active' ? (
               <DropdownMenuItem>
                 <UserCheckIcon className='size-4' />
-                Activate
+                {t('users.rowActions.activate')}
               </DropdownMenuItem>
             ) : null}
             <DropdownMenuSeparator />
             <DropdownMenuItem variant='destructive'>
               <Trash2Icon className='size-4' />
-              Delete
+              {t('common.delete')}
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
@@ -143,10 +153,11 @@ function UserRowActions({ user }: { user: AppUser }) {
   )
 }
 
-export const userTableColumns: ColumnDef<AppUser>[] = [
+// A factory rather than a constant: the header labels have to be re-read when the language changes.
+export const getUserTableColumns = (t: Translate): ColumnDef<AppUser>[] => [
   {
     id: 'user',
-    header: 'User',
+    header: t('users.columns.user'),
     accessorKey: 'name',
     cell: ({ row }) => (
       <div className='flex items-center gap-2'>
@@ -165,7 +176,7 @@ export const userTableColumns: ColumnDef<AppUser>[] = [
   },
   {
     id: 'role',
-    header: 'Role',
+    header: t('users.columns.role'),
     accessorKey: 'role',
     cell: ({ row }) => {
       const role = row.original.role
@@ -173,7 +184,7 @@ export const userTableColumns: ColumnDef<AppUser>[] = [
       return (
         <div className='flex items-center gap-2'>
           {ROLE_ICONS[role]}
-          <span className='capitalize'>{role}</span>
+          <span>{t(`users.roles.${role}`)}</span>
         </div>
       )
     },
@@ -181,30 +192,28 @@ export const userTableColumns: ColumnDef<AppUser>[] = [
   },
   {
     id: 'plan',
-    header: 'Plan',
+    header: t('users.columns.plan'),
     accessorKey: 'plan',
-    cell: ({ row }) => <span className='text-muted-foreground'>{row.original.plan}</span>,
+    cell: ({ row }) => <span className='text-muted-foreground'>{t(`users.plans.${row.original.plan}`)}</span>,
     enableSorting: true
   },
   {
     id: 'billing',
-    header: 'Billing',
+    header: t('users.columns.billing'),
     accessorKey: 'billing',
-    cell: ({ row }) => <span className='text-muted-foreground'>{formatBilling(row.original.billing)}</span>,
+    cell: ({ row }) => <span className='text-muted-foreground'>{formatBilling(row.original.billing, t)}</span>,
     enableSorting: true
   },
   {
     id: 'status',
-    header: 'Status',
+    header: t('users.columns.status'),
     accessorKey: 'status',
     cell: ({ row }) => {
       const status = row.original.status
 
       return (
-        <Badge
-          className={cn('h-auto rounded-sm border-none capitalize focus-visible:outline-none', STATUS_STYLES[status])}
-        >
-          {status}
+        <Badge className={cn('h-auto rounded-sm border-none focus-visible:outline-none', STATUS_STYLES[status])}>
+          {t(`users.statuses.${status}`)}
         </Badge>
       )
     },
@@ -212,14 +221,14 @@ export const userTableColumns: ColumnDef<AppUser>[] = [
   },
   {
     id: 'joinedDate',
-    header: 'Joined Date',
+    header: t('users.columns.joinedDate'),
     accessorKey: 'joinedDate',
     cell: ({ row }) => <span>{format(new Date(row.original.joinedDate), 'dd MMM yyyy')}</span>,
     enableSorting: true
   },
   {
     id: 'actions',
-    header: () => 'Actions',
+    header: () => t('common.actions'),
     cell: ({ row }) => <UserRowActions user={row.original} />,
     enableHiding: false,
     enableSorting: false

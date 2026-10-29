@@ -1,5 +1,8 @@
 'use client'
 
+// React Imports
+import { useMemo } from 'react'
+
 // Third-party Imports
 import type { SortingState, Updater } from '@tanstack/react-table'
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
@@ -13,7 +16,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 
 // Util Imports
 import { cn } from '@/lib/utils'
-import { userTableColumns } from './user-table-columns'
+import { useTranslation } from '@/lib/i18n'
+import { getUserTableColumns } from './user-table-columns'
 
 export interface UserTableProps {
   paginatedUsers: AppUser[]
@@ -23,7 +27,10 @@ export interface UserTableProps {
 }
 
 export function UserTable({ paginatedUsers, totalPages, sorting, onSortingChange }: UserTableProps) {
+  const { t } = useTranslation()
   const sortingState: SortingState = sorting ? [sorting] : []
+
+  const columns = useMemo(() => getUserTableColumns(t), [t])
 
   const handleSortingChange = (updater: Updater<SortingState>) => {
     const nextSorting = typeof updater === 'function' ? updater(sortingState) : updater
@@ -43,7 +50,7 @@ export function UserTable({ paginatedUsers, totalPages, sorting, onSortingChange
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data: paginatedUsers,
-    columns: userTableColumns,
+    columns,
     manualPagination: true,
     manualFiltering: true,
     manualSorting: true,
@@ -111,8 +118,8 @@ export function UserTable({ paginatedUsers, totalPages, sorting, onSortingChange
           ))
         ) : (
           <TableRow>
-            <TableCell colSpan={userTableColumns.length} className='h-24 text-center'>
-              No results.
+            <TableCell colSpan={columns.length} className='h-24 text-center'>
+              {t('common.noResults')}
             </TableCell>
           </TableRow>
         )}

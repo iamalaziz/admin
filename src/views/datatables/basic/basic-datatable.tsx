@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from '@tanstack/react-table'
 import {
@@ -15,6 +15,9 @@ import {
 import { Checkbox } from '@/components/ui/checkbox'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
+import { useTranslation } from '@/lib/i18n'
+import type { TranslationKey } from '@/lib/i18n'
+
 export type Payment = {
   id: string
   name: string
@@ -23,7 +26,10 @@ export type Payment = {
   email: string
 }
 
-export const columns: ColumnDef<Payment>[] = [
+type Translate = (key: TranslationKey, params?: Record<string, string | number>) => string
+
+// A factory rather than a constant: the header labels have to be re-read when the language changes.
+export const getColumns = (t: Translate): ColumnDef<Payment>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -31,14 +37,14 @@ export const columns: ColumnDef<Payment>[] = [
         checked={table.getIsAllPageRowsSelected()}
         indeterminate={table.getIsSomePageRowsSelected()}
         onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
-        aria-label='Select all'
+        aria-label={t('datatable.selectAll')}
       />
     ),
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={value => row.toggleSelected(!!value)}
-        aria-label='Select row'
+        aria-label={t('datatable.selectRow')}
       />
     ),
     enableSorting: false,
@@ -46,22 +52,22 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: 'name',
-    header: 'Name',
+    header: t('datatable.columns.name'),
     cell: ({ row }) => <div className='font-medium'>{row.getValue('name')}</div>
   },
   {
     accessorKey: 'status',
-    header: 'Status',
-    cell: ({ row }) => <div className='capitalize'>{row.getValue('status')}</div>
+    header: t('datatable.columns.status'),
+    cell: ({ row }) => <div>{t(`datatable.paymentStatus.${row.getValue('status') as Payment['status']}`)}</div>
   },
   {
     accessorKey: 'email',
-    header: 'Email',
+    header: t('datatable.columns.email'),
     cell: ({ row }) => <div className='lowercase'>{row.getValue('email')}</div>
   },
   {
     accessorKey: 'amount',
-    header: () => <div className='text-right'>Amount</div>,
+    header: () => <div className='text-right'>{t('datatable.columns.amount')}</div>,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue('amount'))
 
@@ -76,10 +82,13 @@ export const columns: ColumnDef<Payment>[] = [
 ]
 
 const DataTableDemo = ({ data }: { data: Payment[] }) => {
+  const { t } = useTranslation()
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
+
+  const columns = useMemo(() => getColumns(t), [t])
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
@@ -129,7 +138,7 @@ const DataTableDemo = ({ data }: { data: Payment[] }) => {
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className='h-24 text-center'>
-                No results.
+                {t('common.noResults')}
               </TableCell>
             </TableRow>
           )}

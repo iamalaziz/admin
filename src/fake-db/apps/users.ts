@@ -1,7 +1,7 @@
 // Type Imports
 import type { AppUser } from '@/types/apps/user-types'
 
-type UserViewProfileData = Pick<AppUser, 'twoFactorEnabled' | 'recentDevices' | 'notificationSettings'>
+type UserViewProfileData = Pick<AppUser, 'twoFactorEnabled' | 'recentDevices'>
 
 function createUserViewProfile(userIndex: number, country: string): UserViewProfileData {
   const browsers = ['Chrome on Windows', 'Safari on macOS', 'Firefox on Linux', 'Edge on Windows', 'Chrome on Android']
@@ -32,40 +32,6 @@ function createUserViewProfile(userIndex: number, country: string): UserViewProf
         device: devices[(offset + 3) % devices.length],
         location: country,
         lastActive: `${4 + (offset % 3)} days ago`
-      }
-    ],
-    notificationSettings: [
-      {
-        id: 'new-for-you',
-        title: 'New for you',
-        description: 'Email when someone follows you or mentions you.',
-        email: true,
-        browser: offset % 2 === 0,
-        app: userIndex % 2 === 0
-      },
-      {
-        id: 'account-activity',
-        title: 'Account activity',
-        description: 'Email when your account has new activity or security alerts.',
-        email: true,
-        browser: true,
-        app: offset % 3 !== 0
-      },
-      {
-        id: 'browser-login',
-        title: 'A new browser used to sign in',
-        description: 'Email when a new browser is used to sign in.',
-        email: userIndex % 4 !== 0,
-        browser: true,
-        app: true
-      },
-      {
-        id: 'new-device',
-        title: 'A new device is linked',
-        description: 'Email when a new device is linked to your account.',
-        email: true,
-        browser: offset % 3 === 0,
-        app: false
       }
     ]
   }
@@ -197,59 +163,6 @@ export const users: AppUser[] = [
         teamExtraCount: 2,
         progress: 66,
         updatedAt: 'Updated 4 days ago'
-      }
-    ],
-    activityLog: [
-      {
-        id: 'act-001',
-        description: '12 Invoices have been paid',
-        detail: 'Invoices have been paid to the company',
-        timestamp: '12 min ago',
-        attachment: {
-          name: 'invoice.pdf',
-          fileType: 'pdf'
-        }
-      },
-      {
-        id: 'act-002',
-        description: 'Client Meeting',
-        detail: 'Project meeting with john @10:15am',
-        timestamp: '45 min ago',
-        person: {
-          name: 'Lester McCarthy (Client)',
-          role: 'CEO of Pixinvent',
-          avatar: '/images/avatars/avatar-9.webp',
-          initials: 'LM'
-        }
-      },
-      {
-        id: 'act-003',
-        description: 'Create a new project for client',
-        detail: '6 team members in a project',
-        timestamp: '2 Day Ago',
-        teamMembers: [
-          {
-            name: 'John Doe',
-            initials: 'JD',
-            avatar: '/images/avatars/avatar-10.webp'
-          },
-          {
-            name: 'Anna Richard',
-            initials: 'AR',
-            avatar: '/images/avatars/avatar-11.webp'
-          },
-          {
-            name: 'Bob Carter',
-            initials: 'BC',
-            avatar: '/images/avatars/avatar-12.webp'
-          }
-        ],
-        teamExtraCount: 3
-      },
-      {
-        id: 'act-004',
-        description: 'Order of the New Hand Bag',
-        timestamp: '5 Day Ago'
       }
     ],
     billingPlan: {
@@ -451,60 +364,6 @@ export const users: AppUser[] = [
         teamExtraCount: 3,
         progress: 84,
         updatedAt: 'Updated 6 days ago'
-      }
-    ],
-    activityLog: [
-      {
-        id: 'act-005',
-        description: '11 Invoices have been paid',
-        detail: 'Invoices have been paid to the company',
-        timestamp: '12 min ago',
-        attachment: {
-          name: 'invoice.pdf',
-          fileType: 'pdf'
-        }
-      },
-      {
-        id: 'act-006',
-        description: 'Client Meeting',
-        detail: 'Project meeting with sarah @10:15am',
-        timestamp: '45 min ago',
-        person: {
-          name: 'Lester McCarthy (Client)',
-          role: 'CEO of Pixinvent',
-          avatar: '/images/avatars/avatar-7.webp',
-          initials: 'LM'
-        }
-      },
-      {
-        id: 'act-007',
-        description: 'Create a new project for client',
-        detail: '6 team members in a project',
-        timestamp: '2 Day Ago',
-        teamMembers: [
-          {
-            name: 'John Doe',
-            initials: 'JD',
-            avatar: '/images/avatars/avatar-8.webp'
-          },
-          {
-            name: 'Anna Richard',
-            initials: 'AR',
-            avatar: '/images/avatars/avatar-9.webp'
-          },
-          {
-            name: 'Bob Carter',
-            initials: 'BC',
-            avatar: '/images/avatars/avatar-10.webp'
-          }
-        ],
-        teamExtraCount: 3
-      },
-      {
-        id: 'act-008',
-        description: 'Weekly report submitted',
-        detail: 'Q2 performance summary sent to stakeholders',
-        timestamp: '3 Day Ago'
       }
     ],
     billingPlan: {
@@ -736,59 +595,6 @@ export const users: AppUser[] = [
         teamExtraCount: 4,
         progress: 52,
         updatedAt: 'Updated 1 days ago'
-      }
-    ],
-    activityLog: [
-      {
-        id: 'act-009',
-        description: '12 Invoices have been paid',
-        detail: 'Invoices have been paid to the company',
-        timestamp: '12 min ago',
-        attachment: {
-          name: 'invoice.pdf',
-          fileType: 'pdf'
-        }
-      },
-      {
-        id: 'act-010',
-        description: 'Client Meeting',
-        detail: 'Project meeting with alex @10:15am',
-        timestamp: '45 min ago',
-        person: {
-          name: 'Lester McCarthy (Client)',
-          role: 'CEO of Pixinvent',
-          avatar: '/images/avatars/avatar-7.webp',
-          initials: 'LM'
-        }
-      },
-      {
-        id: 'act-011',
-        description: 'Create a new project for client',
-        detail: '6 team members in a project',
-        timestamp: '2 Day Ago',
-        teamMembers: [
-          {
-            name: 'John Doe',
-            initials: 'JD',
-            avatar: '/images/avatars/avatar-8.webp'
-          },
-          {
-            name: 'Anna Richard',
-            initials: 'AR',
-            avatar: '/images/avatars/avatar-9.webp'
-          },
-          {
-            name: 'Bob Carter',
-            initials: 'BC',
-            avatar: '/images/avatars/avatar-10.webp'
-          }
-        ],
-        teamExtraCount: 3
-      },
-      {
-        id: 'act-012',
-        description: 'Order of the New Hand Bag',
-        timestamp: '5 Day Ago'
       }
     ],
     billingPlan: {
@@ -1056,60 +862,6 @@ export const users: AppUser[] = [
         updatedAt: 'Updated 3 days ago'
       }
     ],
-    activityLog: [
-      {
-        id: 'act-013',
-        description: '13 Invoices have been paid',
-        detail: 'Invoices have been paid to the company',
-        timestamp: '12 min ago',
-        attachment: {
-          name: 'invoice.pdf',
-          fileType: 'pdf'
-        }
-      },
-      {
-        id: 'act-014',
-        description: 'Client Meeting',
-        detail: 'Project meeting with maria @10:15am',
-        timestamp: '45 min ago',
-        person: {
-          name: 'Lester McCarthy (Client)',
-          role: 'CEO of Pixinvent',
-          avatar: '/images/avatars/avatar-9.webp',
-          initials: 'LM'
-        }
-      },
-      {
-        id: 'act-015',
-        description: 'Create a new project for client',
-        detail: '6 team members in a project',
-        timestamp: '2 Day Ago',
-        teamMembers: [
-          {
-            name: 'John Doe',
-            initials: 'JD',
-            avatar: '/images/avatars/avatar-10.webp'
-          },
-          {
-            name: 'Anna Richard',
-            initials: 'AR',
-            avatar: '/images/avatars/avatar-11.webp'
-          },
-          {
-            name: 'Bob Carter',
-            initials: 'BC',
-            avatar: '/images/avatars/avatar-12.webp'
-          }
-        ],
-        teamExtraCount: 3
-      },
-      {
-        id: 'act-016',
-        description: 'Weekly report submitted',
-        detail: 'Q2 performance summary sent to stakeholders',
-        timestamp: '3 Day Ago'
-      }
-    ],
     billingPlan: {
       name: 'Basic',
       price: 99,
@@ -1286,59 +1038,6 @@ export const users: AppUser[] = [
         teamExtraCount: 2,
         progress: 60,
         updatedAt: 'Updated 1 days ago'
-      }
-    ],
-    activityLog: [
-      {
-        id: 'act-017',
-        description: '14 Invoices have been paid',
-        detail: 'Invoices have been paid to the company',
-        timestamp: '12 min ago',
-        attachment: {
-          name: 'invoice.pdf',
-          fileType: 'pdf'
-        }
-      },
-      {
-        id: 'act-018',
-        description: 'Client Meeting',
-        detail: 'Project meeting with john @10:15am',
-        timestamp: '45 min ago',
-        person: {
-          name: 'Lester McCarthy (Client)',
-          role: 'CEO of Pixinvent',
-          avatar: '/images/avatars/avatar-5.webp',
-          initials: 'LM'
-        }
-      },
-      {
-        id: 'act-019',
-        description: 'Create a new project for client',
-        detail: '6 team members in a project',
-        timestamp: '2 Day Ago',
-        teamMembers: [
-          {
-            name: 'John Doe',
-            initials: 'JD',
-            avatar: '/images/avatars/avatar-6.webp'
-          },
-          {
-            name: 'Anna Richard',
-            initials: 'AR',
-            avatar: '/images/avatars/avatar-7.webp'
-          },
-          {
-            name: 'Bob Carter',
-            initials: 'BC',
-            avatar: '/images/avatars/avatar-8.webp'
-          }
-        ],
-        teamExtraCount: 3
-      },
-      {
-        id: 'act-020',
-        description: 'Order of the New Hand Bag',
-        timestamp: '5 Day Ago'
       }
     ],
     billingPlan: {
@@ -1547,60 +1246,6 @@ export const users: AppUser[] = [
         teamExtraCount: 3,
         progress: 78,
         updatedAt: 'Updated 3 days ago'
-      }
-    ],
-    activityLog: [
-      {
-        id: 'act-021',
-        description: '15 Invoices have been paid',
-        detail: 'Invoices have been paid to the company',
-        timestamp: '12 min ago',
-        attachment: {
-          name: 'invoice.pdf',
-          fileType: 'pdf'
-        }
-      },
-      {
-        id: 'act-022',
-        description: 'Client Meeting',
-        detail: 'Project meeting with sarah @10:15am',
-        timestamp: '45 min ago',
-        person: {
-          name: 'Lester McCarthy (Client)',
-          role: 'CEO of Pixinvent',
-          avatar: '/images/avatars/avatar-2.webp',
-          initials: 'LM'
-        }
-      },
-      {
-        id: 'act-023',
-        description: 'Create a new project for client',
-        detail: '6 team members in a project',
-        timestamp: '2 Day Ago',
-        teamMembers: [
-          {
-            name: 'John Doe',
-            initials: 'JD',
-            avatar: '/images/avatars/avatar-3.webp'
-          },
-          {
-            name: 'Anna Richard',
-            initials: 'AR',
-            avatar: '/images/avatars/avatar-4.webp'
-          },
-          {
-            name: 'Bob Carter',
-            initials: 'BC',
-            avatar: '/images/avatars/avatar-5.webp'
-          }
-        ],
-        teamExtraCount: 3
-      },
-      {
-        id: 'act-024',
-        description: 'Weekly report submitted',
-        detail: 'Q2 performance summary sent to stakeholders',
-        timestamp: '3 Day Ago'
       }
     ],
     billingPlan: {
@@ -1839,59 +1484,6 @@ export const users: AppUser[] = [
         teamExtraCount: 4,
         progress: 46,
         updatedAt: 'Updated 5 days ago'
-      }
-    ],
-    activityLog: [
-      {
-        id: 'act-025',
-        description: '16 Invoices have been paid',
-        detail: 'Invoices have been paid to the company',
-        timestamp: '12 min ago',
-        attachment: {
-          name: 'invoice.pdf',
-          fileType: 'pdf'
-        }
-      },
-      {
-        id: 'act-026',
-        description: 'Client Meeting',
-        detail: 'Project meeting with alex @10:15am',
-        timestamp: '45 min ago',
-        person: {
-          name: 'Lester McCarthy (Client)',
-          role: 'CEO of Pixinvent',
-          avatar: '/images/avatars/avatar-2.webp',
-          initials: 'LM'
-        }
-      },
-      {
-        id: 'act-027',
-        description: 'Create a new project for client',
-        detail: '6 team members in a project',
-        timestamp: '2 Day Ago',
-        teamMembers: [
-          {
-            name: 'John Doe',
-            initials: 'JD',
-            avatar: '/images/avatars/avatar-3.webp'
-          },
-          {
-            name: 'Anna Richard',
-            initials: 'AR',
-            avatar: '/images/avatars/avatar-4.webp'
-          },
-          {
-            name: 'Bob Carter',
-            initials: 'BC',
-            avatar: '/images/avatars/avatar-5.webp'
-          }
-        ],
-        teamExtraCount: 3
-      },
-      {
-        id: 'act-028',
-        description: 'Order of the New Hand Bag',
-        timestamp: '5 Day Ago'
       }
     ],
     billingPlan: {
@@ -2141,60 +1733,6 @@ export const users: AppUser[] = [
         updatedAt: 'Updated 7 days ago'
       }
     ],
-    activityLog: [
-      {
-        id: 'act-029',
-        description: '17 Invoices have been paid',
-        detail: 'Invoices have been paid to the company',
-        timestamp: '12 min ago',
-        attachment: {
-          name: 'invoice.pdf',
-          fileType: 'pdf'
-        }
-      },
-      {
-        id: 'act-030',
-        description: 'Client Meeting',
-        detail: 'Project meeting with maria @10:15am',
-        timestamp: '45 min ago',
-        person: {
-          name: 'Lester McCarthy (Client)',
-          role: 'CEO of Pixinvent',
-          avatar: '/images/avatars/avatar-3.webp',
-          initials: 'LM'
-        }
-      },
-      {
-        id: 'act-031',
-        description: 'Create a new project for client',
-        detail: '6 team members in a project',
-        timestamp: '2 Day Ago',
-        teamMembers: [
-          {
-            name: 'John Doe',
-            initials: 'JD',
-            avatar: '/images/avatars/avatar-4.webp'
-          },
-          {
-            name: 'Anna Richard',
-            initials: 'AR',
-            avatar: '/images/avatars/avatar-5.webp'
-          },
-          {
-            name: 'Bob Carter',
-            initials: 'BC',
-            avatar: '/images/avatars/avatar-6.webp'
-          }
-        ],
-        teamExtraCount: 3
-      },
-      {
-        id: 'act-032',
-        description: 'Weekly report submitted',
-        detail: 'Q2 performance summary sent to stakeholders',
-        timestamp: '3 Day Ago'
-      }
-    ],
     billingPlan: {
       name: 'Basic',
       price: 99,
@@ -2378,59 +1916,6 @@ export const users: AppUser[] = [
         teamExtraCount: 2,
         progress: 54,
         updatedAt: 'Updated 5 days ago'
-      }
-    ],
-    activityLog: [
-      {
-        id: 'act-033',
-        description: '18 Invoices have been paid',
-        detail: 'Invoices have been paid to the company',
-        timestamp: '12 min ago',
-        attachment: {
-          name: 'invoice.pdf',
-          fileType: 'pdf'
-        }
-      },
-      {
-        id: 'act-034',
-        description: 'Client Meeting',
-        detail: 'Project meeting with john @10:15am',
-        timestamp: '45 min ago',
-        person: {
-          name: 'Lester McCarthy (Client)',
-          role: 'CEO of Pixinvent',
-          avatar: '/images/avatars/avatar-19.webp',
-          initials: 'LM'
-        }
-      },
-      {
-        id: 'act-035',
-        description: 'Create a new project for client',
-        detail: '6 team members in a project',
-        timestamp: '2 Day Ago',
-        teamMembers: [
-          {
-            name: 'John Doe',
-            initials: 'JD',
-            avatar: '/images/avatars/avatar-20.webp'
-          },
-          {
-            name: 'Anna Richard',
-            initials: 'AR',
-            avatar: '/images/avatars/avatar-1.webp'
-          },
-          {
-            name: 'Bob Carter',
-            initials: 'BC',
-            avatar: '/images/avatars/avatar-2.webp'
-          }
-        ],
-        teamExtraCount: 3
-      },
-      {
-        id: 'act-036',
-        description: 'Order of the New Hand Bag',
-        timestamp: '5 Day Ago'
       }
     ],
     billingPlan: {
@@ -2650,60 +2135,6 @@ export const users: AppUser[] = [
         teamExtraCount: 3,
         progress: 72,
         updatedAt: 'Updated 7 days ago'
-      }
-    ],
-    activityLog: [
-      {
-        id: 'act-037',
-        description: '19 Invoices have been paid',
-        detail: 'Invoices have been paid to the company',
-        timestamp: '12 min ago',
-        attachment: {
-          name: 'invoice.pdf',
-          fileType: 'pdf'
-        }
-      },
-      {
-        id: 'act-038',
-        description: 'Client Meeting',
-        detail: 'Project meeting with sarah @10:15am',
-        timestamp: '45 min ago',
-        person: {
-          name: 'Lester McCarthy (Client)',
-          role: 'CEO of Pixinvent',
-          avatar: '/images/avatars/avatar-17.webp',
-          initials: 'LM'
-        }
-      },
-      {
-        id: 'act-039',
-        description: 'Create a new project for client',
-        detail: '6 team members in a project',
-        timestamp: '2 Day Ago',
-        teamMembers: [
-          {
-            name: 'John Doe',
-            initials: 'JD',
-            avatar: '/images/avatars/avatar-18.webp'
-          },
-          {
-            name: 'Anna Richard',
-            initials: 'AR',
-            avatar: '/images/avatars/avatar-19.webp'
-          },
-          {
-            name: 'Bob Carter',
-            initials: 'BC',
-            avatar: '/images/avatars/avatar-20.webp'
-          }
-        ],
-        teamExtraCount: 3
-      },
-      {
-        id: 'act-040',
-        description: 'Weekly report submitted',
-        detail: 'Q2 performance summary sent to stakeholders',
-        timestamp: '3 Day Ago'
       }
     ],
     billingPlan: {

@@ -1,3 +1,5 @@
+'use client'
+
 // Next Imports
 import Link from 'next/link'
 
@@ -13,7 +15,12 @@ import ResetPasswordForm from '@/views/pages/auth/reset-password/reset-password-
 // SVG Imports
 import AuthBackgroundShape from '@/assets/svg/auth-background-shape'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const ResetPassword = () => {
+  const { t } = useTranslation()
+
   return (
     <div className='relative flex h-auto min-h-screen items-center justify-center overflow-x-hidden px-4 py-10 sm:px-6 lg:px-8'>
       <div className='absolute'>
@@ -27,10 +34,8 @@ const ResetPassword = () => {
           </Link>
 
           <div>
-            <CardTitle className='mb-2 text-2xl font-semibold'>Reset Password</CardTitle>
-            <CardDescription className='text-base'>
-              Please enter your current password and choose a new password to update your account security.
-            </CardDescription>
+            <CardTitle className='mb-2 text-2xl font-semibold'>{t('auth.resetPassword.title')}</CardTitle>
+            <CardDescription className='text-base'>{t('auth.resetPassword.description')}</CardDescription>
           </div>
         </CardHeader>
 
@@ -45,7 +50,7 @@ const ResetPassword = () => {
             nativeButton={false}
           >
             <ChevronLeftIcon className='size-5 transition-transform duration-200 group-hover:-translate-x-0.5' />
-            Back to login
+            {t('auth.backToLogin')}
           </Button>
         </CardContent>
       </Card>

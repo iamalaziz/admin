@@ -14,6 +14,9 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/in
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100]
 
 const ROWS_PER_PAGE_ITEMS = ROWS_PER_PAGE_OPTIONS.map(option => ({
@@ -29,11 +32,13 @@ export interface UserTableToolbarProps {
 }
 
 export function UserTableToolbar({ search, rowsPerPage, onSearch, onRowsPerPageChange }: UserTableToolbarProps) {
+  const { t } = useTranslation()
+
   return (
     <div className='flex gap-4 p-6 max-sm:flex-col sm:items-center sm:justify-between'>
       <div className='w-full max-w-2xs'>
         <Label htmlFor='search-user' className='sr-only'>
-          Search User
+          {t('users.toolbar.searchLabel')}
         </Label>
         <InputGroup>
           <InputGroupAddon>
@@ -43,7 +48,7 @@ export function UserTableToolbar({ search, rowsPerPage, onSearch, onRowsPerPageC
             id='search-user'
             value={search}
             onChange={event => onSearch(event.target.value)}
-            placeholder='Search user'
+            placeholder={t('users.toolbar.searchPlaceholder')}
             type='text'
           />
         </InputGroup>
@@ -52,7 +57,7 @@ export function UserTableToolbar({ search, rowsPerPage, onSearch, onRowsPerPageC
       <div className='flex flex-wrap items-center gap-2 sm:justify-between'>
         <div className='flex items-center gap-2'>
           <Label htmlFor='rows-per-page' className='sr-only'>
-            Show
+            {t('users.toolbar.showLabel')}
           </Label>
           <Select
             items={ROWS_PER_PAGE_ITEMS}
@@ -85,33 +90,33 @@ export function UserTableToolbar({ search, rowsPerPage, onSearch, onRowsPerPageC
             }
           >
             <UploadIcon />
-            <span className='max-lg:hidden'>Export</span>
+            <span className='max-lg:hidden'>{t('users.toolbar.export')}</span>
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end' className='w-auto'>
             <DropdownMenuItem>
               <FileTextIcon className='size-4' />
-              Export as CSV
+              {t('users.toolbar.exportCsv')}
             </DropdownMenuItem>
             <DropdownMenuItem>
               <FileSpreadsheetIcon className='size-4' />
-              Export as Excel
+              {t('users.toolbar.exportExcel')}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <FileTextIcon className='size-4' />
-              Export as JSON
+              {t('users.toolbar.exportJson')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
         <Button variant='outline'>
           <DownloadIcon className='size-4' />
-          <span className='max-lg:hidden'>Import</span>
+          <span className='max-lg:hidden'>{t('users.toolbar.import')}</span>
         </Button>
 
         <Button>
           <PlusIcon />
-          <span className='max-lg:hidden'>Add New User</span>
+          <span className='max-lg:hidden'>{t('users.toolbar.addNewUser')}</span>
         </Button>
       </div>
     </div>

@@ -29,6 +29,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 // Util Imports
 import { cn } from '@/lib/utils'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const PROJECT_PROGRESS_COLORS = [
   '**:data-[slot=progress-indicator]:bg-chart-1',
   '**:data-[slot=progress-indicator]:bg-chart-2',
@@ -109,6 +112,7 @@ export function ProjectsDatatable({
   onSearchChange,
   onPageChange
 }: ProjectsDatatableProps) {
+  const { t } = useTranslation()
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
 
   const allSelected = projects.length > 0 && projects.every(project => selectedIds.has(project.id))
@@ -152,16 +156,16 @@ export function ProjectsDatatable({
     <div className='w-full'>
       <div className='border-b'>
         <div className='flex min-h-17 flex-wrap items-center justify-between gap-3 px-4 py-3'>
-          <span className='text-lg font-medium'>Projects List</span>
+          <span className='text-lg font-medium'>{t('users.projects.title')}</span>
           <div>
             <Label htmlFor='search-projects' className='sr-only'>
-              Search projects
+              {t('users.projects.searchLabel')}
             </Label>
             <Input
               id='search-projects'
               value={search}
               onChange={event => handleSearchChange(event.target.value)}
-              placeholder='Search project'
+              placeholder={t('users.projects.searchPlaceholder')}
               type='text'
             />
           </div>
@@ -175,21 +179,21 @@ export function ProjectsDatatable({
                   checked={allSelected}
                   indeterminate={someSelected}
                   onCheckedChange={value => handleSelectAll(!!value)}
-                  aria-label='Select all projects'
+                  aria-label={t('users.projects.selectAll')}
                 />
               </TableHead>
-              <TableHead className='text-muted-foreground'>Project</TableHead>
-              <TableHead className='text-muted-foreground'>Leader</TableHead>
-              <TableHead className='text-muted-foreground'>Team</TableHead>
-              <TableHead className='text-muted-foreground'>Progress</TableHead>
-              <TableHead className='text-muted-foreground w-12 px-4 text-right'>Action</TableHead>
+              <TableHead className='text-muted-foreground'>{t('users.projects.project')}</TableHead>
+              <TableHead className='text-muted-foreground'>{t('users.projects.leader')}</TableHead>
+              <TableHead className='text-muted-foreground'>{t('users.projects.team')}</TableHead>
+              <TableHead className='text-muted-foreground'>{t('users.projects.progress')}</TableHead>
+              <TableHead className='text-muted-foreground w-12 px-4 text-right'>{t('users.projects.action')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {projects.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} className='text-center'>
-                  No projects found
+                  {t('users.projects.none')}
                 </TableCell>
               </TableRow>
             ) : (
@@ -199,7 +203,7 @@ export function ProjectsDatatable({
                     <Checkbox
                       checked={selectedIds.has(project.id)}
                       onCheckedChange={value => handleSelectRow(project.id, !!value)}
-                      aria-label={`Select ${project.name}`}
+                      aria-label={t('users.projects.selectOne', { name: project.name })}
                     />
                   </TableCell>
                   <TableCell>
@@ -235,14 +239,16 @@ export function ProjectsDatatable({
                   </TableCell>
                   <TableCell className='px-4 text-right'>
                     <DropdownMenu>
-                      <DropdownMenuTrigger render={<Button variant='ghost' size='icon' aria-label='Project actions' />}>
+                      <DropdownMenuTrigger
+                        render={<Button variant='ghost' size='icon' aria-label={t('users.projects.rowActions')} />}
+                      >
                         <EllipsisVerticalIcon />
-                        <span className='sr-only'>Menu</span>
+                        <span className='sr-only'>{t('common.menu')}</span>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align='end'>
                         <DropdownMenuGroup>
-                          <DropdownMenuItem>View</DropdownMenuItem>
-                          <DropdownMenuItem>Edit</DropdownMenuItem>
+                          <DropdownMenuItem>{t('common.view')}</DropdownMenuItem>
+                          <DropdownMenuItem>{t('common.edit')}</DropdownMenuItem>
                         </DropdownMenuGroup>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -257,7 +263,7 @@ export function ProjectsDatatable({
       {totalProjects > 0 && (
         <div className='flex items-center justify-between gap-3 px-6 py-4 max-sm:flex-col md:max-lg:flex-col'>
           <p className='text-muted-foreground text-sm whitespace-nowrap' aria-live='polite'>
-            Showing <span>{showingFrom}</span> to <span>{showingTo}</span> of <span>{totalProjects}</span> entries
+            {t('users.showingEntries', { from: showingFrom, to: showingTo, total: totalProjects })}
           </p>
 
           <div>
@@ -269,10 +275,10 @@ export function ProjectsDatatable({
                     variant='ghost'
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage <= 1}
-                    aria-label='Go to previous page'
+                    aria-label={t('common.goToPreviousPage')}
                   >
                     <ChevronLeftIcon aria-hidden='true' />
-                    Previous
+                    {t('common.previous')}
                   </Button>
                 </PaginationItem>
 
@@ -311,9 +317,9 @@ export function ProjectsDatatable({
                     variant='ghost'
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage >= totalPages}
-                    aria-label='Go to next page'
+                    aria-label={t('common.goToNextPage')}
                   >
-                    Next
+                    {t('common.next')}
                     <ChevronRightIcon aria-hidden='true' />
                   </Button>
                 </PaginationItem>

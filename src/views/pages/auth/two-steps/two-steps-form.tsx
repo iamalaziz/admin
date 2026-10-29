@@ -5,16 +5,21 @@ import { Button } from '@/components/ui/button'
 import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
 
+// Hook Imports
+import { useTranslation } from '@/lib/i18n'
+
 const TwoStepsV1Form = () => {
+  const { t } = useTranslation()
+
   return (
     <form onSubmit={e => e.preventDefault()}>
       <FieldGroup className='gap-4'>
         <Field className='gap-4'>
           <div className='flex items-center justify-between gap-1'>
             <FieldLabel htmlFor='recoveryCode' className='text-base'>
-              Code*
+              {t('auth.twoSteps.codeLabel')}
             </FieldLabel>
-            <span className='text-base font-medium'>Use a recovery code</span>
+            <span className='text-base font-medium'>{t('auth.twoSteps.useRecoveryCode')}</span>
           </div>
 
           <InputOTP id='recoveryCode' maxLength={6}>
@@ -31,7 +36,7 @@ const TwoStepsV1Form = () => {
 
         <Field>
           <Button size='lg' className='w-full' type='submit'>
-            Sign in to WordZen
+            {t('auth.twoSteps.submit')}
           </Button>
         </Field>
       </FieldGroup>
