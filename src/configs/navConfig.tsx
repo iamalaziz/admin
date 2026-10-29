@@ -57,6 +57,16 @@ export const navItems: NavItem[] = [
         href: '/manage/courses'
       },
       {
+        icon: 'Tags',
+        labelKey: 'nav.manageCategories',
+        href: '/manage/categories'
+      },
+      {
+        icon: 'Trophy',
+        labelKey: 'nav.manageAchievements',
+        href: '/manage/achievements'
+      },
+      {
         icon: 'UsersRound',
         labelKey: 'nav.manageUsers',
         href: '/manage/users'

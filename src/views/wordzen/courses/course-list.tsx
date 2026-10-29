@@ -11,11 +11,12 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { useCourseCategories } from '@/hooks/wordzen/use-category-list'
 import type { CourseSortColumn } from '@/hooks/wordzen/use-course-list'
 import { useCourseList } from '@/hooks/wordzen/use-course-list'
 import { useTranslation } from '@/lib/i18n'
 import type { Course, CoursePayload } from '@/types/wordzen/content-types'
-import { COURSE_ACCESS_CODES, COURSE_CATEGORIES } from '@/types/wordzen/content-types'
+import { COURSE_ACCESS_CODES } from '@/types/wordzen/content-types'
 
 import { DataTable } from '../shared/data-table'
 import { AccessBadge, ConfirmDialog, PublishedBadge, StatCards, Timestamp } from '../shared/primitives'
@@ -25,6 +26,7 @@ import { CourseFormSheet } from './course-form-sheet'
 export function CourseList() {
   const { t } = useTranslation()
   const list = useCourseList()
+  const categories = useCourseCategories()
 
   const [formOpen, setFormOpen] = useState(false)
   const [editing, setEditing] = useState<Course | null>(null)
@@ -197,7 +199,7 @@ export function CourseList() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value='all'>{t('manage.filters.allCategories')}</SelectItem>
-                    {COURSE_CATEGORIES.map(category => (
+                    {categories.map(category => (
                       <SelectItem key={category.code} value={category.code}>
                         {category.code} - {category.name}
                       </SelectItem>

@@ -13,15 +13,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
+import { useCourseCategories } from '@/hooks/wordzen/use-category-list'
 import { useTranslation } from '@/lib/i18n'
 import type { Translate } from '@/lib/i18n'
-import type { Course, CoursePayload } from '@/types/wordzen/content-types'
-import {
-  COURSE_ACCESS_CODES,
-  COURSE_CATEGORIES,
-  COURSE_CATEGORY_CODES,
-  LOCALE_CODES
-} from '@/types/wordzen/content-types'
+import type { Course, CourseCategory, CoursePayload } from '@/types/wordzen/content-types'
+import { COURSE_ACCESS_CODES, COURSE_CATEGORY_CODES, LOCALE_CODES } from '@/types/wordzen/content-types'
 
 import { RepeaterEmpty, RepeaterHeader, RepeaterRow } from '../shared/repeater'
 
@@ -54,14 +50,15 @@ const createCourseFormSchema = (t: Translate) =>
 
 type CourseFormValues = z.infer<ReturnType<typeof createCourseFormSchema>>
 
-const emptyValues: CourseFormValues = {
+/** Takes the live categories so a new course opens on the first one that actually exists. */
+const emptyValues = (categories: CourseCategory[]): CourseFormValues => ({
   title: '',
-  category: 'A1',
+  category: categories[0]?.code ?? COURSE_CATEGORY_CODES[0],
   accessCode: 'FREE',
   isPublic: false,
   cover: '',
   descriptions: []
-}
+})
 
 const toFormValues = (course: Course): CourseFormValues => ({
   title: course.title,
@@ -86,13 +83,14 @@ export interface CourseFormSheetProps {
 
 export function CourseFormSheet({ open, course, onOpenChange, onSubmit }: CourseFormSheetProps) {
   const { t } = useTranslation()
+  const categories = useCourseCategories()
   const isEdit = course !== null
 
   const schema = useMemo(() => createCourseFormSchema(t), [t])
 
   const form = useForm<CourseFormValues>({
     resolver: zodResolver(schema),
-    defaultValues: emptyValues
+    defaultValues: emptyValues(categories)
   })
 
   const descriptions = useFieldArray({ control: form.control, name: 'descriptions' })
@@ -102,8 +100,8 @@ export function CourseFormSheet({ open, course, onOpenChange, onSubmit }: Course
       return
     }
 
-    form.reset(course ? toFormValues(course) : emptyValues)
-  }, [course, form, open])
+    form.reset(course ? toFormValues(course) : emptyValues(categories))
+  }, [categories, course, form, open])
 
   // useWatch rather than form.watch: the latter returns a fresh function each render, which
   // React Compiler refuses to memoize.
@@ -167,13 +165,16 @@ export function CourseFormSheet({ open, course, onOpenChange, onSubmit }: Course
                         <SelectValue placeholder={t('manage.courseForm.categoryPlaceholder')} />
                       </SelectTrigger>
                       <SelectContent>
-                        {COURSE_CATEGORIES.map(category => (
+                        {categories.map(category => (
                           <SelectItem key={category.code} value={category.code}>
                             {category.code} - {category.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
+                    {categories.length === 0 ? (
+                      <FieldDescription>{t('manage.courseForm.noCategories')}</FieldDescription>
+                    ) : null}
                     {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
                   </Field>
                 )}

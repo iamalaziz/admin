@@ -27,8 +27,11 @@ call leaves the browser yet.**
 | `/manage/courses`            | Course list: search, filter by category/access/state, reorder, create, edit, delete    |
 | `/manage/courses/[courseId]` | One course — its fields and descriptions per locale, plus its module list              |
 | `/manage/modules/[moduleId]` | One module — its cards (term, image, translations, samples) and phrase cards           |
+| `/manage/categories`         | Category catalogue: rename a category, add one on a free code, delete an unused one    |
+| `/manage/achievements`       | Achievement catalogue: search, filter by group/state, reorder, create, edit, delete    |
+| `/manage/achievements/[code]` | One achievement — its fields, its condition and the learners holding it               |
 | `/manage/users`              | User list: search by username/email/uid, filter by status/role/plan, block and unblock |
-| `/manage/users/[uid]`        | One user — account, status, subscription and role grants                               |
+| `/manage/users/[uid]`        | One user — account, status, subscription, role grants and achievement grants           |
 
 Types live in `src/types/wordzen/` and mirror the API field for field (`CourseRequest`,
 `ModuleRequest`, `CardRequest`, `PhraseCardRequest`, `UserStatusView`, …). The fixtures are in
@@ -37,6 +40,9 @@ Types live in `src/types/wordzen/` and mirror the API field for field (`CourseRe
 - `generate.ts` — faker-backed generators, seeded so the data is identical on every render and
   on both sides of hydration. 54 courses, 20–24 modules each, 30–36 cards per module, 220 users.
   Cards are generated per module on first read, because building all ~39k up front is wasteful.
+  The achievement catalogue is not faker-generated: it is `AchievementCatalog` copied row for
+  row, so the codes match the ones account-api seeds and the services award by. Only the
+  grants are generated, on a curve that decays along the catalogue.
 - `store.ts` — the mutable store. Its methods are named after the endpoints they stand in for,
   so swapping in a real client should be an implementation change, not a rewrite of call sites.
 
@@ -59,10 +65,11 @@ stack and the Swagger links):
 | --------------------------------------------------------------------------------- | -------------------- | -------------------------------------------- |
 | Course content — courses, modules, cards, phrase cards, uploads, image generation | learning-api (18084) | `/api/v1/manager/**`, requires `ROLE_AUTHOR` |
 | User moderation — status, block/unblock, cache eviction                           | learning-api (18084) | `/api/v1/admin/**`, requires `ROLE_ADMIN`    |
+| Achievements — catalogue, per-user grants                                        | account-api (18083)  | `/api/v1/achievements`, `/api/v1/users/**`   |
 
 Local admin user: `admin@local.test` / `Passw0rd!` (`author@local.test` for the manager role).
 
-Two gaps to close before the user tools can be wired up:
+Four gaps to close before the tools can be wired up:
 
 - **No admin user list.** `/api/v1/admin/**` only exposes per-user status
   (`GET /users/{uid}/status`, `PUT /users/{uid}/block`, `PUT /users/{uid}/unblock`). The closest
@@ -70,6 +77,20 @@ Two gaps to close before the user tools can be wired up:
   listing. `/manage/users` needs a real endpoint.
 - **No role endpoint.** Granting `ROLE_AUTHOR` or `ROLE_ADMIN` has no API behind it, so the
   toggles on the user page only change the fixture.
+- **No category endpoint.** `course_category` is seeded SQL and `CourseCategoryRepository` is
+  only ever read, so `/manage/categories` writes to the fixture alone. Its shape is also capped
+  by the schema: `code` is the `CourseCategoryCode` enum, so there is one row per code and nine
+  rows in total. With the seed loaded every code is taken, which leaves renaming as the only
+  move until a category is freed. Genuinely new categories need the enum column replaced by a
+  free-form unique string in learning-api first.
+- **No achievement catalogue endpoint, and no revoke.** account-api serves the catalogue and
+  the per-user reads (`GET /api/v1/achievements`, `GET /api/v1/users/{uid}/achievements/all`),
+  but the rows are seeded from `service/AchievementCatalog` by `AchievementCatalogSeeder` on
+  boot, so creating, editing, reordering, deactivating and deleting one only change the
+  fixture. Deleting a `user_achievements` row has no endpoint at all. Granting does —
+  `POST /api/v1/users/{uid}/achievements` — but it is guarded by the client-key scheme, for
+  the services that award achievements rather than for an admin JWT. A code invented in the
+  tool is also inert until `model/AchievementCode` lists it.
 
 Also note that deletes are permanent: `entity/Course` carries an `isDeleted` column, but
 `ManagerCourseDao.delete` hard-deletes and the soft-delete lines are commented out. The tools

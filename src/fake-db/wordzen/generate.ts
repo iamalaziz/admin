@@ -15,6 +15,7 @@ import { faker, fakerRU, fakerUZ_UZ_latin as fakerUZ } from '@faker-js/faker'
 import type {
   Card,
   Course,
+  CourseCategory,
   CourseCategoryCode,
   CourseDescription,
   LocaleCode,
@@ -24,7 +25,15 @@ import type {
   Sample,
   Translation
 } from '@/types/wordzen/content-types'
-import { COURSE_ACCESS_CODES, COURSE_CATEGORY_CODES, categoryByCode, LOCALE_CODES } from '@/types/wordzen/content-types'
+import {
+  COURSE_ACCESS_CODES,
+  COURSE_CATEGORY_CODES,
+  categoryByCode,
+  LOCALE_CODES,
+  SEED_COURSE_CATEGORIES
+} from '@/types/wordzen/content-types'
+import type { Achievement, AchievementGrant, AchievementGroupCode } from '@/types/wordzen/achievement-types'
+import { achievementGroupByCode } from '@/types/wordzen/achievement-types'
 import type { AdminUser, RoleCode, SubscriptionCode } from '@/types/wordzen/user-types'
 
 /** Fixed clock. Dates are relative to this, never to `Date.now()`, to stay reproducible. */
@@ -50,6 +59,7 @@ const USER_SEED = 220_022
 const moduleSeed = (courseId: number) => 330_000 + courseId
 const cardSeed = (moduleId: number) => 440_000 + moduleId
 const phraseCardSeed = (moduleId: number) => 550_000 + moduleId
+const grantSeed = (userId: number) => 660_000 + userId
 
 /** Module ids are `courseId * 100 + index`; a course never holds 100 modules. */
 const buildModuleId = (courseId: number, index: number) => courseId * 100 + index
@@ -141,6 +151,18 @@ export const generateAuthors = (): AuthorRef[] => {
 
   return authors
 }
+
+/* -------------------------------------------------------------------------- *
+ * Categories
+ * -------------------------------------------------------------------------- */
+
+/**
+ * `course_category` as the SQL seed holds it, copied so the store can edit the rows.
+ *
+ * Not faker-generated: the codes are a Java enum and the names are fixed, so the fixture
+ * is the seed itself.
+ */
+export const generateCategories = (): CourseCategory[] => SEED_COURSE_CATEGORIES.map(category => ({ ...category }))
 
 /* -------------------------------------------------------------------------- *
  * Courses
@@ -393,4 +415,212 @@ export const generateUsers = (authors: AuthorRef[]): AdminUser[] => {
   }
 
   return users
+}
+
+/* -------------------------------------------------------------------------- *
+ * Achievements
+ * -------------------------------------------------------------------------- */
+
+/**
+ * `AchievementCatalog.ACHIEVEMENTS`, copied: code, group, title, description and the
+ * `active` flag, in catalogue order. Not faker-generated — this is the list the Java
+ * seeder writes on boot, so a fixture that invented its own rows would be describing an
+ * app that does not exist.
+ */
+const SEED_ACHIEVEMENTS: readonly {
+  code: string
+  group: AchievementGroupCode
+  title: string
+  description: string
+  active: boolean
+}[] = [
+  { code: 'first_step', group: 'start', title: 'Первый шаг', description: 'Завершить первый юнит', active: true },
+  {
+    code: 'first_course',
+    group: 'start',
+    title: 'Первый курс',
+    description: 'Открыть первый юнит любого курса',
+    active: true
+  },
+  { code: 'first_test', group: 'start', title: 'Первый тест', description: 'Пройти любой тест до конца', active: true },
+  { code: 'first_game', group: 'start', title: 'Первая игра', description: 'Завершить любую игру', active: false },
+  {
+    code: 'first_pomodoro',
+    group: 'start',
+    title: 'Первое помодоро',
+    description: 'Завершить первую помодоро-сессию',
+    active: true
+  },
+  { code: 'ten_units', group: 'progress', title: 'Десять юнитов', description: '10 юнитов суммарно', active: true },
+  {
+    code: 'fifty_units',
+    group: 'progress',
+    title: 'Пятьдесят юнитов',
+    description: '50 юнитов суммарно',
+    active: true
+  },
+  { code: 'hundred_units', group: 'progress', title: 'Сто юнитов', description: '100 юнитов суммарно', active: true },
+  {
+    code: 'first_completed_course',
+    group: 'progress',
+    title: 'Первый завершённый курс',
+    description: 'Полностью пройти любой курс',
+    active: true
+  },
+  { code: 'five_courses', group: 'progress', title: 'Пять курсов', description: '5 курсов полностью', active: true },
+  { code: 'perfect_test', group: 'tests', title: 'Отличник', description: 'Тест 100%', active: true },
+  {
+    code: 'five_tests_over_80',
+    group: 'tests',
+    title: 'Стабильный результат',
+    description: '5 тестов подряд > 80%',
+    active: true
+  },
+  { code: 'five_tests_over_90', group: 'tests', title: 'Снайпер', description: '5 тестов подряд > 90%', active: true },
+  { code: 'twenty_tests', group: 'tests', title: 'Двадцать тестов', description: '20 тестов суммарно', active: true },
+  { code: 'hundred_tests', group: 'tests', title: 'Сто тестов', description: '100 тестов суммарно', active: true },
+  { code: 'five_games', group: 'games', title: 'Игровой старт', description: '5 игр суммарно', active: false },
+  {
+    code: 'twenty_five_games',
+    group: 'games',
+    title: 'Постоянный игрок',
+    description: '25 игр суммарно',
+    active: false
+  },
+  {
+    code: 'record_holder',
+    group: 'games',
+    title: 'Рекордсмен',
+    description: 'Побить рекорд 3 раза подряд',
+    active: false
+  },
+  {
+    code: 'all_game_modes',
+    group: 'games',
+    title: 'Все режимы',
+    description: 'Сыграть в каждый тип игры',
+    active: false
+  },
+  {
+    code: 'first_daily_task',
+    group: 'streak',
+    title: 'Первое задание',
+    description: 'Первое ежедневное задание',
+    active: true
+  },
+  { code: 'streak_7', group: 'streak', title: 'Неделя подряд', description: 'Streak 7 дней', active: true },
+  { code: 'streak_30', group: 'streak', title: 'Месяц подряд', description: 'Streak 30 дней', active: true },
+  { code: 'streak_60', group: 'streak', title: 'Два месяца подряд', description: 'Streak 60 дней', active: true },
+  { code: 'ten_pomodoro', group: 'pomodoro', title: 'Помодоро-практик', description: '10 сессий', active: true },
+  { code: 'fifty_pomodoro', group: 'pomodoro', title: 'Помодоро-фанат', description: '50 сессий', active: true },
+  {
+    code: 'three_pomodoro_day',
+    group: 'pomodoro',
+    title: 'Помодоро-марафон',
+    description: '3 сессии за один день',
+    active: true
+  },
+  { code: 'top_100', group: 'rating', title: 'В рейтинге', description: 'Топ-100', active: false },
+  { code: 'top_50', group: 'rating', title: 'Топ-50', description: 'Топ-50', active: false },
+  { code: 'top_10', group: 'rating', title: 'Топ-10', description: 'Топ-10', active: false },
+  {
+    code: 'first_place',
+    group: 'rating',
+    title: 'Первое место',
+    description: '1-е место хотя бы на день',
+    active: false
+  },
+  { code: 'level_5', group: 'levels', title: 'Пятый уровень', description: 'Уровень 5', active: true },
+  { code: 'level_15', group: 'levels', title: 'Пятнадцатый уровень', description: 'Уровень 15', active: true },
+  { code: 'wordzen_master', group: 'levels', title: 'WordZen Master', description: 'Уровень 32', active: true },
+  {
+    code: 'thousand_xp_day',
+    group: 'unique',
+    title: 'Тысяча за день',
+    description: '1 000 XP за один день',
+    active: true
+  },
+  {
+    code: 'three_units_ten_days',
+    group: 'unique',
+    title: '3 юнита x 10 дней',
+    description: '3+ юнита в день - 10 раз',
+    active: true
+  },
+  {
+    code: 'perfect_week',
+    group: 'unique',
+    title: 'Идеальная неделя',
+    description: '7 дней: юнит+тест+задание каждый день',
+    active: true
+  },
+  { code: 'ascent', group: 'unique', title: 'Восхождение', description: 'Один тест 5 раз с улучшением', active: true },
+  { code: 'sprinter', group: 'unique', title: 'Спринтер', description: '10 000 XP за 30 дней', active: true },
+  { code: 'no_mistakes', group: 'unique', title: 'Без ошибок', description: '10 тестов подряд 100%', active: true },
+  {
+    code: 'two_hundred_pomodoro',
+    group: 'unique',
+    title: 'Двести помодоро',
+    description: '200 помодоро-сессий',
+    active: true
+  },
+  {
+    code: 'full_collection_v1',
+    group: 'unique',
+    title: 'Полная коллекция v1',
+    description: 'Получить все достижения первой версии',
+    active: false
+  },
+  { code: 'wordzen_legend', group: 'unique', title: 'WordZen Legend', description: '50 000 XP суммарно', active: true },
+  { code: 'continuous_flow', group: 'unique', title: 'Непрерывный поток', description: '100 дней подряд', active: true }
+]
+
+/** `displayOrder` is the position in the catalogue, the way the seeder assigns it. */
+export const generateAchievements = (): Achievement[] =>
+  SEED_ACHIEVEMENTS.map((row, index) => ({
+    id: index + 1,
+    code: row.code,
+    group: achievementGroupByCode(row.group),
+    title: row.title,
+    description: row.description,
+    displayOrder: index + 1,
+    active: row.active,
+
+    // Filled in by the store once the grants below are built.
+    receivedCount: 0
+  }))
+
+/**
+ * `user_achievements`, one set per user.
+ *
+ * The probability decays along the catalogue, so the result looks like a real player base:
+ * nearly everyone has "Первый шаг" and a handful have "Непрерывный поток". Only active
+ * rows are granted, because `AchievementService.grant` refuses an inactive code.
+ */
+export const generateGrants = (users: AdminUser[], achievements: Achievement[]): Map<string, AchievementGrant[]> => {
+  const grantable = achievements.filter(achievement => achievement.active)
+
+  return new Map(
+    users.map(user => {
+      seedAll(grantSeed(user.id))
+
+      const earned = grantable.filter((_, index) =>
+        faker.datatype.boolean({ probability: Math.max(0.04, 0.92 - index * 0.02) })
+      )
+
+      // The dates are drawn first and then sorted, so a learner earns the catalogue in
+      // order instead of unlocking "Сто юнитов" the day before "Десять юнитов".
+      const dates = earned
+        .map(() => faker.date.between({ from: user.createdAt, to: MOCK_REF_DATE }))
+        .sort((a, b) => a.getTime() - b.getTime())
+
+      const grants = earned.map((achievement, index) => ({
+        uid: user.uid,
+        achievementCode: achievement.code,
+        receivedAt: iso(dates[index])
+      }))
+
+      return [user.uid, grants] as const
+    })
+  )
 }

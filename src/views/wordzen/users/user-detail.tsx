@@ -4,25 +4,30 @@ import { useState } from 'react'
 
 import Link from 'next/link'
 
-import { ArrowLeftIcon, BanIcon, CircleCheckIcon } from 'lucide-react'
+import { ArrowLeftIcon, BanIcon, CircleCheckIcon, TrophyIcon } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Progress } from '@/components/ui/progress'
 import { Switch } from '@/components/ui/switch'
+import { useUserAchievements } from '@/hooks/wordzen/use-achievement-list'
 import { useUserDetail } from '@/hooks/wordzen/use-user-list'
 import { useTranslation } from '@/lib/i18n'
 import type { RoleCode } from '@/types/wordzen/user-types'
 
 import { DetailRow, Timestamp, UserStatusBadge } from '../shared/primitives'
 import { BlockUserDialog } from './block-user-dialog'
+import { UserAchievementsSheet } from './user-achievements-sheet'
 
 export function UserDetail({ uid }: { uid: string }) {
   const { t } = useTranslation()
   const { user, status, blockUser, unblockUser, setRoles } = useUserDetail(uid)
+  const achievements = useUserAchievements(uid)
   const [blocking, setBlocking] = useState(false)
+  const [managingAchievements, setManagingAchievements] = useState(false)
 
   if (!user || !status) {
     return (
@@ -37,6 +42,31 @@ export function UserDetail({ uid }: { uid: string }) {
         </CardContent>
       </Card>
     )
+  }
+
+  const { received, total } = achievements.totals
+  const receivedPercent = total === 0 ? 0 : Math.round((received / total) * 100)
+
+  // `receivedAt` is an ISO timestamp, so sorting the strings sorts them chronologically.
+  const latest = achievements.achievements
+    .filter(achievement => achievement.received)
+    .sort((a, b) => (a.receivedAt ?? '').localeCompare(b.receivedAt ?? ''))
+    .at(-1)
+
+  const handleGrant = (code: string) => {
+    const granted = achievements.grantAchievement(code)
+
+    if (granted) {
+      toast.success(t('manage.userAchievements.toast.granted', { title: granted.title, name: user.username }))
+    }
+  }
+
+  const handleRevoke = (code: string) => {
+    const revoked = achievements.achievements.find(achievement => achievement.code === code)
+
+    if (achievements.revokeAchievement(code)) {
+      toast.success(t('manage.userAchievements.toast.revoked', { title: revoked?.title ?? code, name: user.username }))
+    }
   }
 
   const toggleRole = (role: RoleCode, granted: boolean) => {
@@ -201,7 +231,47 @@ export function UserDetail({ uid }: { uid: string }) {
             <p className='text-muted-foreground text-xs'>{t('manage.userDetail.roles.implicit')}</p>
           </CardContent>
         </Card>
+
+        <Card className='shadow-none'>
+          <CardHeader>
+            <CardTitle className='text-base'>{t('manage.userDetail.achievements.title')}</CardTitle>
+            <CardDescription>{t('manage.userDetail.achievements.description')}</CardDescription>
+          </CardHeader>
+          <CardContent className='flex flex-col gap-4'>
+            <div className='flex items-baseline justify-between gap-2'>
+              <span className='text-2xl font-semibold'>
+                {received}
+                <span className='text-muted-foreground text-base font-normal'> / {total}</span>
+              </span>
+              <span className='text-muted-foreground text-sm'>{receivedPercent}%</span>
+            </div>
+            <Progress value={receivedPercent} />
+            <div className='flex flex-col divide-y'>
+              <DetailRow label={t('manage.userDetail.achievements.latest')}>
+                {latest ? (
+                  <>
+                    {latest.title} · <Timestamp value={latest.receivedAt} />
+                  </>
+                ) : (
+                  t('manage.badges.none')
+                )}
+              </DetailRow>
+            </div>
+            <Button variant='outline' className='w-fit' onClick={() => setManagingAchievements(true)}>
+              <TrophyIcon className='size-4' />
+              {t('manage.userDetail.achievements.manage')}
+            </Button>
+          </CardContent>
+        </Card>
       </div>
+
+      <UserAchievementsSheet
+        user={managingAchievements ? user : null}
+        groups={achievements.groups}
+        onOpenChange={open => !open && setManagingAchievements(false)}
+        onGrant={handleGrant}
+        onRevoke={handleRevoke}
+      />
 
       <BlockUserDialog
         user={blocking ? user : null}

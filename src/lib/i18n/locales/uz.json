@@ -54,9 +54,101 @@
     }
   },
   "manage": {
+    "achievementDetail": {
+      "allAchievements": "Barcha yutuqlar",
+      "backToAchievements": "Yutuqlarga qaytish",
+      "condition": {
+        "hint": "Servislar kod bo‘yicha beradi — bu matnni o‘quvchi o‘qiydi, tekshiriladigan shart emas.",
+        "title": "Shart"
+      },
+      "editAchievement": "Yutuqni tahrirlash",
+      "empty": "Bu yutuq hali hech kimda yo‘q.",
+      "fields": {
+        "code": "Kod",
+        "displayOrder": "Tartib",
+        "group": "Guruh",
+        "id": "Id",
+        "recipients": "Olganlar",
+        "state": "Holat"
+      },
+      "inactiveAlert": {
+        "description": "Yutuq katalogdan va foydalanuvchi javoblaridan yashirilgan, berish esa rad etiladi. Allaqachon berilgan yozuvlar saqlanadi.",
+        "title": "Faol emas"
+      },
+      "infoTitle": "Yutuq",
+      "notFound": "{{code}} yutug‘i topilmadi.",
+      "notFoundHint": "U o‘chirilgan bo‘lishi mumkin yoki sahifa qayta yuklanganda fikstura qaytadan yaratilgan.",
+      "revoke": "Bekor qilish",
+      "revokeDialog": {
+        "description": "«{{title}}»ni yo‘qotadi. Berilgan yutuqni o‘chiradigan endpoint yo‘q — faqat fikstura o‘zgaradi.",
+        "title": "Yutuq bekor qilinsinmi?"
+      },
+      "searchPlaceholder": "Foydalanuvchi nomi yoki email bo‘yicha qidirish",
+      "toast": {
+        "revoked": "«{{title}}» {{name}}dan bekor qilindi",
+        "updated": "«{{title}}» yutug‘i yangilandi"
+      }
+    },
+    "achievementForm": {
+      "activeHint": "Faol bo‘lmagan yutuq o‘quvchilarga ko‘rinmaydi va uni berib bo‘lmaydi.",
+      "activeLabel": "Faol",
+      "codeHint": "Kichik harflar, raqamlar va pastki chiziq. Kod AchievementCode ro‘yxatida bo‘lmaguncha, uni hech narsa bermaydi.",
+      "codeLabel": "Kod",
+      "codeLockedHint": "Berilgan yutuqlar kodga bog‘langan, shuning uchun uni o‘zgartirib bo‘lmaydi.",
+      "codePlaceholder": "first_step",
+      "createDescription": "Katalog ishga tushganda AchievementCatalog’dan seed qilinadi va yaratish uchun endpoint yo‘q — yozuv fiksturada qoladi.",
+      "createSubmit": "Yutuq yaratish",
+      "descriptionHint": "O‘quvchi nima qilishi kerak. Saqlangan holida, bitta tilda ko‘rsatiladi.",
+      "descriptionLabel": "Shart",
+      "descriptionPlaceholder": "Birinchi yunitni tugatish",
+      "editDescription": "O‘zgarishlar fiksturada qoladi: katalogni hech bir endpoint yozmaydi.",
+      "editSubmit": "Yutuqni saqlash",
+      "editTitle": "Yutuqni tahrirlash",
+      "groupHint": "AchievementCatalog.GROUPS seed qiladigan to‘qqizta guruh.",
+      "groupLabel": "Guruh",
+      "groupPlaceholder": "Guruhni tanlang",
+      "newTitle": "Yangi yutuq",
+      "titlePlaceholder": "Yutuq nomi",
+      "validation": {
+        "codeMax": "Kod 64 belgidan oshmasligi kerak",
+        "codePattern": "Faqat kichik harflar, raqamlar va pastki chiziq",
+        "codeRequired": "Kod majburiy",
+        "codeTaken": "Bu kod katalogda allaqachon bor",
+        "descriptionMax": "Shart 512 belgidan oshmasligi kerak",
+        "descriptionRequired": "Shart bo‘sh bo‘lmasligi kerak",
+        "titleMax": "Nom 128 belgidan oshmasligi kerak",
+        "titleMin": "Nom kamida 2 belgidan iborat bo‘lishi kerak"
+      }
+    },
+    "achievements": {
+      "delete": {
+        "description": "va unga tegishli {{count}} yozuv o‘chiriladi. Buni qaytarib bo‘lmaydi.",
+        "title": "Yutuq o‘chirilsinmi?"
+      },
+      "empty": "Bu filtrlarga mos yutuq yo‘q.",
+      "newAchievement": "Yangi yutuq",
+      "searchPlaceholder": "Kod, nom yoki shart bo‘yicha qidirish",
+      "stats": {
+        "achievements": "Yutuqlar",
+        "active": "Faol",
+        "activeHint": "O‘quvchilarga ko‘rinadi",
+        "grants": "Berilgan",
+        "grantsHint": "user_achievements qatorlari",
+        "groups": "Guruhlar",
+        "groupsHint": "Katalogda ishlatilgan"
+      },
+      "toast": {
+        "codeTaken": "«{{code}}» kodi katalogda allaqachon bor",
+        "created": "«{{title}}» yutug‘i yaratildi",
+        "deleted": "«{{title}}» yutug‘i o‘chirildi",
+        "updated": "«{{title}}» yutug‘i yangilandi"
+      }
+    },
     "badges": {
+      "active": "Faol",
       "draft": "Qoralama",
       "free": "Bepul",
+      "inactive": "Faol emas",
       "none": "Yo‘q",
       "public": "Ommaviy"
     },
@@ -104,17 +196,70 @@
         "translationsMin": "Kamida bitta tarjima qo‘shing"
       }
     },
+    "categories": {
+      "allCodesUsed": "CourseCategoryCode dagi har bir kod uchun kategoriya allaqachon bor",
+      "delete": {
+        "blockedHint": "Bu kategoriyani kurslar ishlatmoqda",
+        "description": "o‘chiriladi. Hech bir kurs undan foydalanmaydi, shuning uchun boshqa hech narsa o‘zgarmaydi.",
+        "title": "Kategoriya o‘chirilsinmi?"
+      },
+      "empty": "Bu filtrlarga mos kategoriya yo‘q.",
+      "newCategory": "Yangi kategoriya",
+      "searchPlaceholder": "Kod yoki nom bo‘yicha qidirish",
+      "stats": {
+        "categories": "Kategoriyalar",
+        "freeCodes": "Bo‘sh kodlar",
+        "freeCodesHint": "CourseCategoryCode da qolgan",
+        "inUse": "Ishlatilmoqda",
+        "inUseHint": "Kurslar murojaat qiladi",
+        "unused": "Ishlatilmayapti",
+        "unusedHint": "O‘chirish mumkin"
+      },
+      "toast": {
+        "created": "«{{name}}» kategoriyasi yaratildi",
+        "deleteBlocked": "«{{name}}» hali kurslarda ishlatilmoqda",
+        "deleted": "«{{name}}» kategoriyasi o‘chirildi",
+        "updated": "«{{name}}» kategoriyasi yangilandi"
+      },
+      "unused": "Ishlatilmayapti"
+    },
+    "categoryForm": {
+      "codeFixedHint": "Kod kategoriyani belgilaydi va o‘zgarmaydi — kurslar unga murojaat qiladi.",
+      "codeHint": "CourseCategoryCode enum qiymatlaridan biri. Har bir kodga bitta kategoriya to‘g‘ri keladi.",
+      "codeLabel": "Kod",
+      "codePlaceholder": "Kodni tanlang",
+      "createDescription": "course_category jadvaliga qator qo‘shadi. Menejer API hozircha kategoriyalarni yozmaydi, shuning uchun o‘zgarishlar fikstarada qoladi.",
+      "createSubmit": "Kategoriya yaratish",
+      "editDescription": "Nomni o‘zgartirish bu kategoriyadagi barcha kurslarni yangilaydi — CourseView dagi join kabi.",
+      "editSubmit": "Kategoriyani saqlash",
+      "editTitle": "Kategoriyani tahrirlash",
+      "nameHint": "O‘quvchi kod yonida ko‘radigan nom.",
+      "nameLabel": "Nomi",
+      "namePlaceholder": "O‘rtadan yuqori",
+      "newTitle": "Yangi kategoriya",
+      "validation": {
+        "nameMin": "Nom kamida 2 belgidan iborat bo‘lishi kerak"
+      }
+    },
     "columns": {
       "access": "Kirish",
+      "achievement": "Yutuq",
       "cards": "Kartalar",
       "category": "Kategoriya",
+      "code": "Kod",
+      "condition": "Shart",
       "course": "Kurs",
+      "courses": "Kurslar",
       "created": "Yaratilgan",
+      "group": "Guruh",
       "image": "Rasm",
       "joined": "Qo‘shilgan",
       "module": "Modul",
       "modules": "Modullar",
+      "name": "Nomi",
       "phrases": "Iboralar",
+      "received": "Olingan",
+      "recipients": "Olganlar",
       "roles": "Rollar",
       "samples": "Namunalar",
       "state": "Holat",
@@ -192,6 +337,7 @@
       "editSubmit": "Kursni saqlash",
       "editTitle": "Kursni tahrirlash",
       "newTitle": "Yangi kurs",
+      "noCategories": "Kategoriyalar yo‘q. Avval «Boshqaruv → Kategoriyalar» bo‘limida yarating.",
       "publishedHint": "Qoralama kurs o‘quvchilardan yashiriladi.",
       "titlePlaceholder": "Kurs sarlavhasi",
       "validation": {
@@ -228,16 +374,21 @@
       "accessPlaceholder": "Kirish",
       "allAccess": "Barcha kirish turlari",
       "allCategories": "Barcha kategoriyalar",
+      "allGroups": "Barcha guruhlar",
       "allLocales": "Barcha tillar",
       "allPlans": "Barcha tariflar",
       "allRoles": "Barcha rollar",
       "allStates": "Barcha holatlar",
       "allStatuses": "Barcha statuslar",
+      "allUsage": "Har qanday",
       "anyImage": "Rasm — har qanday",
       "category": "Kategoriya bo‘yicha filtr",
       "categoryPlaceholder": "Kategoriya",
+      "group": "Guruh bo‘yicha filtr",
+      "groupPlaceholder": "Guruh",
       "image": "Rasm bo‘yicha filtr",
       "imagePlaceholder": "Rasm",
+      "inUse": "Ishlatilmoqda",
       "locale": "Til bo‘yicha filtr",
       "localePlaceholder": "Til",
       "role": "Rol bo‘yicha filtr",
@@ -248,6 +399,9 @@
       "statusPlaceholder": "Status",
       "subscription": "Obuna bo‘yicha filtr",
       "subscriptionPlaceholder": "Obuna",
+      "unused": "Ishlatilmayapti",
+      "usage": "Ishlatilishi bo‘yicha filtr",
+      "usagePlaceholder": "Ishlatilishi",
       "withImage": "Rasmli",
       "withoutImage": "Rasmsiz"
     },
@@ -317,9 +471,12 @@
       }
     },
     "nouns": {
+      "achievements": "yutuq",
       "cards": "karta",
+      "categories": "kategoriya",
       "courses": "kurs",
       "modules": "modul",
+      "recipients": "foydalanuvchi",
       "users": "foydalanuvchi"
     },
     "phraseCardForm": {
@@ -363,10 +520,26 @@
       "rows": "Qatorlar",
       "showing": "{{total}} {{noun}}dan {{from}}–{{to}} ko‘rsatilmoqda"
     },
+    "userAchievements": {
+      "description": "Berish — POST /api/v1/users/{uid}/achievements, uni servislar client key bilan chaqiradi. Bekor qilish uchun endpoint yo‘q, shuning uchun faqat fikstura o‘zgaradi.",
+      "receivedOn": "Olingan",
+      "title": "{{name}} yutuqlari",
+      "toast": {
+        "granted": "«{{title}}» {{name}}ga berildi",
+        "revoked": "«{{title}}» {{name}}dan bekor qilindi"
+      },
+      "toggle": "«{{title}}»ni o‘zgartirish"
+    },
     "userDetail": {
       "account": {
         "description": "auth_user va uning hisob ma’lumotlari qatoridan.",
         "title": "Hisob"
+      },
+      "achievements": {
+        "description": "GET /api/v1/users/{uid}/achievements/all",
+        "latest": "Oxirgi",
+        "manage": "Yutuqlarni boshqarish",
+        "title": "Yutuqlar"
       },
       "allUsers": "Barcha foydalanuvchilar",
       "backToUsers": "Foydalanuvchilarga qaytish",
@@ -460,10 +633,14 @@
       "manage": "Boshqaruv",
       "pages": "Sahifalar"
     },
+    "manageAchievements": "Yutuqlar",
+    "manageCategories": "Kategoriyalar",
     "manageCourses": "Kurslar",
     "manageUsers": "Foydalanuvchilar"
   },
   "routes": {
+    "achievements": "Yutuqlar",
+    "categories": "Kategoriyalar",
     "courses": "Kurslar",
     "error-page": "Xatolik sahifasi",
     "manage": "Boshqaruv",

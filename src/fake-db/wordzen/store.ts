@@ -4,6 +4,10 @@
  * The method names and arguments deliberately mirror the endpoints so that swapping this
  * for a real HTTP client is a change of implementation, not of call sites:
  *
+ *   listCategories()              GET    /manager/course-categories
+ *   createCategory(payload)       POST   /manager/course-categories
+ *   updateCategory(code, payload) PUT    /manager/course-categories/{code}
+ *   deleteCategory(code)          DELETE /manager/course-categories/{code}
  *   listCourses()                 GET    /manager/courses
  *   getCourse(id)                 GET    /manager/courses/{courseId}
  *   createCourse(payload)         POST   /manager/courses
@@ -12,7 +16,19 @@
  *   reorderCourse(id, order)      POST   /manager/courses/{courseId}/reorder
  *   deleteCourse(id)              DELETE /manager/courses/{courseId}
  *   listModules(courseId)         GET    /manager/courses/{courseId}/modules
+ *   listAchievements()            GET    /achievements                        (account-api)
+ *   listUserAchievements(uid)     GET    /users/{uid}/achievements/all        (account-api)
+ *   grantAchievement(uid, …)      POST   /users/{uid}/achievements            (account-api)
  *   ... and the same shape for modules, cards and phrase cards.
+ *
+ * The category calls have no endpoint behind them yet: `course_category` is seeded SQL and
+ * `CourseCategoryRepository` is only ever read. They are modelled on the table, so the route
+ * names above are what the manager API would most likely expose.
+ *
+ * The achievement catalogue is the other gap, and a wider one: account-api serves the
+ * reads and the grant, but the rows themselves are seeded from `AchievementCatalog` on
+ * boot, so creating, editing, reordering, deleting and revoking all stand in for
+ * endpoints that do not exist. See achievement-types.ts.
  *
  * Deletes remove the row outright. That matches the API today: `entity/Course` has an
  * `isDeleted` column, but `ManagerCourseDao.delete` hard-deletes and the soft-delete
@@ -25,6 +41,9 @@ import type {
   Card,
   CardPayload,
   Course,
+  CourseCategory,
+  CourseCategoryCode,
+  CourseCategoryPayload,
   CourseDescription,
   CoursePayload,
   Module,
@@ -32,14 +51,26 @@ import type {
   PhraseCard,
   PhraseCardPayload
 } from '@/types/wordzen/content-types'
-import { categoryByCode } from '@/types/wordzen/content-types'
+import { categoryByCode, COURSE_CATEGORY_CODES } from '@/types/wordzen/content-types'
+import type {
+  Achievement,
+  AchievementGrant,
+  AchievementPayload,
+  AchievementRecipient,
+  GrantAchievementPayload,
+  UserAchievement
+} from '@/types/wordzen/achievement-types'
+import { achievementGroupByCode } from '@/types/wordzen/achievement-types'
 import type { AdminUser, RoleCode, UserStatusView } from '@/types/wordzen/user-types'
 
 import {
   allocateId,
+  generateAchievements,
   generateAuthors,
   generateCards,
+  generateCategories,
   generateCourses,
+  generateGrants,
   generateModules,
   generatePhraseCards,
   generateUsers,
@@ -64,9 +95,16 @@ const renumber = <T extends { displayOrder: number }>(items: T[]): T[] =>
 class WordzenMockStore {
   private authors = generateAuthors()
 
+  private categories: CourseCategory[] = generateCategories()
+
   private courses: Course[] = generateCourses(this.authors)
 
   private users: AdminUser[] = generateUsers(this.authors)
+
+  private achievements: Achievement[] = generateAchievements()
+
+  /** `user_achievements`, keyed by the uid every achievement endpoint takes. */
+  private grantsByUid: Map<string, AchievementGrant[]> = generateGrants(this.users, this.achievements)
 
   /** Modules are built per course on first read, cards per moduleRow. See generate.ts. */
   private modulesByCourse = new Map<number, Module[]>()
@@ -78,6 +116,12 @@ class WordzenMockStore {
   private listeners = new Set<() => void>()
 
   private version = 0
+
+  constructor() {
+    // The catalogue is generated before the grants, so it leaves `receivedCount` at zero.
+    // No `commit()` here: the version has to be 0 on both sides of hydration.
+    this.achievements.forEach(achievement => this.syncReceivedCount(achievement.code))
+  }
 
   /* ---------------------------------------------------------------- *
    * Subscription — drives useSyncExternalStore in the hooks layer
@@ -99,6 +143,118 @@ class WordzenMockStore {
   }
 
   /* ---------------------------------------------------------------- *
+   * Categories
+   *
+   * `course_category` holds one row per `CourseCategoryCode`: the column is the Java enum
+   * and `CourseCategoryRepository.findOneByCode` looks a row up by it, so the code is the
+   * natural key and nine rows is the ceiling.
+   * ---------------------------------------------------------------- */
+
+  listCategories = (): CourseCategory[] => [...this.categories]
+
+  getCategory = (code: CourseCategoryCode): CourseCategory | null =>
+    this.categories.find(category => category.code === code) ?? null
+
+  /** The codes the enum allows and no row holds yet — all a create can still choose from. */
+  availableCategoryCodes = (): CourseCategoryCode[] =>
+    COURSE_CATEGORY_CODES.filter(code => !this.categories.some(category => category.code === code))
+
+  /**
+   * Courses per code. Not something a category endpoint would return — the UI needs it for
+   * the "in use" column and for the delete guard below, and `CourseView` nests the
+   * category rather than the other way round.
+   */
+  countCoursesByCategory = (): Record<CourseCategoryCode, number> => {
+    const counts = Object.fromEntries(COURSE_CATEGORY_CODES.map(code => [code, 0])) as Record<
+      CourseCategoryCode,
+      number
+    >
+
+    this.courses.forEach(course => {
+      counts[course.category.code] += 1
+    })
+
+    return counts
+  }
+
+  createCategory = (payload: CourseCategoryPayload): CourseCategory | null => {
+    // One row per code, the way `findOneByCode` assumes.
+    if (this.getCategory(payload.code)) {
+      return null
+    }
+
+    const category: CourseCategory = { name: payload.name, code: payload.code }
+
+    this.categories = [...this.categories, category]
+    this.commit()
+
+    return category
+  }
+
+  /**
+   * Renames a category.
+   *
+   * `code` identifies the row and is not editable: `CourseRequest.category` carries a code,
+   * so changing one would move every course on that row into a different category without
+   * anyone asking for it. Dropping the row and adding another is the honest way to do that.
+   *
+   * `CourseView` nests the category and the API builds it from the join, so the courses
+   * holding this code have to see the new name too.
+   */
+  updateCategory = (code: CourseCategoryCode, payload: CourseCategoryPayload): CourseCategory | null => {
+    const existing = this.getCategory(code)
+
+    if (!existing) {
+      return null
+    }
+
+    const updated: CourseCategory = { ...existing, name: payload.name }
+
+    this.categories = this.categories.map(category => (category.code === code ? updated : category))
+    this.courses = this.courses.map(course =>
+      course.category.code === code ? { ...course, category: updated } : course
+    )
+    this.commit()
+
+    return updated
+  }
+
+  /**
+   * `false` when courses still reference the category: `Course.category` is a `@ManyToOne`,
+   * so the foreign key would reject the delete. The UI blocks the button on the same count,
+   * this is the backstop.
+   */
+  deleteCategory = (code: CourseCategoryCode): boolean => {
+    if (!this.getCategory(code) || this.countCoursesByCategory()[code] > 0) {
+      return false
+    }
+
+    this.categories = this.categories.filter(category => category.code !== code)
+    this.commit()
+
+    return true
+  }
+
+  getCategoryStats = () => {
+    const counts = this.countCoursesByCategory()
+    const inUseCount = this.categories.filter(category => counts[category.code] > 0).length
+
+    return {
+      categoryCount: this.categories.length,
+      inUseCount,
+      unusedCount: this.categories.length - inUseCount,
+      availableCodeCount: this.availableCategoryCodes().length
+    }
+  }
+
+  /** The nested `CourseCategoryView` for a code, as the API's join would build it. */
+  private categoryView(code: CourseCategoryCode): CourseCategory {
+    // A code with no row is a course pointing at a deleted category, which the delete guard
+    // rules out; the seed name keeps the cell from rendering empty if it ever happens.
+    return this.getCategory(code) ?? categoryByCode(code)
+  }
+
+  /* ---------------------------------------------------------------- *
    * Courses
    * ---------------------------------------------------------------- */
 
@@ -113,7 +269,7 @@ class WordzenMockStore {
       id,
       createdAt: nowIso(),
       title: payload.title,
-      category: categoryByCode(payload.category),
+      category: this.categoryView(payload.category),
       isPublic: payload.isPublic,
       cover: payload.cover,
       displayOrder: this.courses.length + 1,
@@ -152,7 +308,7 @@ class WordzenMockStore {
     const updated: Course = {
       ...existing,
       title: payload.title,
-      category: categoryByCode(payload.category),
+      category: this.categoryView(payload.category),
       isPublic: payload.isPublic,
       cover: payload.cover,
       accessCode: payload.accessCode,
@@ -745,6 +901,235 @@ class WordzenMockStore {
     this.commit()
 
     return updated
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Achievements — account-api
+   *
+   * `achievements` is the catalogue `AchievementCatalogSeeder` writes on boot and
+   * `grantsByUid` stands in for `user_achievements`. Both are built up front: the grant
+   * counts are read on every list, so there is nothing to gain from deferring them the
+   * way a module's cards are deferred.
+   * ---------------------------------------------------------------- */
+
+  /** The whole catalogue, inactive rows included — that is what an admin has to see. */
+  listAchievements = (): Achievement[] => [...this.achievements].sort(byDisplayOrder)
+
+  /** `GET /api/v1/achievements` — what learners see, and the only rows a grant accepts. */
+  listActiveAchievements = (): Achievement[] => this.listAchievements().filter(achievement => achievement.active)
+
+  getAchievement = (code: string): Achievement | null =>
+    this.achievements.find(achievement => achievement.code === code) ?? null
+
+  /** Null when the code is blank or taken: `achievements.code` is unique. */
+  createAchievement = (payload: AchievementPayload): Achievement | null => {
+    const code = payload.code.trim()
+
+    if (!code || this.getAchievement(code)) {
+      return null
+    }
+
+    const achievement: Achievement = {
+      id: allocateId(),
+      code,
+      group: achievementGroupByCode(payload.groupCode),
+      title: payload.title,
+      description: payload.description,
+      displayOrder: this.achievements.length + 1,
+      active: payload.active,
+      receivedCount: 0
+    }
+
+    this.achievements = [...this.achievements, achievement]
+    this.commit()
+
+    return achievement
+  }
+
+  /** `code` is what grants are keyed by, so an edit leaves it alone. */
+  updateAchievement = (code: string, payload: AchievementPayload): Achievement | null => {
+    const existing = this.getAchievement(code)
+
+    if (!existing) {
+      return null
+    }
+
+    const updated: Achievement = {
+      ...existing,
+      group: achievementGroupByCode(payload.groupCode),
+      title: payload.title,
+      description: payload.description,
+      active: payload.active
+    }
+
+    this.replaceAchievement(updated)
+    this.commit()
+
+    return updated
+  }
+
+  reorderAchievement = (code: string, displayOrder: number): void => {
+    const ordered = this.listAchievements()
+    const from = ordered.findIndex(achievement => achievement.code === code)
+
+    if (from === -1) {
+      return
+    }
+
+    const to = Math.max(0, Math.min(ordered.length - 1, displayOrder - 1))
+    const [moved] = ordered.splice(from, 1)
+
+    ordered.splice(to, 0, moved)
+    this.achievements = renumber(ordered)
+    this.commit()
+  }
+
+  /** Takes the grants with it, the way the `user_achievements` foreign key would. */
+  deleteAchievement = (code: string): void => {
+    if (!this.getAchievement(code)) {
+      return
+    }
+
+    this.grantsByUid = new Map(
+      [...this.grantsByUid].map(([uid, grants]) => [uid, grants.filter(grant => grant.achievementCode !== code)])
+    )
+    this.achievements = renumber(
+      this.achievements.filter(achievement => achievement.code !== code).sort(byDisplayOrder)
+    )
+    this.commit()
+  }
+
+  /**
+   * `GET /api/v1/users/{uid}/achievements/all` — the catalogue with one user's grants
+   * folded in. Inactive rows are left out, the way
+   * `findByUserAndAchievementActiveTrue` leaves them out of every per-user response.
+   */
+  listUserAchievements = (uid: string): UserAchievement[] => {
+    if (!this.getUser(uid)) {
+      return []
+    }
+
+    const grants = this.grantsByUid.get(uid) ?? []
+
+    return this.listActiveAchievements().map(achievement => {
+      const grant = grants.find(current => current.achievementCode === achievement.code)
+
+      return {
+        ...achievement,
+        received: grant !== undefined,
+        receivedAt: grant?.receivedAt ?? null
+      }
+    })
+  }
+
+  /**
+   * `POST /api/v1/users/{uid}/achievements`. Null for an unknown user or code, and for an
+   * inactive achievement — the service answers 400 for that one. Granting twice is a
+   * no-op there, so the existing row comes back unchanged.
+   *
+   * The service also re-checks the `full_collection_v1` cascade after every grant. That
+   * is server-side bookkeeping over the whole catalogue and is left out here.
+   */
+  grantAchievement = (uid: string, payload: GrantAchievementPayload): UserAchievement | null => {
+    const achievement = this.getAchievement(payload.achievementCode.trim())
+
+    if (!this.getUser(uid) || !achievement || !achievement.active) {
+      return null
+    }
+
+    const grants = this.grantsByUid.get(uid) ?? []
+    const existing = grants.find(grant => grant.achievementCode === achievement.code)
+
+    if (existing) {
+      return { ...achievement, received: true, receivedAt: existing.receivedAt }
+    }
+
+    const grant: AchievementGrant = { uid, achievementCode: achievement.code, receivedAt: nowIso() }
+
+    this.grantsByUid.set(uid, [...grants, grant])
+    this.syncReceivedCount(achievement.code)
+    this.commit()
+
+    return {
+      ...achievement,
+      receivedCount: achievement.receivedCount + 1,
+      received: true,
+      receivedAt: grant.receivedAt
+    }
+  }
+
+  /** No endpoint: nothing deletes a `user_achievements` row today. */
+  revokeAchievement = (uid: string, code: string): boolean => {
+    const grants = this.grantsByUid.get(uid) ?? []
+
+    if (!grants.some(grant => grant.achievementCode === code)) {
+      return false
+    }
+
+    this.grantsByUid.set(
+      uid,
+      grants.filter(grant => grant.achievementCode !== code)
+    )
+    this.syncReceivedCount(code)
+    this.commit()
+
+    return true
+  }
+
+  /** The holders of one achievement — a join no endpoint exposes either. */
+  listAchievementRecipients = (code: string): AchievementRecipient[] =>
+    this.users.flatMap(user => {
+      const grant = (this.grantsByUid.get(user.uid) ?? []).find(current => current.achievementCode === code)
+
+      if (!grant) {
+        return []
+      }
+
+      return [
+        {
+          uid: user.uid,
+          username: user.username,
+          email: user.email,
+          status: user.status,
+          receivedAt: grant.receivedAt
+        }
+      ]
+    })
+
+  getAchievementStats = () => {
+    const achievements = this.achievements
+
+    return {
+      achievementCount: achievements.length,
+      activeCount: achievements.filter(achievement => achievement.active).length,
+      groupCount: new Set(achievements.map(achievement => achievement.group.code)).size,
+      grantCount: achievements.reduce((total, achievement) => total + achievement.receivedCount, 0)
+    }
+  }
+
+  private replaceAchievement(updated: Achievement) {
+    this.achievements = this.achievements.map(achievement =>
+      achievement.code === updated.code ? updated : achievement
+    )
+  }
+
+  /** Recounts one row's holders out of the grant map, after a grant, revoke or seeding. */
+  private syncReceivedCount(code: string) {
+    const existing = this.getAchievement(code)
+
+    if (!existing) {
+      return
+    }
+
+    let receivedCount = 0
+
+    this.grantsByUid.forEach(grants => {
+      if (grants.some(grant => grant.achievementCode === code)) {
+        receivedCount += 1
+      }
+    })
+
+    this.replaceAchievement({ ...existing, receivedCount })
   }
 
   /* ---------------------------------------------------------------- *

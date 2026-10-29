@@ -23,7 +23,14 @@ export type CourseCategory = {
   code: CourseCategoryCode
 }
 
-export const COURSE_CATEGORIES: readonly CourseCategory[] = [
+/**
+ * The `course_category` rows `docker/postgres/seed-learning.sql` inserts.
+ *
+ * This is the fixture the mock store starts from, not the catalogue: categories are
+ * editable now, so read the live list from the store (`listCategories()`) and keep this
+ * for seeding and for naming a code the store no longer holds.
+ */
+export const SEED_COURSE_CATEGORIES: readonly CourseCategory[] = [
   { code: 'A1', name: 'Beginner' },
   { code: 'A2', name: 'Elementary' },
   { code: 'B1', name: 'Intermediate' },
@@ -35,8 +42,9 @@ export const COURSE_CATEGORIES: readonly CourseCategory[] = [
   { code: 'WRITING', name: 'Writing' }
 ]
 
+/** The seed name for a code. The store resolves against its own rows first. */
 export const categoryByCode = (code: CourseCategoryCode): CourseCategory =>
-  COURSE_CATEGORIES.find(category => category.code === code) ?? COURSE_CATEGORIES[0]
+  SEED_COURSE_CATEGORIES.find(category => category.code === code) ?? SEED_COURSE_CATEGORIES[0]
 
 /** `dto/response/TranslationView` */
 export type Translation = {
@@ -151,6 +159,16 @@ export type PhraseExplanationPayload = {
 export type CourseDescriptionPayload = {
   value: string
   locale: LocaleCode
+}
+
+/**
+ * No `dto/request/*` backs this one: `course_category` is seeded SQL and no manager
+ * endpoint writes it yet. `code` is the enum column `CourseRequest.category` refers to,
+ * so the name is the only free-form field a category has.
+ */
+export type CourseCategoryPayload = {
+  name: string
+  code: CourseCategoryCode
 }
 
 /** `dto/request/CourseRequest` (nested `modules` are omitted: modules are created on their own endpoint). */

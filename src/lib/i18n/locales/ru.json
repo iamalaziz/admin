@@ -54,9 +54,101 @@
     }
   },
   "manage": {
+    "achievementDetail": {
+      "allAchievements": "Все достижения",
+      "backToAchievements": "Назад к достижениям",
+      "condition": {
+        "hint": "Сервисы начисляют по коду — этот текст читает учащийся, проверяется не он.",
+        "title": "Условие"
+      },
+      "editAchievement": "Изменить достижение",
+      "empty": "Достижение пока ни у кого нет.",
+      "fields": {
+        "code": "Код",
+        "displayOrder": "Порядок",
+        "group": "Группа",
+        "id": "Id",
+        "recipients": "Получили",
+        "state": "Состояние"
+      },
+      "inactiveAlert": {
+        "description": "Достижение скрыто из каталога и из ответов по пользователям, а начисление отклоняется. Уже выданные записи сохраняются.",
+        "title": "Неактивно"
+      },
+      "infoTitle": "Достижение",
+      "notFound": "Достижение {{code}} не найдено.",
+      "notFoundHint": "Возможно, оно удалено или фикстуры пересозданы после перезагрузки.",
+      "revoke": "Отозвать",
+      "revokeDialog": {
+        "description": "потеряет «{{title}}». Эндпоинта для удаления начисления нет — изменится только фикстура.",
+        "title": "Отозвать достижение?"
+      },
+      "searchPlaceholder": "Поиск по имени или email",
+      "toast": {
+        "revoked": "«{{title}}» отозвано у {{name}}",
+        "updated": "Достижение «{{title}}» обновлено"
+      }
+    },
+    "achievementForm": {
+      "activeHint": "Неактивное достижение скрыто от учащихся, и начислить его нельзя.",
+      "activeLabel": "Активно",
+      "codeHint": "Строчные буквы, цифры и подчёркивания. Пока кода нет в AchievementCode, начислить его нечем.",
+      "codeLabel": "Код",
+      "codeLockedHint": "Начисления привязаны к коду, поэтому изменить его нельзя.",
+      "codePlaceholder": "first_step",
+      "createDescription": "Каталог сеется из AchievementCatalog при старте, и эндпоинта для создания нет — запись останется в фикстуре.",
+      "createSubmit": "Создать достижение",
+      "descriptionHint": "Что нужно сделать учащемуся. Показывается как хранится, на одном языке.",
+      "descriptionLabel": "Условие",
+      "descriptionPlaceholder": "Завершить первый юнит",
+      "editDescription": "Изменения остаются в фикстуре: каталог не пишет ни один эндпоинт.",
+      "editSubmit": "Сохранить достижение",
+      "editTitle": "Изменить достижение",
+      "groupHint": "Девять групп, которые сеет AchievementCatalog.GROUPS.",
+      "groupLabel": "Группа",
+      "groupPlaceholder": "Выберите группу",
+      "newTitle": "Новое достижение",
+      "titlePlaceholder": "Название достижения",
+      "validation": {
+        "codeMax": "Код не длиннее 64 символов",
+        "codePattern": "Только строчные буквы, цифры и подчёркивания",
+        "codeRequired": "Код обязателен",
+        "codeTaken": "Такой код уже есть в каталоге",
+        "descriptionMax": "Условие не длиннее 512 символов",
+        "descriptionRequired": "Условие не может быть пустым",
+        "titleMax": "Название не длиннее 128 символов",
+        "titleMin": "Название минимум 2 символа"
+      }
+    },
+    "achievements": {
+      "delete": {
+        "description": "и начисления ({{count}}) будут удалены. Отменить это нельзя.",
+        "title": "Удалить достижение?"
+      },
+      "empty": "Нет достижений по этим фильтрам.",
+      "newAchievement": "Новое достижение",
+      "searchPlaceholder": "Поиск по коду, названию или условию",
+      "stats": {
+        "achievements": "Достижения",
+        "active": "Активные",
+        "activeHint": "Видны учащимся",
+        "grants": "Начисления",
+        "grantsHint": "Строки user_achievements",
+        "groups": "Группы",
+        "groupsHint": "Используются в каталоге"
+      },
+      "toast": {
+        "codeTaken": "Код «{{code}}» уже есть в каталоге",
+        "created": "Достижение «{{title}}» создано",
+        "deleted": "Достижение «{{title}}» удалено",
+        "updated": "Достижение «{{title}}» обновлено"
+      }
+    },
     "badges": {
+      "active": "Активно",
       "draft": "Черновик",
       "free": "Бесплатно",
+      "inactive": "Неактивно",
       "none": "Нет",
       "public": "Опубликован"
     },
@@ -104,17 +196,70 @@
         "translationsMin": "Добавьте хотя бы один перевод"
       }
     },
+    "categories": {
+      "allCodesUsed": "Для каждого кода CourseCategoryCode категория уже есть",
+      "delete": {
+        "blockedHint": "Категорию используют курсы",
+        "description": "будет удалена. Ни один курс её не использует, поэтому больше ничего не изменится.",
+        "title": "Удалить категорию?"
+      },
+      "empty": "Нет категорий по этим фильтрам.",
+      "newCategory": "Новая категория",
+      "searchPlaceholder": "Поиск по коду или названию",
+      "stats": {
+        "categories": "Категории",
+        "freeCodes": "Свободные коды",
+        "freeCodesHint": "Осталось в CourseCategoryCode",
+        "inUse": "Используются",
+        "inUseHint": "На них ссылаются курсы",
+        "unused": "Не используются",
+        "unusedHint": "Можно удалить"
+      },
+      "toast": {
+        "created": "Категория «{{name}}» создана",
+        "deleteBlocked": "«{{name}}» ещё используется курсами",
+        "deleted": "Категория «{{name}}» удалена",
+        "updated": "Категория «{{name}}» обновлена"
+      },
+      "unused": "Не используется"
+    },
+    "categoryForm": {
+      "codeFixedHint": "Код определяет категорию и не меняется — на него ссылаются курсы.",
+      "codeHint": "Одно из значений перечисления CourseCategoryCode. На каждый код приходится одна категория.",
+      "codeLabel": "Код",
+      "codePlaceholder": "Выберите код",
+      "createDescription": "Добавляет строку в course_category. Менеджерский API ещё не пишет категории, поэтому изменения остаются в фикстуре.",
+      "createSubmit": "Создать категорию",
+      "editDescription": "Переименование обновляет все курсы этой категории — так же, как join в CourseView.",
+      "editSubmit": "Сохранить категорию",
+      "editTitle": "Изменить категорию",
+      "nameHint": "То, что учащийся видит рядом с кодом.",
+      "nameLabel": "Название",
+      "namePlaceholder": "Выше среднего",
+      "newTitle": "Новая категория",
+      "validation": {
+        "nameMin": "Название должно быть не короче 2 символов"
+      }
+    },
     "columns": {
       "access": "Доступ",
+      "achievement": "Достижение",
       "cards": "Карточки",
       "category": "Категория",
+      "code": "Код",
+      "condition": "Условие",
       "course": "Курс",
+      "courses": "Курсы",
       "created": "Создан",
+      "group": "Группа",
       "image": "Изображение",
       "joined": "Регистрация",
       "module": "Модуль",
       "modules": "Модули",
+      "name": "Название",
       "phrases": "Фразы",
+      "received": "Получено",
+      "recipients": "Получили",
       "roles": "Роли",
       "samples": "Примеры",
       "state": "Состояние",
@@ -192,6 +337,7 @@
       "editSubmit": "Сохранить курс",
       "editTitle": "Изменить курс",
       "newTitle": "Новый курс",
+      "noCategories": "Категорий нет. Сначала создайте её в разделе «Управление → Категории».",
       "publishedHint": "Курс-черновик скрыт от учащихся.",
       "titlePlaceholder": "Название курса",
       "validation": {
@@ -228,16 +374,21 @@
       "accessPlaceholder": "Доступ",
       "allAccess": "Любой доступ",
       "allCategories": "Все категории",
+      "allGroups": "Все группы",
       "allLocales": "Все локали",
       "allPlans": "Любой тариф",
       "allRoles": "Все роли",
       "allStates": "Все состояния",
       "allStatuses": "Все статусы",
+      "allUsage": "Любое использование",
       "anyImage": "Любое изображение",
       "category": "Фильтр по категории",
       "categoryPlaceholder": "Категория",
+      "group": "Фильтр по группе",
+      "groupPlaceholder": "Группа",
       "image": "Фильтр по изображению",
       "imagePlaceholder": "Изображение",
+      "inUse": "Используются",
       "locale": "Фильтр по локали",
       "localePlaceholder": "Локаль",
       "role": "Фильтр по роли",
@@ -248,6 +399,9 @@
       "statusPlaceholder": "Статус",
       "subscription": "Фильтр по подписке",
       "subscriptionPlaceholder": "Подписка",
+      "unused": "Не используются",
+      "usage": "Фильтр по использованию",
+      "usagePlaceholder": "Использование",
       "withImage": "С изображением",
       "withoutImage": "Без изображения"
     },
@@ -317,9 +471,12 @@
       }
     },
     "nouns": {
+      "achievements": "достижений",
       "cards": "карточек",
+      "categories": "категорий",
       "courses": "курсов",
       "modules": "модулей",
+      "recipients": "получателей",
       "users": "пользователей"
     },
     "phraseCardForm": {
@@ -363,10 +520,26 @@
       "rows": "Строк",
       "showing": "Показано с {{from}} по {{to}} из {{total}} {{noun}}"
     },
+    "userAchievements": {
+      "description": "Начисление — POST /api/v1/users/{uid}/achievements, его вызывают сервисы с client key. Отзыва нет ни в одном эндпоинте, так что изменится только фикстура.",
+      "receivedOn": "Получено",
+      "title": "Достижения {{name}}",
+      "toast": {
+        "granted": "«{{title}}» начислено {{name}}",
+        "revoked": "«{{title}}» отозвано у {{name}}"
+      },
+      "toggle": "Переключить «{{title}}»"
+    },
     "userDetail": {
       "account": {
         "description": "Из auth_user и его записи с учётными данными.",
         "title": "Аккаунт"
+      },
+      "achievements": {
+        "description": "GET /api/v1/users/{uid}/achievements/all",
+        "latest": "Последнее",
+        "manage": "Управлять достижениями",
+        "title": "Достижения"
       },
       "allUsers": "Все пользователи",
       "backToUsers": "Назад к пользователям",
@@ -460,10 +633,14 @@
       "manage": "Управление",
       "pages": "Страницы"
     },
+    "manageAchievements": "Достижения",
+    "manageCategories": "Категории",
     "manageCourses": "Курсы",
     "manageUsers": "Пользователи"
   },
   "routes": {
+    "achievements": "Достижения",
+    "categories": "Категории",
     "courses": "Курсы",
     "error-page": "Страница ошибки",
     "manage": "Управление",

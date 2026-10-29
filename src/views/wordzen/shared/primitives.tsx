@@ -42,6 +42,20 @@ export function LocaleBadge({ locale }: { locale: LocaleCode }) {
   )
 }
 
+/**
+ * `Achievement.active`. An inactive achievement is not deleted: it stays in the table with
+ * its grants and drops out of every endpoint that filters on the flag.
+ */
+export function ActiveBadge({ active }: { active: boolean }) {
+  const { t } = useTranslation()
+
+  return (
+    <Badge variant={active ? 'default' : 'outline'}>
+      {active ? t('manage.badges.active') : t('manage.badges.inactive')}
+    </Badge>
+  )
+}
+
 export function UserStatusBadge({ status }: { status: UserStatusCode }) {
   const { t } = useTranslation()
 
