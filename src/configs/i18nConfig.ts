@@ -1,4 +1,4 @@
-export const UI_LANGUAGES = ['en', 'ru', 'uz'] as const
+export const UI_LANGUAGES = ['uz', 'en', 'ru'] as const
 
 export type UILanguage = (typeof UI_LANGUAGES)[number]
 
@@ -7,9 +7,9 @@ export const FALLBACK_LANGUAGE: UILanguage = 'en'
 
 /** Each language named in itself — a switcher is read by someone who cannot read the current one. */
 export const LANGUAGE_LABELS: Record<UILanguage, string> = {
-  en: 'English',
+  uz: 'O‘zbekcha',
   ru: 'Русский',
-  uz: 'O‘zbekcha'
+  en: 'English'
 }
 
 /**

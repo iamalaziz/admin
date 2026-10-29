@@ -25,7 +25,7 @@ import {
 
 import { formatPercent } from '../analytics/format'
 import { DataTable } from '../shared/data-table'
-import { AmountCell, CardMark, ProviderBadge, StatCards, Timestamp, TransactionStatusBadge } from '../shared/primitives'
+import { AmountCell, ProviderBadge, StatCards, Timestamp, TransactionStatusBadge } from '../shared/primitives'
 import { TablePagination, TableToolbar } from '../shared/table-chrome'
 
 /** GOOGLE is in `ProviderCode` but nothing writes it, so it would be a filter with no rows. */
@@ -70,12 +70,7 @@ export function PaymentList() {
       {
         id: 'provider',
         header: t('manage.columns.provider'),
-        cell: ({ row }) => (
-          <div className='flex min-w-0 flex-col gap-1'>
-            <ProviderBadge provider={row.original.provider} />
-            {row.original.card ? <CardMark card={row.original.card} /> : null}
-          </div>
-        )
+        cell: ({ row }) => <ProviderBadge provider={row.original.provider} card={row.original.card} />
       },
       {
         id: 'amount',
@@ -85,6 +80,7 @@ export function PaymentList() {
             {row.original.amount !== null && row.original.currency !== null ? (
               <AmountCell amount={row.original.amount} currency={row.original.currency} />
             ) : (
+
               // Apple and Google Play report no price on a verify, so there is no amount
               // to show — only what the purchase was for.
               <span className='text-muted-foreground text-sm' title={t('manage.payments.noAmountHint')}>

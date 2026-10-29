@@ -124,27 +124,35 @@ export function BrandMark({ src, className }: { src: string; className?: string 
         className
       )}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={src} alt='' className='max-h-full max-w-full object-contain' />
     </span>
   )
 }
 
 /**
- * `ProviderCode` — its mark where there is one, and the code itself, which stays because
- * it is what the API says and what the filters are named after.
+ * `ProviderCode` — one mark, and the code itself, which stays because it is what the API
+ * says and what the filters are named after.
+ *
+ * Where a card was charged, the mark is the card's network rather than the gateway's own
+ * logo: Multicard, Click and Payme are the pipe, and what the payer recognises — and what
+ * a chargeback is filed against — is the Humo, Visa or Mastercard on the card. Pass no
+ * card and the gateway's mark is used, which is what the detail page does beside its
+ * separate card row.
  *
  * CLICK and PAYME are drawn muted and say so on hover: `initiatePayment` answers 410 for
  * both, so a payment on either is history rather than something that could recur.
  */
-export function ProviderBadge({ provider }: { provider: ProviderCode }) {
+export function ProviderBadge({ provider, card }: { provider: ProviderCode; card?: PaymentCard | null }) {
   const { t } = useTranslation()
 
   const retired = !LIVE_PROVIDER_CODES.includes(provider)
-  const logo = PROVIDER_LOGOS[provider]
+  const logo = card ? CARD_BRAND_LOGOS[card.brand] : PROVIDER_LOGOS[provider]
 
   return (
-    <span className='inline-flex items-center gap-2' title={retired ? t('manage.payments.providerRetired') : undefined}>
+    <span
+      className='inline-flex items-center gap-2'
+      title={retired ? t('manage.payments.providerRetired') : (card?.brand ?? undefined)}
+    >
       {logo ? <BrandMark src={logo} className={cn(retired && 'opacity-70')} /> : null}
       <Badge variant='outline' className={cn('font-mono text-[11px]', retired && 'text-muted-foreground')}>
         {provider}
@@ -153,12 +161,21 @@ export function ProviderBadge({ provider }: { provider: ProviderCode }) {
   )
 }
 
-/** `card_tokens`: the network's mark and the masked number the provider returned. */
-export function CardMark({ card }: { card: PaymentCard }) {
+/**
+ * `card_tokens`: the network's mark, and the masked number where there is room for it.
+ *
+ * The ledger shows the mark alone — the digits are masked anyway, so in a table they cost
+ * a column's width and say nothing a reader acts on. The detail page shows both, which is
+ * where someone matching a payment against a bank statement actually looks.
+ */
+export function CardMark({ card, showNumber = true }: { card: PaymentCard; showNumber?: boolean }) {
   return (
-    <span className='text-muted-foreground inline-flex items-center gap-2 text-xs' title={card.brand}>
+    <span
+      className='text-muted-foreground inline-flex items-center gap-2 text-xs'
+      title={showNumber ? card.brand : `${card.brand} ${card.number}`}
+    >
       <BrandMark src={CARD_BRAND_LOGOS[card.brand]} className='size-5' />
-      <span className='font-mono'>{card.number}</span>
+      {showNumber ? <span className='font-mono'>{card.number}</span> : null}
     </span>
   )
 }
@@ -176,7 +193,6 @@ export function AmountCell({ amount, currency }: { amount: number; currency: Cur
 
   return (
     <span className='inline-flex items-center gap-1.5 text-sm font-medium' title={currency}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src='/images/brands/telegram-stars.svg' alt='' className='size-4' />
       {formatAmountValue(amount, currency)}
     </span>

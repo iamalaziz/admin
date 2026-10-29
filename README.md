@@ -19,8 +19,8 @@ Other scripts: `npm run build`, `npm start`, `npm run lint`, `npm run lint:fix`,
 
 ## Tools
 
-Under `/manage`, modelled on the learning-api entities. **All of it runs on fixtures — no HTTP
-call leaves the browser yet.**
+Under `/manage`, modelled on the learning-api, account-api and payment-api entities. **All of
+it runs on fixtures — no HTTP call leaves the browser yet.**
 
 | Route                        | What it does                                                                           |
 | ---------------------------- | -------------------------------------------------------------------------------------- |
@@ -31,7 +31,9 @@ call leaves the browser yet.**
 | `/manage/achievements`       | Achievement catalogue: search, filter by group/state, reorder, create, edit, delete    |
 | `/manage/achievements/[code]` | One achievement — its fields, its condition and the learners holding it               |
 | `/manage/users`              | User list: search by username/email/uid, filter by status/role/plan, block and unblock |
-| `/manage/users/[uid]`        | One user — account, status, subscription, role grants and achievement grants           |
+| `/manage/users/[uid]`        | One user — account, status, subscription, role grants, achievement grants, payments by month |
+| `/manage/payments`           | Payments ledger: search by uid/payer/provider id, filter by provider/status/purchase    |
+| `/manage/payments/[uid]`     | One payment — its fields, the provider's ids and card, its status history, its subscription |
 
 Types live in `src/types/wordzen/` and mirror the API field for field (`CourseRequest`,
 `ModuleRequest`, `CardRequest`, `PhraseCardRequest`, `UserStatusView`, …). The fixtures are in
@@ -43,6 +45,12 @@ Types live in `src/types/wordzen/` and mirror the API field for field (`CourseRe
   The achievement catalogue is not faker-generated: it is `AchievementCatalog` copied row for
   row, so the codes match the ones account-api seeds and the services award by. Only the
   grants are generated, on a curve that decays along the catalogue.
+- `payments.ts` — the payment-api fixtures: 2,300 transactions over 180 days, their status
+  history and the subscriptions they opened. The flows are the service's own — a card or
+  wallet payment buys coins, an App Store or Play purchase buys a subscription package and
+  reports no price, Click and Payme stop appearing at the point they were switched off. The
+  subscription packages are `docker/postgres/seed-payment.sql` copied row for row; the coin
+  packages are invented, because `payment_packages` has no local seed.
 - `store.ts` — the mutable store. Its methods are named after the endpoints they stand in for,
   so swapping in a real client should be an implementation change, not a rewrite of call sites.
 
@@ -66,6 +74,7 @@ stack and the Swagger links):
 | Course content — courses, modules, cards, phrase cards, uploads, image generation | learning-api (18084) | `/api/v1/manager/**`, requires `ROLE_AUTHOR` |
 | User moderation — status, block/unblock, cache eviction                           | learning-api (18084) | `/api/v1/admin/**`, requires `ROLE_ADMIN`    |
 | Achievements — catalogue, per-user grants                                        | account-api (18083)  | `/api/v1/achievements`, `/api/v1/users/**`   |
+| Payments — transactions, subscription lifecycle                                  | payment-api (18085)  | `/api/v1/transactions`, `/api/v1/internal/**` |
 
 Local admin user: `admin@local.test` / `Passw0rd!` (`author@local.test` for the manager role).
 
@@ -91,6 +100,16 @@ Four gaps to close before the tools can be wired up:
   `POST /api/v1/users/{uid}/achievements` — but it is guarded by the client-key scheme, for
   the services that award achievements rather than for an admin JWT. A code invented in the
   tool is also inert until `model/AchievementCode` lists it.
+
+- **No admin payments endpoint.** `GET /api/v1/transactions` returns the *caller's* rows and
+  `/transactions/{uid}` is scoped to the caller too, so `/manage/payments` needs a paginated
+  admin listing before it can be wired up. The status history has no endpoint at all, the
+  money lives on the per-provider details row rather than on the transaction, and nothing
+  joins a `userUid` to an account. Cancel and refund do exist —
+  `POST /api/v1/internal/billing-subscriptions/{uid}/cancel` and `/refund` — but they answer
+  to the client-key scheme for the services, not to an admin JWT. The tool mirrors the
+  provider rules those two enforce: Apple is refused outright (the App Store owns both), and
+  a refund reaches Google Play and Multicard only.
 
 Also note that deletes are permanent: `entity/Course` carries an `isDeleted` column, but
 `ManagerCourseDao.delete` hard-deletes and the soft-delete lines are commented out. The tools

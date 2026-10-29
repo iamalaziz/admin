@@ -354,6 +354,7 @@ const buildDetails = (provider: ProviderCode, uid: string): Details => {
           { field: 'paymeAmount', value: String(amount * 100) }
         ]
       }
+
     case 'MULTICARD': {
       const card = buildCard()
 
@@ -370,6 +371,7 @@ const buildDetails = (provider: ProviderCode, uid: string): Details => {
         ]
       }
     }
+
     default:
       return {
         ...base,
