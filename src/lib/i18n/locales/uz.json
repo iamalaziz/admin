@@ -240,7 +240,7 @@
     },
     "variantLabel": "Ko'rinish",
     "variants": {
-      "commandCenter": "Boshqaruv markazi",
+      "commandCenter": "Umumiy ko'rinish",
       "engagement": "Faollik",
       "executive": "Rahbariyat uchun",
       "timing": "Vaqt"
@@ -1001,7 +1001,7 @@
     "may": "May"
   },
   "nav": {
-    "dashboardCommandCenter": "Boshqaruv markazi",
+    "dashboardCommandCenter": "Umumiy ko'rinish",
     "dashboardEngagement": "Faollik",
     "dashboardExecutive": "Rahbariyat uchun",
     "dashboardTiming": "Vaqt",
@@ -1019,7 +1019,7 @@
   "routes": {
     "achievements": "Yutuqlar",
     "categories": "Kategoriyalar",
-    "command-center": "Boshqaruv markazi",
+    "command-center": "Umumiy ko'rinish",
     "courses": "Kurslar",
     "dashboard": "Analitika",
     "engagement": "Faollik",

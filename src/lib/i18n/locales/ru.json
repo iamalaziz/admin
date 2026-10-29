@@ -240,7 +240,7 @@
     },
     "variantLabel": "Вариант",
     "variants": {
-      "commandCenter": "Командный центр",
+      "commandCenter": "Обзор",
       "engagement": "Вовлечённость",
       "executive": "Для руководства",
       "timing": "Время"
@@ -1001,7 +1001,7 @@
     "may": "Май"
   },
   "nav": {
-    "dashboardCommandCenter": "Командный центр",
+    "dashboardCommandCenter": "Обзор",
     "dashboardEngagement": "Вовлечённость",
     "dashboardExecutive": "Для руководства",
     "dashboardTiming": "Время",
@@ -1019,7 +1019,7 @@
   "routes": {
     "achievements": "Достижения",
     "categories": "Категории",
-    "command-center": "Командный центр",
+    "command-center": "Обзор",
     "courses": "Курсы",
     "dashboard": "Аналитика",
     "engagement": "Вовлечённость",

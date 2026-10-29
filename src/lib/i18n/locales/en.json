@@ -240,7 +240,7 @@
     },
     "variantLabel": "Layout",
     "variants": {
-      "commandCenter": "Command center",
+      "commandCenter": "Overview",
       "engagement": "Engagement",
       "executive": "Executive",
       "timing": "Timing"
@@ -1001,7 +1001,7 @@
     "may": "May"
   },
   "nav": {
-    "dashboardCommandCenter": "Command center",
+    "dashboardCommandCenter": "Overview",
     "dashboardEngagement": "Engagement",
     "dashboardExecutive": "Executive",
     "dashboardTiming": "Timing",
@@ -1019,7 +1019,7 @@
   "routes": {
     "achievements": "Achievements",
     "categories": "Categories",
-    "command-center": "Command center",
+    "command-center": "Overview",
     "courses": "Courses",
     "dashboard": "Analytics",
     "engagement": "Engagement",

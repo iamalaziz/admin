@@ -2,7 +2,7 @@
 import { CommandCenterDashboard } from '@/views/wordzen/analytics/dashboard-command-center'
 
 export const metadata = {
-  title: 'Command center | WordZen Admin'
+  title: 'Overview | WordZen Admin'
 }
 
 const CommandCenterPage = () => <CommandCenterDashboard />
