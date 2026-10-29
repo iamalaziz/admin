@@ -1,6 +1,6 @@
 const themeConfig = {
   appName: 'WordZen',
-  homePageUrl: '/dashboard/orders'
+  homePageUrl: '/manage/courses'
 } as const
 
 export default themeConfig

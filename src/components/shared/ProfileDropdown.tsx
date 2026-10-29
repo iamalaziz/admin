@@ -19,6 +19,9 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 
+// Config Imports
+import themeConfig from '@/configs/themeConfig'
+
 // Hook Imports
 import { useTranslation } from '@/lib/i18n'
 
@@ -72,7 +75,7 @@ const ProfileDropdown = () => {
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem variant='destructive' render={<Link href='/pages/auth/login' />}>
+          <DropdownMenuItem variant='destructive' render={<Link href={themeConfig.homePageUrl} />}>
             <LogOutIcon />
             <span>{t('chrome.signOut')}</span>
           </DropdownMenuItem>

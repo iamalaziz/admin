@@ -414,7 +414,7 @@ const SidebarGroupedMenuItems = ({
                 <SidebarMenuButton
                   tooltip={t(item.labelKey)}
                   render={<Link href={item.href} target={item.target} />}
-                  isActive={pathname === item.href}
+                  isActive={isLinkActive(item.href, undefined, pathname, searchParams)}
                   className='data-active:bg-primary/10!'
                 >
                   {Tag && <Tag />}
