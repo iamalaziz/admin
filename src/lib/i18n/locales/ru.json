@@ -1,4 +1,50 @@
 {
+  "audit": {
+    "actions": {
+      "BLOCK": "Заблокировал",
+      "CREATE": "Создал",
+      "DELETE": "Удалил",
+      "GRANT": "Выдал",
+      "PUBLISH": "Опубликовал",
+      "REORDER": "Переместил",
+      "REVOKE": "Отозвал",
+      "ROLES": "Изменил роли",
+      "UNBLOCK": "Разблокировал",
+      "UNPUBLISH": "Снял с публикации",
+      "UPDATE": "Изменил"
+    },
+    "cleared": "очищено",
+    "daysAgo": "{{count}} дн назад",
+    "deletedTarget": "Эта запись удалена",
+    "description": "Все изменения контента и пользователей, начиная с последних.",
+    "empty": "По этому фильтру изменений нет.",
+    "filters": {
+      "achievements": "Достижения",
+      "all": "Все",
+      "content": "Контент",
+      "deletions": "Удаления",
+      "users": "Пользователи"
+    },
+    "hoursAgo": "{{count}} ч назад",
+    "justNow": "только что",
+    "loadMore": "Показать ещё",
+    "minutesAgo": "{{count}} мин назад",
+    "open": "История действий",
+    "searchPlaceholder": "Поиск по сотрудникам, объектам и полям",
+    "showing": "Показано {{shown}} из {{total}}",
+    "targets": {
+      "ACHIEVEMENT": "Достижение",
+      "CARD": "Карточка",
+      "CATEGORY": "Категория",
+      "COURSE": "Курс",
+      "MODULE": "Модуль",
+      "PHRASE_CARD": "Фраза",
+      "USER": "Пользователь"
+    },
+    "title": "История действий администраторов",
+    "today": "Сегодня",
+    "yesterday": "Вчера"
+  },
   "chrome": {
     "adminPanel": "Админ-панель",
     "changeLanguage": "Сменить язык",
@@ -40,6 +86,158 @@
     "submit": "Отправить",
     "update": "Обновить",
     "view": "Просмотр"
+  },
+  "dashboard": {
+    "areaNames": {
+      "ACCOUNT": "Аккаунт",
+      "COMMERCE": "Магазин",
+      "CORE": "Основное",
+      "GAMES": "Игры",
+      "LEARN": "Обучение",
+      "SOCIAL": "Общение"
+    },
+    "buckets": {
+      "day": "день",
+      "fiveDays": "5 дней",
+      "hour": "час",
+      "twoDays": "2 дня"
+    },
+    "columns": {
+      "area": "Раздел",
+      "avgTime": "Среднее время",
+      "change": "Изменение",
+      "clickRate": "На просмотр",
+      "clicks": "Нажатия",
+      "element": "Элемент",
+      "exitRate": "Доля выходов",
+      "kind": "Тип",
+      "path": "Маршрут",
+      "screen": "Экран",
+      "share": "Доля",
+      "uniqueUsers": "Пользователи",
+      "views": "Просмотры"
+    },
+    "dropOff": "-{{percent}} к предыдущему шагу",
+    "elementKinds": {
+      "button": "Кнопка",
+      "card": "Карточка",
+      "filter": "Фильтр",
+      "form": "Форма",
+      "icon": "Иконка",
+      "link": "Ссылка",
+      "tab": "Вкладка",
+      "toggle": "Переключатель"
+    },
+    "eventTypes": {
+      "CLICK": "Нажатие",
+      "ERROR": "Ошибка",
+      "SCREEN_VIEW": "Просмотр",
+      "SEARCH": "Поиск",
+      "SUBMIT": "Отправка",
+      "SWIPE": "Свайп",
+      "TOGGLE": "Переключение"
+    },
+    "legend": {
+      "interactions": "Взаимодействия",
+      "sessions": "Сессии",
+      "views": "Просмотры"
+    },
+    "metricHints": {
+      "activeUsers": "Уникальные пользователи за период",
+      "avgSession": "От первого до последнего события сессии",
+      "errorRate": "Доля событий с ошибкой",
+      "interactions": "Нажатия, свайпы, отправки и переключатели",
+      "perSession": "Сколько действий реально делают за сессию",
+      "screenViews": "Каждый открытый экран",
+      "sessions": "Запуски приложения, разрыв после 30 мин простоя"
+    },
+    "metrics": {
+      "activeUsers": "Активные пользователи",
+      "avgSession": "Средняя сессия",
+      "errorRate": "Доля ошибок",
+      "interactions": "Взаимодействия",
+      "perSession": "Действий за сессию",
+      "screenViews": "Просмотры экранов",
+      "sessions": "Сессии"
+    },
+    "mockNotice": "Тестовые данные",
+    "mockNoticeHint": "Трафик приложения и журнал действий — тестовые данные.",
+    "noChange": "без изменений",
+    "ofUsers": "{{percent}} от тех, кто открыл приложение",
+    "openActivity": "История действий",
+    "peak": "Пик в {{day}} около {{hour}}",
+    "platformNames": {
+      "ANDROID": "Android",
+      "IOS": "iOS",
+      "WEB": "Веб"
+    },
+    "rangeLabel": "Период",
+    "ranges": {
+      "24h": "24 часа",
+      "30d": "30 дней",
+      "7d": "7 дней",
+      "90d": "90 дней"
+    },
+    "searchElements": "Поиск элементов",
+    "searchScreens": "Поиск экранов",
+    "sectionHints": {
+      "areas": "Куда уходит внимание",
+      "attention": "Среднее время до перехода с экрана",
+      "eventMix": "Доля от всех записанных событий",
+      "exits": "Доля сессий, завершившихся здесь",
+      "funnel": "От запуска приложения до второго упражнения",
+      "hourMatrix": "Взаимодействия по часам, в среднем за {{days}} дней",
+      "leastUsed": "Выпущены и почти не используются",
+      "platforms": "Сессии по платформам",
+      "topElements": "По нажатиям за выбранный период",
+      "topScreens": "По просмотрам за выбранный период",
+      "traffic": "Одна точка на {{bucket}}"
+    },
+    "sections": {
+      "areas": "Просмотры по разделам",
+      "attention": "Больше всего времени на экране",
+      "elementsTable": "Элементы",
+      "eventMix": "Состав событий",
+      "exits": "Чаще всего последний экран",
+      "funnel": "Воронка урока",
+      "hourMatrix": "Когда взаимодействуют",
+      "leastUsed": "Почти не используемые элементы",
+      "platforms": "Платформы",
+      "screensTable": "Экраны",
+      "topElements": "Самые используемые элементы",
+      "topScreens": "Самые просматриваемые экраны",
+      "traffic": "Просмотры и взаимодействия"
+    },
+    "subtitle": "Какие экраны приложения открывают и какими элементами действительно пользуются.",
+    "tabs": {
+      "areas": "Разделы",
+      "controls": "Элементы",
+      "screens": "Экраны"
+    },
+    "title": "Действия пользователей",
+    "variantHints": {
+      "commandCenter": "Главный график над рейтингами экранов и элементов",
+      "engagement": "Полные таблицы рядом с воронкой урока",
+      "executive": "Несколько крупных цифр",
+      "timing": "Сначала когда нажимают, потом детали"
+    },
+    "variantLabel": "Вариант",
+    "variants": {
+      "commandCenter": "Командный центр",
+      "engagement": "Вовлечённость",
+      "executive": "Для руководства",
+      "timing": "Время"
+    },
+    "vsPrevious": "к предыдущему периоду ({{range}})",
+    "weekdays": {
+      "fri": "Пт",
+      "mon": "Пн",
+      "sat": "Сб",
+      "sun": "Вс",
+      "thu": "Чт",
+      "tue": "Вт",
+      "wed": "Ср"
+    }
   },
   "forms": {
     "fields": {
@@ -474,9 +672,11 @@
       "achievements": "достижений",
       "cards": "карточек",
       "categories": "категорий",
+      "controls": "элементов",
       "courses": "курсов",
       "modules": "модулей",
       "recipients": "получателей",
+      "screens": "экранов",
       "users": "пользователей"
     },
     "phraseCardForm": {
@@ -647,7 +847,12 @@
     "may": "Май"
   },
   "nav": {
+    "dashboardCommandCenter": "Командный центр",
+    "dashboardEngagement": "Вовлечённость",
+    "dashboardExecutive": "Для руководства",
+    "dashboardTiming": "Время",
     "groups": {
+      "dashboards": "Аналитика",
       "manage": "Управление",
       "pages": "Страницы"
     },
@@ -659,12 +864,17 @@
   "routes": {
     "achievements": "Достижения",
     "categories": "Категории",
+    "command-center": "Командный центр",
     "courses": "Курсы",
+    "dashboard": "Аналитика",
+    "engagement": "Вовлечённость",
     "error-page": "Страница ошибки",
+    "executive": "Для руководства",
     "manage": "Управление",
     "misc": "Разное",
     "modules": "Модули",
     "pages": "Страницы",
+    "timing": "Время",
     "user-settings": "Настройки",
     "users": "Пользователи"
   },

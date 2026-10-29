@@ -47,7 +47,35 @@ export type NavItem = {
 }
 
 export const navItems: NavItem[] = [
-  // The real tools come first; the group below holds the standalone pages.
+  // Four candidate layouts for the same analytics data, listed side by side so they can be
+  // compared. Once one is chosen, this group collapses to a single link.
+  {
+    groupLabelKey: 'nav.groups.dashboards',
+    items: [
+      {
+        icon: 'LayoutDashboard',
+        labelKey: 'nav.dashboardCommandCenter',
+        href: '/dashboard/command-center'
+      },
+      {
+        icon: 'ChartNoAxesCombined',
+        labelKey: 'nav.dashboardEngagement',
+        href: '/dashboard/engagement'
+      },
+      {
+        icon: 'Clock',
+        labelKey: 'nav.dashboardTiming',
+        href: '/dashboard/timing'
+      },
+      {
+        icon: 'Gauge',
+        labelKey: 'nav.dashboardExecutive',
+        href: '/dashboard/executive'
+      }
+    ]
+  },
+
+  // The real tools come next; the group below that holds the standalone pages.
   {
     groupLabelKey: 'nav.groups.manage',
     items: [

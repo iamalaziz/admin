@@ -23,6 +23,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
+import { AuditHistoryDrawer } from '@/views/wordzen/analytics/audit-history-drawer'
 
 // Hook Imports
 import { useTranslation } from '@/lib/i18n'
@@ -71,6 +72,8 @@ const Header = () => {
           </Breadcrumb>
         </div>
         <div className='flex items-center gap-1.5'>
+          {/* Reachable from every page: the trail covers the whole panel, not one view. */}
+          <AuditHistoryDrawer />
           <ModeToggle />
           <LanguageDropdown
             trigger={

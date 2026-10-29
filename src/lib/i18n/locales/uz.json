@@ -1,4 +1,50 @@
 {
+  "audit": {
+    "actions": {
+      "BLOCK": "Blokladi",
+      "CREATE": "Yaratdi",
+      "DELETE": "O'chirdi",
+      "GRANT": "Berdi",
+      "PUBLISH": "Chiqardi",
+      "REORDER": "Tartibini o'zgartirdi",
+      "REVOKE": "Qaytarib oldi",
+      "ROLES": "Rollarni o'zgartirdi",
+      "UNBLOCK": "Blokdan chiqardi",
+      "UNPUBLISH": "Chiqarishdan oldi",
+      "UPDATE": "O'zgartirdi"
+    },
+    "cleared": "tozalandi",
+    "daysAgo": "{{count}} kun oldin",
+    "deletedTarget": "Bu yozuv o'chirilgan",
+    "description": "Xodimlar kontent va foydalanuvchilarga kiritgan barcha o'zgarishlar, eng yangisidan boshlab.",
+    "empty": "Bu filtr bo'yicha o'zgarish yo'q.",
+    "filters": {
+      "achievements": "Yutuqlar",
+      "all": "Hammasi",
+      "content": "Kontent",
+      "deletions": "O'chirishlar",
+      "users": "Foydalanuvchilar"
+    },
+    "hoursAgo": "{{count}} soat oldin",
+    "justNow": "hozir",
+    "loadMore": "Ko'proq ko'rsatish",
+    "minutesAgo": "{{count}} daqiqa oldin",
+    "open": "Harakatlar tarixi",
+    "searchPlaceholder": "Xodimlar, obyektlar va maydonlar bo'yicha qidirish",
+    "showing": "{{total}} dan {{shown}} ta ko'rsatilmoqda",
+    "targets": {
+      "ACHIEVEMENT": "Yutuq",
+      "CARD": "Karta",
+      "CATEGORY": "Bo'lim",
+      "COURSE": "Kurs",
+      "MODULE": "Modul",
+      "PHRASE_CARD": "Ibora",
+      "USER": "Foydalanuvchi"
+    },
+    "title": "Administrator harakatlari tarixi",
+    "today": "Bugun",
+    "yesterday": "Kecha"
+  },
   "chrome": {
     "adminPanel": "Admin panel",
     "changeLanguage": "Tilni o‘zgartirish",
@@ -40,6 +86,158 @@
     "submit": "Yuborish",
     "update": "Yangilash",
     "view": "Ko‘rish"
+  },
+  "dashboard": {
+    "areaNames": {
+      "ACCOUNT": "Hisob",
+      "COMMERCE": "Do'kon",
+      "CORE": "Asosiy",
+      "GAMES": "O'yinlar",
+      "LEARN": "O'qish",
+      "SOCIAL": "Ijtimoiy"
+    },
+    "buckets": {
+      "day": "kun",
+      "fiveDays": "5 kun",
+      "hour": "soat",
+      "twoDays": "2 kun"
+    },
+    "columns": {
+      "area": "Bo'lim",
+      "avgTime": "O'rtacha vaqt",
+      "change": "O'zgarish",
+      "clickRate": "Ko'rishga",
+      "clicks": "Bosishlar",
+      "element": "Element",
+      "exitRate": "Chiqish ulushi",
+      "kind": "Turi",
+      "path": "Manzil",
+      "screen": "Ekran",
+      "share": "Ulush",
+      "uniqueUsers": "Foydalanuvchilar",
+      "views": "Ko'rishlar"
+    },
+    "dropOff": "oldingi qadamdan -{{percent}}",
+    "elementKinds": {
+      "button": "Tugma",
+      "card": "Karta",
+      "filter": "Filtr",
+      "form": "Forma",
+      "icon": "Belgi",
+      "link": "Havola",
+      "tab": "Yorliq",
+      "toggle": "O'tkazgich"
+    },
+    "eventTypes": {
+      "CLICK": "Bosish",
+      "ERROR": "Xato",
+      "SCREEN_VIEW": "Ko'rish",
+      "SEARCH": "Qidiruv",
+      "SUBMIT": "Yuborish",
+      "SWIPE": "Svayp",
+      "TOGGLE": "O'tkazish"
+    },
+    "legend": {
+      "interactions": "Harakatlar",
+      "sessions": "Seanslar",
+      "views": "Ko'rishlar"
+    },
+    "metricHints": {
+      "activeUsers": "Davr ichidagi noyob foydalanuvchilar",
+      "avgSession": "Seansning birinchi va oxirgi hodisasi orasi",
+      "errorRate": "Xato bilan tugagan hodisalar ulushi",
+      "interactions": "Bosish, svayp, yuborish va o'tkazgichlar",
+      "perSession": "Bir seansda qancha ish bajariladi",
+      "screenViews": "Ochilgan har bir ekran",
+      "sessions": "Ilova ochilishi, 30 daqiqa tindan keyin yangisi"
+    },
+    "metrics": {
+      "activeUsers": "Faol foydalanuvchilar",
+      "avgSession": "O'rtacha seans",
+      "errorRate": "Xatolar ulushi",
+      "interactions": "O'zaro harakatlar",
+      "perSession": "Seansdagi harakatlar",
+      "screenViews": "Ekran ko'rishlari",
+      "sessions": "Seanslar"
+    },
+    "mockNotice": "Sinov ma'lumotlari",
+    "mockNoticeHint": "Ilova trafigi va harakatlar jurnali — sinov ma'lumotlari.",
+    "noChange": "o'zgarishsiz",
+    "ofUsers": "ilovani ochganlarning {{percent}}",
+    "openActivity": "Harakatlar tarixi",
+    "peak": "Eng gavjum {{day}}, {{hour}} atrofida",
+    "platformNames": {
+      "ANDROID": "Android",
+      "IOS": "iOS",
+      "WEB": "Veb"
+    },
+    "rangeLabel": "Davr",
+    "ranges": {
+      "24h": "24 soat",
+      "30d": "30 kun",
+      "7d": "7 kun",
+      "90d": "90 kun"
+    },
+    "searchElements": "Elementlarni qidirish",
+    "searchScreens": "Ekranlarni qidirish",
+    "sectionHints": {
+      "areas": "E'tibor qayerga ketadi",
+      "attention": "Ekrandan chiqishgacha o'rtacha vaqt",
+      "eventMix": "Barcha yozilgan hodisalardagi ulush",
+      "exits": "Shu ekranda tugagan seanslar ulushi",
+      "funnel": "Ilovani ochishdan ikkinchi mashqqa qadar",
+      "hourMatrix": "Soatlar bo'yicha harakatlar, {{days}} kun o'rtachasi",
+      "leastUsed": "Chiqarilgan, ammo deyarli ishlatilmaydi",
+      "platforms": "Platformalar bo'yicha seanslar",
+      "topElements": "Tanlangan davrdagi bosishlar bo'yicha",
+      "topScreens": "Tanlangan davrdagi ko'rishlar bo'yicha",
+      "traffic": "Har {{bucket}} uchun bitta nuqta"
+    },
+    "sections": {
+      "areas": "Bo'limlar bo'yicha ko'rishlar",
+      "attention": "Ekranda eng uzoq vaqt",
+      "elementsTable": "Elementlar",
+      "eventMix": "Hodisalar tarkibi",
+      "exits": "Eng ko'p oxirgi ekran",
+      "funnel": "Dars varonkasi",
+      "hourMatrix": "Qachon harakat qilinadi",
+      "leastUsed": "Deyarli ishlatilmagan elementlar",
+      "platforms": "Platformalar",
+      "screensTable": "Ekranlar",
+      "topElements": "Eng ko'p ishlatilgan elementlar",
+      "topScreens": "Eng ko'p ko'rilgan ekranlar",
+      "traffic": "Ko'rishlar va harakatlar"
+    },
+    "subtitle": "Ilova foydalanuvchilari qaysi ekranlarni ochadi va qaysi elementlardan haqiqatan foydalanadi.",
+    "tabs": {
+      "areas": "Bo'limlar",
+      "controls": "Elementlar",
+      "screens": "Ekranlar"
+    },
+    "title": "Foydalanuvchi harakatlari",
+    "variantHints": {
+      "commandCenter": "Asosiy grafik, ostida ekran va element reytinglari",
+      "engagement": "To'liq jadvallar va dars varonkasi yonma-yon",
+      "executive": "Bir nechta yirik raqam",
+      "timing": "Avval qachon bosiladi, keyin tafsilotlar"
+    },
+    "variantLabel": "Ko'rinish",
+    "variants": {
+      "commandCenter": "Boshqaruv markazi",
+      "engagement": "Faollik",
+      "executive": "Rahbariyat uchun",
+      "timing": "Vaqt"
+    },
+    "vsPrevious": "oldingi davrga ({{range}}) nisbatan",
+    "weekdays": {
+      "fri": "Ju",
+      "mon": "Du",
+      "sat": "Sh",
+      "sun": "Ya",
+      "thu": "Pa",
+      "tue": "Se",
+      "wed": "Ch"
+    }
   },
   "forms": {
     "fields": {
@@ -474,9 +672,11 @@
       "achievements": "yutuq",
       "cards": "karta",
       "categories": "kategoriya",
+      "controls": "element",
       "courses": "kurs",
       "modules": "modul",
       "recipients": "foydalanuvchi",
+      "screens": "ekran",
       "users": "foydalanuvchi"
     },
     "phraseCardForm": {
@@ -647,7 +847,12 @@
     "may": "May"
   },
   "nav": {
+    "dashboardCommandCenter": "Boshqaruv markazi",
+    "dashboardEngagement": "Faollik",
+    "dashboardExecutive": "Rahbariyat uchun",
+    "dashboardTiming": "Vaqt",
     "groups": {
+      "dashboards": "Analitika",
       "manage": "Boshqaruv",
       "pages": "Sahifalar"
     },
@@ -659,12 +864,17 @@
   "routes": {
     "achievements": "Yutuqlar",
     "categories": "Kategoriyalar",
+    "command-center": "Boshqaruv markazi",
     "courses": "Kurslar",
+    "dashboard": "Analitika",
+    "engagement": "Faollik",
     "error-page": "Xatolik sahifasi",
+    "executive": "Rahbariyat uchun",
     "manage": "Boshqaruv",
     "misc": "Boshqa",
     "modules": "Modullar",
     "pages": "Sahifalar",
+    "timing": "Vaqt",
     "user-settings": "Sozlamalar",
     "users": "Foydalanuvchilar"
   },

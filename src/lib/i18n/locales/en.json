@@ -1,4 +1,50 @@
 {
+  "audit": {
+    "actions": {
+      "BLOCK": "Blocked",
+      "CREATE": "Created",
+      "DELETE": "Deleted",
+      "GRANT": "Granted",
+      "PUBLISH": "Published",
+      "REORDER": "Reordered",
+      "REVOKE": "Revoked",
+      "ROLES": "Roles changed",
+      "UNBLOCK": "Unblocked",
+      "UNPUBLISH": "Unpublished",
+      "UPDATE": "Updated"
+    },
+    "cleared": "cleared",
+    "daysAgo": "{{count}} d ago",
+    "deletedTarget": "This row has been deleted",
+    "description": "Every change staff made to content and users, newest first.",
+    "empty": "No changes match this filter.",
+    "filters": {
+      "achievements": "Achievements",
+      "all": "All",
+      "content": "Content",
+      "deletions": "Deletions",
+      "users": "Users"
+    },
+    "hoursAgo": "{{count}} h ago",
+    "justNow": "just now",
+    "loadMore": "Load more",
+    "minutesAgo": "{{count}} min ago",
+    "open": "Activity history",
+    "searchPlaceholder": "Search staff, targets, fields",
+    "showing": "Showing {{shown}} of {{total}}",
+    "targets": {
+      "ACHIEVEMENT": "Achievement",
+      "CARD": "Card",
+      "CATEGORY": "Category",
+      "COURSE": "Course",
+      "MODULE": "Module",
+      "PHRASE_CARD": "Phrase card",
+      "USER": "User"
+    },
+    "title": "Admin activity history",
+    "today": "Today",
+    "yesterday": "Yesterday"
+  },
   "chrome": {
     "adminPanel": "Admin Panel",
     "changeLanguage": "Change language",
@@ -40,6 +86,158 @@
     "submit": "Submit",
     "update": "Update",
     "view": "View"
+  },
+  "dashboard": {
+    "areaNames": {
+      "ACCOUNT": "Account",
+      "COMMERCE": "Shop",
+      "CORE": "Core",
+      "GAMES": "Games",
+      "LEARN": "Learning",
+      "SOCIAL": "Social"
+    },
+    "buckets": {
+      "day": "day",
+      "fiveDays": "5 days",
+      "hour": "hour",
+      "twoDays": "2 days"
+    },
+    "columns": {
+      "area": "Area",
+      "avgTime": "Avg. time",
+      "change": "Change",
+      "clickRate": "Per view",
+      "clicks": "Clicks",
+      "element": "Control",
+      "exitRate": "Exit rate",
+      "kind": "Kind",
+      "path": "Route",
+      "screen": "Screen",
+      "share": "Share",
+      "uniqueUsers": "Users",
+      "views": "Views"
+    },
+    "dropOff": "-{{percent}} from the step before",
+    "elementKinds": {
+      "button": "Button",
+      "card": "Card",
+      "filter": "Filter",
+      "form": "Form",
+      "icon": "Icon",
+      "link": "Link",
+      "tab": "Tab",
+      "toggle": "Toggle"
+    },
+    "eventTypes": {
+      "CLICK": "Click",
+      "ERROR": "Error",
+      "SCREEN_VIEW": "View",
+      "SEARCH": "Search",
+      "SUBMIT": "Submit",
+      "SWIPE": "Swipe",
+      "TOGGLE": "Toggle"
+    },
+    "legend": {
+      "interactions": "Interactions",
+      "sessions": "Sessions",
+      "views": "Views"
+    },
+    "metricHints": {
+      "activeUsers": "Distinct users in the range",
+      "avgSession": "First to last event of a session",
+      "errorRate": "Share of events that failed",
+      "interactions": "Taps, swipes, submits and toggles",
+      "perSession": "How much a session actually does",
+      "screenViews": "Every screen a user opened",
+      "sessions": "App opens, split after 30 min idle"
+    },
+    "metrics": {
+      "activeUsers": "Active users",
+      "avgSession": "Avg. session",
+      "errorRate": "Error rate",
+      "interactions": "Interactions",
+      "perSession": "Interactions / session",
+      "screenViews": "Screen views",
+      "sessions": "Sessions"
+    },
+    "mockNotice": "Mock data",
+    "mockNoticeHint": "App traffic and the audit trail are fixture data.",
+    "noChange": "no change",
+    "ofUsers": "{{percent}} of the users who opened the app",
+    "openActivity": "Activity history",
+    "peak": "Busiest {{day}} around {{hour}}",
+    "platformNames": {
+      "ANDROID": "Android",
+      "IOS": "iOS",
+      "WEB": "Web"
+    },
+    "rangeLabel": "Range",
+    "ranges": {
+      "24h": "24 hours",
+      "30d": "30 days",
+      "7d": "7 days",
+      "90d": "90 days"
+    },
+    "searchElements": "Search controls",
+    "searchScreens": "Search screens",
+    "sectionHints": {
+      "areas": "Where the attention goes",
+      "attention": "Average seconds before leaving the screen",
+      "eventMix": "Share of all recorded events",
+      "exits": "Share of sessions that ended here",
+      "funnel": "From opening the app to a second drill",
+      "hourMatrix": "Interactions per hour, averaged over {{days}} days",
+      "leastUsed": "Shipped, and barely touched",
+      "platforms": "Sessions per platform",
+      "topElements": "By clicks in the selected range",
+      "topScreens": "By views in the selected range",
+      "traffic": "One point per {{bucket}}"
+    },
+    "sections": {
+      "areas": "Views by area",
+      "attention": "Longest time on screen",
+      "elementsTable": "Controls",
+      "eventMix": "Event mix",
+      "exits": "Most common last screen",
+      "funnel": "Lesson funnel",
+      "hourMatrix": "When people interact",
+      "leastUsed": "Least used controls",
+      "platforms": "Platforms",
+      "screensTable": "Screens",
+      "topElements": "Most used controls",
+      "topScreens": "Most viewed screens",
+      "traffic": "Views and interactions"
+    },
+    "subtitle": "Which screens the app's users open, and which controls they actually use.",
+    "tabs": {
+      "areas": "Areas",
+      "controls": "Controls",
+      "screens": "Screens"
+    },
+    "title": "User actions",
+    "variantHints": {
+      "commandCenter": "Headline chart over ranked screens and controls",
+      "engagement": "Full tables beside the lesson funnel",
+      "executive": "A handful of numbers, large",
+      "timing": "When the taps happen, then the detail"
+    },
+    "variantLabel": "Layout",
+    "variants": {
+      "commandCenter": "Command center",
+      "engagement": "Engagement",
+      "executive": "Executive",
+      "timing": "Timing"
+    },
+    "vsPrevious": "vs previous {{range}}",
+    "weekdays": {
+      "fri": "Fri",
+      "mon": "Mon",
+      "sat": "Sat",
+      "sun": "Sun",
+      "thu": "Thu",
+      "tue": "Tue",
+      "wed": "Wed"
+    }
   },
   "forms": {
     "fields": {
@@ -474,9 +672,11 @@
       "achievements": "achievements",
       "cards": "cards",
       "categories": "categories",
+      "controls": "controls",
       "courses": "courses",
       "modules": "modules",
       "recipients": "holders",
+      "screens": "screens",
       "users": "users"
     },
     "phraseCardForm": {
@@ -647,7 +847,12 @@
     "may": "May"
   },
   "nav": {
+    "dashboardCommandCenter": "Command center",
+    "dashboardEngagement": "Engagement",
+    "dashboardExecutive": "Executive",
+    "dashboardTiming": "Timing",
     "groups": {
+      "dashboards": "Analytics",
       "manage": "Management",
       "pages": "Pages"
     },
@@ -659,12 +864,17 @@
   "routes": {
     "achievements": "Achievements",
     "categories": "Categories",
+    "command-center": "Command center",
     "courses": "Courses",
+    "dashboard": "Analytics",
+    "engagement": "Engagement",
     "error-page": "Error Page",
+    "executive": "Executive",
     "manage": "Management",
     "misc": "Miscellaneous",
     "modules": "Modules",
     "pages": "Pages",
+    "timing": "Timing",
     "user-settings": "Settings",
     "users": "Users"
   },
