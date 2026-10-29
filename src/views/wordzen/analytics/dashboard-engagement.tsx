@@ -28,6 +28,7 @@ import { DashboardHeader, RangeCaption } from './dashboard-chrome'
 import { formatCount, formatDuration, formatExact, formatPercent, formatRate } from './format'
 import {
   AreaBadge,
+  CountryRows,
   ElementKindBadge,
   FunnelBars,
   PlatformRows,
@@ -162,6 +163,7 @@ export function EngagementDashboard() {
             <TabsTrigger value='screens'>{t('dashboard.tabs.screens')}</TabsTrigger>
             <TabsTrigger value='controls'>{t('dashboard.tabs.controls')}</TabsTrigger>
             <TabsTrigger value='areas'>{t('dashboard.tabs.areas')}</TabsTrigger>
+            <TabsTrigger value='countries'>{t('dashboard.tabs.countries')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value='screens'>
@@ -233,6 +235,13 @@ export function EngagementDashboard() {
                   )
                 }))}
               />
+            </SectionCard>
+          </TabsContent>
+
+          {/* The whole split, not a top five: this layout truncates nothing. */}
+          <TabsContent value='countries'>
+            <SectionCard title={t('dashboard.sections.countries')} hint={t('dashboard.sectionHints.countries')}>
+              <CountryRows countries={analytics.countries} showChange />
             </SectionCard>
           </TabsContent>
         </Tabs>

@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 
 import {
   getAreaSplit,
+  getCountrySplit,
   getElementStats,
   getEventMix,
   getFunnel,
@@ -39,8 +40,22 @@ export function useAnalytics(initialRange: AnalyticsRange = '7d') {
   const funnel = useMemo(() => getFunnel(range), [range])
   const platforms = useMemo(() => getPlatformSplit(range), [range])
   const areas = useMemo(() => getAreaSplit(range), [range])
+  const countries = useMemo(() => getCountrySplit(range), [range])
 
-  return { range, setRange, summary, screens, elements, timeline, eventMix, hourMatrix, funnel, platforms, areas }
+  return {
+    range,
+    setRange,
+    summary,
+    screens,
+    elements,
+    timeline,
+    eventMix,
+    hourMatrix,
+    funnel,
+    platforms,
+    areas,
+    countries
+  }
 }
 
 export type Analytics = ReturnType<typeof useAnalytics>

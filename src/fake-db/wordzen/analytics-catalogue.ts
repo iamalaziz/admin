@@ -6,7 +6,13 @@
  * than like placeholder rows. `weight` is the only invented number: it is a relative
  * popularity, and `analytics.ts` turns it into views and clicks per day.
  */
-import type { ElementDefinition, ElementKind, ScreenArea, ScreenDefinition } from '@/types/wordzen/analytics-types'
+import type {
+  CountryCode,
+  ElementDefinition,
+  ElementKind,
+  ScreenArea,
+  ScreenDefinition
+} from '@/types/wordzen/analytics-types'
 
 type ScreenSeed = ScreenDefinition & {
 
@@ -192,6 +198,33 @@ export const PLATFORM_SHARES: readonly { platform: 'WEB' | 'ANDROID' | 'IOS'; sh
   { platform: 'WEB', share: 0.52 },
   { platform: 'ANDROID', share: 0.31 },
   { platform: 'IOS', share: 0.17 }
+]
+
+/**
+ * Where the sessions come from.
+ *
+ * `share` is the country's slice of sessions at the midpoint of the series, and `drift` is
+ * how that slice moves across it: +0.3 means the share ends the series 30% above where it
+ * started, which is what makes one country's trend pill differ from another's. The shares
+ * are renormalised per day, so they stay a split however the drifts pull — a country can
+ * only grow its share at the expense of the rest.
+ *
+ * The list is the app's own geography: Uzbek-first, with the rest of the CIS behind it and
+ * a long diaspora tail folded into `OTHER`.
+ */
+export const COUNTRY_SHARES: readonly { code: CountryCode; share: number; drift: number }[] = [
+  { code: 'UZ', share: 0.41, drift: 0.06 },
+  { code: 'RU', share: 0.17, drift: -0.14 },
+  { code: 'KZ', share: 0.09, drift: 0.22 },
+  { code: 'KG', share: 0.055, drift: 0.18 },
+  { code: 'TJ', share: 0.04, drift: 0.11 },
+  { code: 'TR', share: 0.035, drift: 0.34 },
+  { code: 'US', share: 0.03, drift: -0.05 },
+  { code: 'DE', share: 0.025, drift: 0.09 },
+  { code: 'KR', share: 0.02, drift: 0.41 },
+  { code: 'GB', share: 0.015, drift: -0.08 },
+  { code: 'AE', share: 0.012, drift: 0.27 },
+  { code: 'OTHER', share: 0.098, drift: 0.02 }
 ]
 
 /** Event mix, as a share of all events. Views and clicks dominate; errors are the tail. */

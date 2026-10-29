@@ -117,6 +117,20 @@
       "uniqueUsers": "Foydalanuvchilar",
       "views": "Ko'rishlar"
     },
+    "countryNames": {
+      "AE": "BAA",
+      "DE": "Germaniya",
+      "GB": "Buyuk Britaniya",
+      "KG": "Qirg‘iziston",
+      "KR": "Janubiy Koreya",
+      "KZ": "Qozog‘iston",
+      "OTHER": "Boshqa davlatlar",
+      "RU": "Rossiya",
+      "TJ": "Tojikiston",
+      "TR": "Turkiya",
+      "US": "AQSH",
+      "UZ": "O‘zbekiston"
+    },
     "dropOff": "oldingi qadamdan -{{percent}}",
     "elementKinds": {
       "button": "Tugma",
@@ -181,12 +195,14 @@
     "sectionHints": {
       "areas": "E'tibor qayerga ketadi",
       "attention": "Ekrandan chiqishgacha o'rtacha vaqt",
+      "countries": "Davlatlar bo‘yicha noyob foydalanuvchilar, seans manbasiga ko‘ra",
       "eventMix": "Barcha yozilgan hodisalardagi ulush",
       "exits": "Shu ekranda tugagan seanslar ulushi",
       "funnel": "Ilovani ochishdan ikkinchi mashqqa qadar",
       "hourMatrix": "Soatlar bo'yicha harakatlar, {{days}} kun o'rtachasi",
       "leastUsed": "Chiqarilgan, ammo deyarli ishlatilmaydi",
       "platforms": "Platformalar bo'yicha seanslar",
+      "topCountries": "Tanlangan davrdagi foydalanuvchilar bo‘yicha",
       "topElements": "Tanlangan davrdagi bosishlar bo'yicha",
       "topScreens": "Tanlangan davrdagi ko'rishlar bo'yicha",
       "traffic": "Har {{bucket}} uchun bitta nuqta"
@@ -194,6 +210,7 @@
     "sections": {
       "areas": "Bo'limlar bo'yicha ko'rishlar",
       "attention": "Ekranda eng uzoq vaqt",
+      "countries": "Davlatlar bo‘yicha foydalanuvchilar",
       "elementsTable": "Elementlar",
       "eventMix": "Hodisalar tarkibi",
       "exits": "Eng ko'p oxirgi ekran",
@@ -202,6 +219,7 @@
       "leastUsed": "Deyarli ishlatilmagan elementlar",
       "platforms": "Platformalar",
       "screensTable": "Ekranlar",
+      "topCountries": "Asosiy davlatlar",
       "topElements": "Eng ko'p ishlatilgan elementlar",
       "topScreens": "Eng ko'p ko'rilgan ekranlar",
       "traffic": "Ko'rishlar va harakatlar"
@@ -210,6 +228,7 @@
     "tabs": {
       "areas": "Bo'limlar",
       "controls": "Elementlar",
+      "countries": "Davlatlar",
       "screens": "Ekranlar"
     },
     "title": "Foydalanuvchi harakatlari",

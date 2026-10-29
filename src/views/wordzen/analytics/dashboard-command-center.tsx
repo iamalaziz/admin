@@ -18,7 +18,15 @@ import { useTranslation } from '@/lib/i18n'
 import { Sparkline, TrafficChart } from './charts'
 import { bucketKey, DashboardHeader, RangeCaption } from './dashboard-chrome'
 import { formatCount, formatExact, formatPercent, formatRate } from './format'
-import { AreaBadge, ElementKindBadge, MetricTile, PlatformRows, RankedBars, SectionCard } from './widgets'
+import {
+  AreaBadge,
+  CountryRows,
+  ElementKindBadge,
+  MetricTile,
+  PlatformRows,
+  RankedBars,
+  SectionCard
+} from './widgets'
 
 const TOP_N = 8
 
@@ -26,7 +34,7 @@ export function CommandCenterDashboard() {
   const { t } = useTranslation()
   const analytics = useAnalytics()
 
-  const { summary, screens, elements, timeline, eventMix, platforms } = analytics
+  const { summary, screens, elements, timeline, eventMix, platforms, countries } = analytics
 
   const topScreens = screens.slice(0, TOP_N)
   const topElements = elements.slice(0, TOP_N)
@@ -124,7 +132,8 @@ export function CommandCenterDashboard() {
         </SectionCard>
       </div>
 
-      <div className='grid gap-6 lg:grid-cols-2'>
+      {/* Three supporting splits: what happened, on what, and where. */}
+      <div className='grid gap-6 lg:grid-cols-2 xl:grid-cols-3'>
         <SectionCard title={t('dashboard.sections.eventMix')} hint={t('dashboard.sectionHints.eventMix')}>
           <RankedBars
             items={eventMix.map(slice => ({
@@ -141,6 +150,10 @@ export function CommandCenterDashboard() {
 
         <SectionCard title={t('dashboard.sections.platforms')} hint={t('dashboard.sectionHints.platforms')}>
           <PlatformRows platforms={platforms} />
+        </SectionCard>
+
+        <SectionCard title={t('dashboard.sections.countries')} hint={t('dashboard.sectionHints.countries')}>
+          <CountryRows countries={countries} limit={TOP_N} />
         </SectionCard>
       </div>
     </div>

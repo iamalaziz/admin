@@ -19,6 +19,8 @@ import { faker } from '@faker-js/faker'
 import type {
   AnalyticsRange,
   AnalyticsSummary,
+  CountryCode,
+  CountrySplit,
   ElementStat,
   EventMixSlice,
   EventType,
@@ -34,6 +36,7 @@ import type {
 import { RANGE_DAYS } from '@/types/wordzen/analytics-types'
 
 import {
+  COUNTRY_SHARES,
   ELEMENT_SEEDS,
   EVENT_MIX_SHARES,
   FUNNEL_SEEDS,
@@ -162,6 +165,36 @@ const built = (() => {
 
   return { screenViews, elementClicks, reachByScreen, viewsPerDay, interactionsPerDay, usersPerDay, sessionsPerDay, secondsPerDay }
 })()
+
+/**
+ * Sessions per country per day.
+ *
+ * Built from the day totals rather than alongside them, so the split can never disagree
+ * with the sessions the summary reports: the weights are renormalised on each day and the
+ * country rows add back up to that day. `drift` tilts a country's weight linearly across
+ * the series, which is the whole point of the breakdown — a split whose shares never move
+ * would show the same trend on every row.
+ *
+ * No faker here: the shares are fixed, and drawing from the generator at this point would
+ * shift every number in the series above.
+ */
+const buildCountrySessions = (): Map<CountryCode, number[]> => {
+  const series = new Map<CountryCode, number[]>(COUNTRY_SHARES.map(seed => [seed.code, []]))
+
+  for (let index = 0; index < SERIES_DAYS; index++) {
+    const progress = index / (SERIES_DAYS - 1)
+    const weights = COUNTRY_SHARES.map(seed => seed.share * (1 + seed.drift * progress))
+    const total = sum(weights)
+
+    COUNTRY_SHARES.forEach((seed, seedIndex) => {
+      series.get(seed.code)!.push(Math.round(built.sessionsPerDay[index] * (weights[seedIndex] / total)))
+    })
+  }
+
+  return series
+}
+
+const sessionsByCountry = buildCountrySessions()
 
 /* -------------------------------------------------------------------------- *
  * Windows
@@ -467,6 +500,35 @@ export const getPlatformSplit = (range: AnalyticsRange): PlatformSplit[] => {
     sessions: Math.round(sessions * entry.share),
     share: entry.share
   }))
+}
+
+/**
+ * Sessions and users per country.
+ *
+ * Users are the range's active users cut by the country's session share rather than
+ * counted per country: the fixture has no per-country population, and deriving them keeps
+ * the rows adding up to the headline figure the dashboards show beside them.
+ */
+export const getCountrySplit = (range: AnalyticsRange): CountrySplit[] => {
+  const { from, to, prevFrom, prevTo, days } = windowFor(range)
+
+  const sessions = sliceSum(built.sessionsPerDay, from, to)
+  const activeUsers = uniqueUsersOver(from, to, days)
+
+  return COUNTRY_SHARES.map(seed => {
+    const series = sessionsByCountry.get(seed.code)!
+    const windowSessions = sliceSum(series, from, to)
+    const previous = sliceSum(series, prevFrom, prevTo)
+    const share = sessions === 0 ? 0 : windowSessions / sessions
+
+    return {
+      code: seed.code,
+      users: Math.round(activeUsers * share),
+      sessions: windowSessions,
+      share,
+      changePct: previous === 0 ? 0 : ((windowSessions - previous) / previous) * 100
+    }
+  }).sort((a, b) => (a.code === 'OTHER' ? 1 : b.code === 'OTHER' ? -1 : b.sessions - a.sessions))
 }
 
 export type AreaSplit = { area: ScreenArea; views: number; share: number }

@@ -21,6 +21,8 @@ import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/componen
 import { useTranslation } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 import type {
+  CountryCode,
+  CountrySplit,
   ElementKind,
   EventType,
   FunnelStep,
@@ -458,5 +460,68 @@ export function PlatformRows({ platforms }: { platforms: { platform: Platform; s
         ))}
       </ul>
     </div>
+  )
+}
+
+/* -------------------------------------------------------------------------- *
+ * Countries
+ * -------------------------------------------------------------------------- */
+
+/**
+ * The ISO code behind a country row.
+ *
+ * Monospaced for the same reason `RoutePath` is: it is the identifier the aggregate is
+ * keyed on, not prose. A flag would be prettier, but regional-indicator emoji fall back to
+ * the bare letters on Windows, so half the readers would see this anyway — with none of
+ * the alignment.
+ */
+export function CountryCodeBadge({ code }: { code: CountryCode }) {
+  if (code === 'OTHER') {
+    return null
+  }
+
+  return <code className='bg-muted text-muted-foreground rounded px-1.5 py-0.5 text-[11px]'>{code}</code>
+}
+
+export interface CountryRowsProps {
+  countries: CountrySplit[]
+
+  /** Rows to draw, longest first. Omitted, every country in the split is listed. */
+  limit?: number
+
+  /** Show each row's change against the previous window. Off where the card is dense. */
+  showChange?: boolean
+
+  className?: string
+}
+
+/**
+ * Users per country.
+ *
+ * Deliberately a ranking and not a map: a choropleth of twelve countries spends the whole
+ * card on landmass, which is the one variable nobody is asking about — Uzbekistan and
+ * Kazakhstan differ ninefold in area and twofold in users here. Bars put the two numbers
+ * that matter next to each other, and `share` is written out so the rows that round to the
+ * same bar width are still distinguishable.
+ */
+export function CountryRows({ countries, limit, showChange = false, className }: CountryRowsProps) {
+  const { t } = useTranslation()
+
+  const rows = limit === undefined ? countries : countries.slice(0, limit)
+  const max = Math.max(...rows.map(entry => entry.users), 1)
+
+  return (
+    <RankedBars
+      className={className}
+      items={rows.map(entry => ({
+        id: entry.code,
+        label: t(`dashboard.countryNames.${entry.code}`),
+        sublabel: <CountryCodeBadge code={entry.code} />,
+        value: entry.users,
+        share: entry.users / max,
+        changePct: showChange ? entry.changePct : undefined,
+        trailing: <span className='text-muted-foreground text-xs tabular-nums'>{formatPercent(entry.share, 1)}</span>
+      }))}
+    />
   )
 }

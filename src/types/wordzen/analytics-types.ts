@@ -16,6 +16,7 @@
  *   getHourMatrix(range)     GET /analytics/interactions/by-hour?range=
  *   getFunnel(range)         GET /analytics/funnels/lesson?range=
  *   getPlatformSplit(range)  GET /analytics/platforms?range=
+ *   getCountrySplit(range)   GET /analytics/countries?range=
  *   listActivity(filter)     GET /analytics/activity?filter=&cursor=
  *
  * The screen keys and paths are the app's real routes (`app/src/app/router/AppRoutes.tsx`)
@@ -66,6 +67,15 @@ export type ScreenArea = (typeof SCREEN_AREAS)[number]
 export const PLATFORMS = ['WEB', 'ANDROID', 'IOS'] as const
 
 export type Platform = (typeof PLATFORMS)[number]
+
+/**
+ * The countries reported separately, ISO-3166 alpha-2. `OTHER` is the residual: everything
+ * outside the list, and everything the event's IP could not be resolved to. It is always
+ * drawn last rather than in rank order, because it is a leftover and not a place.
+ */
+export const COUNTRIES = ['UZ', 'RU', 'KZ', 'KG', 'TJ', 'TR', 'US', 'DE', 'KR', 'GB', 'AE', 'OTHER'] as const
+
+export type CountryCode = (typeof COUNTRIES)[number]
 
 /* -------------------------------------------------------------------------- *
  * Catalogue
@@ -192,4 +202,19 @@ export type PlatformSplit = {
   platform: Platform
   sessions: number
   share: number
+}
+
+export type CountrySplit = {
+  code: CountryCode
+
+  /** Distinct users in the range, the country's slice of `AnalyticsSummary.activeUsers`. */
+  users: number
+
+  sessions: number
+
+  /** Share of the range's sessions, 0..1 — and, since users are derived from it, of users. */
+  share: number
+
+  /** Percent change in sessions against the previous equal-length window. */
+  changePct: number
 }

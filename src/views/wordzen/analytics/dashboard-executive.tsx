@@ -19,7 +19,15 @@ import { useTranslation } from '@/lib/i18n'
 import { TrafficChart } from './charts'
 import { bucketKey, DashboardHeader, RangeCaption } from './dashboard-chrome'
 import { formatCount, formatDuration, formatExact, formatPercent } from './format'
-import { AreaBadge, ElementKindBadge, FunnelBars, MetricLine, PlatformRows, SectionCard } from './widgets'
+import {
+  AreaBadge,
+  CountryCodeBadge,
+  ElementKindBadge,
+  FunnelBars,
+  MetricLine,
+  PlatformRows,
+  SectionCard
+} from './widgets'
 
 const TOP_N = 5
 
@@ -55,7 +63,7 @@ export function ExecutiveDashboard() {
   const { t } = useTranslation()
   const analytics = useAnalytics('30d')
 
-  const { summary, screens, elements, timeline } = analytics
+  const { summary, screens, elements, timeline, countries } = analytics
 
   return (
     <div className='flex flex-col gap-8'>
@@ -128,6 +136,17 @@ export function ExecutiveDashboard() {
         <div className='flex flex-col gap-6'>
           <SectionCard title={t('dashboard.sections.funnel')} hint={t('dashboard.sectionHints.funnel')}>
             <FunnelBars steps={analytics.funnel} />
+          </SectionCard>
+
+          <SectionCard title={t('dashboard.sections.topCountries')} hint={t('dashboard.sectionHints.topCountries')}>
+            <TopList
+              rows={countries.slice(0, TOP_N).map(country => ({
+                id: country.code,
+                label: t(`dashboard.countryNames.${country.code}`),
+                sublabel: <CountryCodeBadge code={country.code} />,
+                value: formatCount(country.users)
+              }))}
+            />
           </SectionCard>
 
           <SectionCard title={t('dashboard.sections.platforms')} hint={t('dashboard.sectionHints.platforms')}>
