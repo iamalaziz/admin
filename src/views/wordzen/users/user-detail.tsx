@@ -18,7 +18,7 @@ import { useUserDetail } from '@/hooks/wordzen/use-user-list'
 import { useTranslation } from '@/lib/i18n'
 import type { RoleCode } from '@/types/wordzen/user-types'
 
-import { DetailRow, Timestamp, UserStatusBadge } from '../shared/primitives'
+import { DetailRow, Timestamp, UserRoleBadge, UserStatusBadge } from '../shared/primitives'
 import { BlockUserDialog } from './block-user-dialog'
 import { UserAchievementsSheet } from './user-achievements-sheet'
 
@@ -98,11 +98,7 @@ export function UserDetail({ uid }: { uid: string }) {
           <h1 className='truncate text-2xl font-semibold'>{user.username}</h1>
           <div className='flex flex-wrap items-center gap-2'>
             <UserStatusBadge status={user.status} />
-            {user.roles.map(role => (
-              <Badge key={role} variant={role === 'ROLE_USER' ? 'outline' : 'secondary'}>
-                {t(`manage.roles.${role}`)}
-              </Badge>
-            ))}
+            <UserRoleBadge roles={user.roles} />
           </div>
         </div>
 

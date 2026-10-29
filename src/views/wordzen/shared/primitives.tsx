@@ -16,7 +16,8 @@ import {
 } from '@/components/ui/dialog'
 import { useTranslation } from '@/lib/i18n'
 import type { CourseAccessCode, LocaleCode } from '@/types/wordzen/content-types'
-import type { UserStatusCode } from '@/types/wordzen/user-types'
+import type { RoleCode, UserStatusCode } from '@/types/wordzen/user-types'
+import { primaryRole } from '@/types/wordzen/user-types'
 
 /** `true`/`false` on `isPublic`, phrased the way the API means it. */
 export function PublishedBadge({ isPublic }: { isPublic: boolean }) {
@@ -54,6 +55,15 @@ export function ActiveBadge({ active }: { active: boolean }) {
       {active ? t('manage.badges.active') : t('manage.badges.inactive')}
     </Badge>
   )
+}
+
+/** The account's most privileged role — ROLE_USER is unremarkable, staff should stand out. */
+export function UserRoleBadge({ roles }: { roles: RoleCode[] }) {
+  const { t } = useTranslation()
+
+  const role = primaryRole(roles)
+
+  return <Badge variant={role === 'ROLE_USER' ? 'outline' : 'secondary'}>{t(`manage.roles.${role}`)}</Badge>
 }
 
 export function UserStatusBadge({ status }: { status: UserStatusCode }) {

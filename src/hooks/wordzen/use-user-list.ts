@@ -3,6 +3,7 @@
 import { useCallback, useMemo, useState } from 'react'
 
 import type { AdminUser, RoleCode, SubscriptionCode, UserStatusCode } from '@/types/wordzen/user-types'
+import { ROLE_CODES, primaryRole } from '@/types/wordzen/user-types'
 
 import { mockStore, useStoreSelector } from './use-mock-store'
 import { applySorting, matchesSearch, usePaginatedRows, useTableControls } from './use-table-controls'
@@ -22,8 +23,7 @@ const DEFAULT_FILTERS: UserFilters = {
 }
 
 /** Staff first when sorting by role, since that is what an admin is usually looking for. */
-const roleWeight = (user: AdminUser) =>
-  user.roles.includes('ROLE_ADMIN') ? 2 : user.roles.includes('ROLE_AUTHOR') ? 1 : 0
+const roleWeight = (user: AdminUser) => ROLE_CODES.indexOf(primaryRole(user.roles))
 
 const compareUsers = (a: AdminUser, b: AdminUser, column: UserSortColumn): number => {
   switch (column) {

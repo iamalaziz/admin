@@ -260,7 +260,7 @@
       "phrases": "Фразы",
       "received": "Получено",
       "recipients": "Получили",
-      "roles": "Роли",
+      "role": "Роль",
       "samples": "Примеры",
       "state": "Состояние",
       "status": "Статус",
@@ -506,11 +506,15 @@
       "ROLE_USER": "Пользователь"
     },
     "rowActions": {
+      "block": "Заблокировать {{name}}",
       "delete": "Удалить {{name}}",
       "edit": "Изменить {{name}}",
+      "editRoles": "Изменить роли {{name}}",
       "moveDown": "Переместить {{name}} вниз",
       "moveUp": "Переместить {{name}} вверх",
-      "removeImage": "Удалить изображение у {{name}}"
+      "open": "Открыть {{name}}",
+      "removeImage": "Удалить изображение у {{name}}",
+      "unblock": "Разблокировать {{name}}"
     },
     "statuses": {
       "ACTIVE": "Активен",
@@ -595,10 +599,12 @@
         "ROLE_AUTHOR": "Открывает /api/v1/manager/**"
       },
       "submit": "Сохранить роли",
-      "title": "Изменить {{name}}"
+      "title": "Изменить {{name}}",
+      "toast": {
+        "saved": "Роли {{name}} обновлены"
+      }
     },
     "users": {
-      "block": "Заблокировать",
       "empty": "Нет пользователей по этим фильтрам.",
       "searchPlaceholder": "Поиск по имени, email или uid",
       "stats": {
@@ -613,7 +619,6 @@
         "blocked": "{{name}} заблокирован",
         "unblocked": "{{name}} разблокирован"
       },
-      "unblock": "Разблокировать",
       "until": "до"
     }
   },

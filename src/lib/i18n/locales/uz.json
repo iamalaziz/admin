@@ -260,7 +260,7 @@
       "phrases": "Iboralar",
       "received": "Olingan",
       "recipients": "Olganlar",
-      "roles": "Rollar",
+      "role": "Rol",
       "samples": "Namunalar",
       "state": "Holat",
       "status": "Status",
@@ -506,11 +506,15 @@
       "ROLE_USER": "Foydalanuvchi"
     },
     "rowActions": {
+      "block": "{{name}}ni bloklash",
       "delete": "{{name}}ni o‘chirish",
       "edit": "{{name}}ni tahrirlash",
+      "editRoles": "{{name}} rollarini tahrirlash",
       "moveDown": "{{name}}ni pastga ko‘chirish",
       "moveUp": "{{name}}ni yuqoriga ko‘chirish",
-      "removeImage": "{{name}} rasmini olib tashlash"
+      "open": "{{name}}ni ochish",
+      "removeImage": "{{name}} rasmini olib tashlash",
+      "unblock": "{{name}}ni blokdan chiqarish"
     },
     "statuses": {
       "ACTIVE": "Faol",
@@ -595,10 +599,12 @@
         "ROLE_AUTHOR": "/api/v1/manager/** ni ochadi"
       },
       "submit": "Rollarni saqlash",
-      "title": "{{name}}ni tahrirlash"
+      "title": "{{name}}ni tahrirlash",
+      "toast": {
+        "saved": "{{name}} rollari yangilandi"
+      }
     },
     "users": {
-      "block": "Bloklash",
       "empty": "Bu filtrlarga mos foydalanuvchi yo‘q.",
       "searchPlaceholder": "Foydalanuvchi nomi, email yoki uid bo‘yicha qidirish",
       "stats": {
@@ -613,7 +619,6 @@
         "blocked": "{{name}} bloklandi",
         "unblocked": "{{name}} blokdan chiqarildi"
       },
-      "unblock": "Blokdan chiqarish",
       "until": "tugashi:"
     }
   },

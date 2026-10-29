@@ -59,3 +59,10 @@ export type UserStatusView = {
 export type BlockUserPayload = {
   reason: string | null
 }
+
+/**
+ * The one role worth showing for an account. Roles accumulate — a staff account still
+ * holds ROLE_USER — so a list shows the most privileged grant instead of the whole stack.
+ */
+export const primaryRole = (roles: RoleCode[]): RoleCode =>
+  roles.includes('ROLE_ADMIN') ? 'ROLE_ADMIN' : roles.includes('ROLE_AUTHOR') ? 'ROLE_AUTHOR' : 'ROLE_USER'

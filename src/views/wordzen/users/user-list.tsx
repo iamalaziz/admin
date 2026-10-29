@@ -5,28 +5,29 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 
 import type { ColumnDef } from '@tanstack/react-table'
-import { BanIcon, CircleCheckIcon } from 'lucide-react'
+import { BanIcon, CircleCheckIcon, EyeIcon, PencilIcon } from 'lucide-react'
 import { toast } from 'sonner'
 
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import type { UserSortColumn } from '@/hooks/wordzen/use-user-list'
 import { useUserList } from '@/hooks/wordzen/use-user-list'
 import { useTranslation } from '@/lib/i18n'
-import type { AdminUser } from '@/types/wordzen/user-types'
+import type { AdminUser, RoleCode } from '@/types/wordzen/user-types'
 import { ROLE_CODES, SUBSCRIPTION_CODES, USER_STATUS_CODES } from '@/types/wordzen/user-types'
 
 import { DataTable } from '../shared/data-table'
-import { StatCards, Timestamp, UserStatusBadge } from '../shared/primitives'
+import { StatCards, Timestamp, UserRoleBadge, UserStatusBadge } from '../shared/primitives'
 import { TablePagination, TableToolbar } from '../shared/table-chrome'
 import { BlockUserDialog } from './block-user-dialog'
+import { UserRolesSheet } from './user-roles-sheet'
 
 export function UserList() {
   const { t } = useTranslation()
   const list = useUserList()
   const [blocking, setBlocking] = useState<AdminUser | null>(null)
+  const [editingRoles, setEditingRoles] = useState<AdminUser | null>(null)
 
   const columns = useMemo<ColumnDef<AdminUser>[]>(
     () => [
@@ -44,16 +45,8 @@ export function UserList() {
       },
       {
         id: 'roles',
-        header: t('manage.columns.roles'),
-        cell: ({ row }) => (
-          <div className='flex flex-wrap gap-1'>
-            {row.original.roles.map(role => (
-              <Badge key={role} variant={role === 'ROLE_USER' ? 'outline' : 'secondary'}>
-                {t(`manage.roles.${role}`)}
-              </Badge>
-            ))}
-          </div>
-        )
+        header: t('manage.columns.role'),
+        cell: ({ row }) => <UserRoleBadge roles={row.original.roles} />
       },
       {
         id: 'status',
@@ -88,34 +81,50 @@ export function UserList() {
         id: 'actions',
         header: () => <span className='sr-only'>{t('common.actions')}</span>,
         enableSorting: false,
-        cell: ({ row }) =>
-          row.original.status === 'BLOCKED' ? (
-            <div className='flex justify-end'>
+        cell: ({ row }) => (
+          <div className='flex items-center justify-end gap-1'>
+            <Button
+              render={<Link href={`/manage/users/${row.original.uid}`} />}
+              nativeButton={false}
+              variant='ghost'
+              size='icon'
+              aria-label={t('manage.rowActions.open', { name: row.original.username })}
+            >
+              <EyeIcon className='size-4' />
+            </Button>
+            <Button
+              variant='ghost'
+              size='icon'
+              aria-label={t('manage.rowActions.editRoles', { name: row.original.username })}
+              onClick={() => setEditingRoles(row.original)}
+            >
+              <PencilIcon className='size-4' />
+            </Button>
+            {row.original.status === 'BLOCKED' ? (
               <Button
                 variant='ghost'
-                size='sm'
+                size='icon'
+                aria-label={t('manage.rowActions.unblock', { name: row.original.username })}
                 onClick={() => {
                   list.unblockUser(row.original.uid)
                   toast.success(t('manage.users.toast.unblocked', { name: row.original.username }))
                 }}
               >
                 <CircleCheckIcon className='size-4' />
-                {t('manage.users.unblock')}
               </Button>
-            </div>
-          ) : (
-            <div className='flex justify-end'>
+            ) : (
               <Button
                 variant='ghost'
-                size='sm'
+                size='icon'
+                aria-label={t('manage.rowActions.block', { name: row.original.username })}
                 className='text-muted-foreground hover:text-destructive'
                 onClick={() => setBlocking(row.original)}
               >
                 <BanIcon className='size-4' />
-                {t('manage.users.block')}
               </Button>
-            </div>
-          )
+            )}
+          </div>
+        )
       }
     ],
     [list, t]
@@ -225,6 +234,19 @@ export function UserList() {
           />
         </div>
       </Card>
+
+      <UserRolesSheet
+        user={editingRoles}
+        onOpenChange={open => !open && setEditingRoles(null)}
+        onSubmit={(roles: RoleCode[]) => {
+          if (!editingRoles) {
+            return
+          }
+
+          list.setRoles(editingRoles.uid, roles)
+          toast.success(t('manage.userRolesSheet.toast.saved', { name: editingRoles.username }))
+        }}
+      />
 
       <BlockUserDialog
         user={blocking}

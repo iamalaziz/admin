@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 
 import type { ColumnDef } from '@tanstack/react-table'
-import { ChevronDownIcon, ChevronUpIcon, PencilIcon, PlusIcon, Trash2Icon } from 'lucide-react'
+import { ChevronDownIcon, ChevronUpIcon, EyeIcon, PencilIcon, PlusIcon, Trash2Icon } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
@@ -132,6 +132,15 @@ export function CourseList() {
               onClick={() => list.moveCourse(row.original, 1)}
             >
               <ChevronDownIcon className='size-4' />
+            </Button>
+            <Button
+              render={<Link href={`/manage/courses/${row.original.id}`} />}
+              nativeButton={false}
+              variant='ghost'
+              size='icon'
+              aria-label={t('manage.rowActions.open', { name: row.original.title })}
+            >
+              <EyeIcon className='size-4' />
             </Button>
             <Button
               variant='ghost'

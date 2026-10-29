@@ -260,7 +260,7 @@
       "phrases": "Phrases",
       "received": "Received",
       "recipients": "Holders",
-      "roles": "Roles",
+      "role": "Role",
       "samples": "Samples",
       "state": "State",
       "status": "Status",
@@ -506,11 +506,15 @@
       "ROLE_USER": "User"
     },
     "rowActions": {
+      "block": "Block {{name}}",
       "delete": "Delete {{name}}",
       "edit": "Edit {{name}}",
+      "editRoles": "Edit roles of {{name}}",
       "moveDown": "Move {{name}} down",
       "moveUp": "Move {{name}} up",
-      "removeImage": "Remove image from {{name}}"
+      "open": "Open {{name}}",
+      "removeImage": "Remove image from {{name}}",
+      "unblock": "Unblock {{name}}"
     },
     "statuses": {
       "ACTIVE": "Active",
@@ -595,10 +599,12 @@
         "ROLE_AUTHOR": "Unlocks /api/v1/manager/**"
       },
       "submit": "Save roles",
-      "title": "Edit {{name}}"
+      "title": "Edit {{name}}",
+      "toast": {
+        "saved": "Roles of {{name}} updated"
+      }
     },
     "users": {
-      "block": "Block",
       "empty": "No users match these filters.",
       "searchPlaceholder": "Search username, email or uid",
       "stats": {
@@ -613,7 +619,6 @@
         "blocked": "{{name}} blocked",
         "unblocked": "{{name}} unblocked"
       },
-      "unblock": "Unblock",
       "until": "until"
     }
   },
