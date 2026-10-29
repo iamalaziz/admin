@@ -582,18 +582,21 @@
         "title": "Status"
       },
       "subscription": {
+        "change": "Change subscription",
         "description": "From auth_user_subscription.",
         "none": "No subscription. The learner is on the free tier and can only open FREE courses.",
         "title": "Subscription"
       },
       "toast": {
         "roleGranted": "{{role}} granted to {{name}}",
-        "roleRevoked": "{{role}} revoked from {{name}}"
+        "roleRevoked": "{{role}} revoked from {{name}}",
+        "subscriptionChanged": "{{name}} moved to {{plan}}",
+        "subscriptionCleared": "Subscription of {{name}} removed"
       },
       "unblockUser": "Unblock user"
     },
     "userRolesSheet": {
-      "description": "Roles are the only part of an account an admin can change. Username, email and subscription are owned by the learner and by payment-api.",
+      "description": "Username and email are owned by the learner. Subscription is owned by payment-api, and the detail page is where this fixture overrides it.",
       "scopes": {
         "ROLE_ADMIN": "Unlocks /api/v1/admin/**",
         "ROLE_AUTHOR": "Unlocks /api/v1/manager/**"
@@ -603,6 +606,16 @@
       "toast": {
         "saved": "Roles of {{name}} updated"
       }
+    },
+    "userSubscriptionSheet": {
+      "description": "account-api owns subscriptions and only writes them from a confirmed payment, so a switch here is local to this fixture.",
+      "endsHint": "Leave empty for an open-ended grant. Access lasts to the end of the chosen day.",
+      "endsLabel": "Ends on",
+      "freePlan": "Free — no subscription",
+      "freePlanHint": "Drops the subscription row. The learner keeps only FREE courses.",
+      "planHint": "BASIC and PRO both unlock paid courses.",
+      "submit": "Save subscription",
+      "title": "Subscription of {{name}}"
     },
     "users": {
       "empty": "No users match these filters.",

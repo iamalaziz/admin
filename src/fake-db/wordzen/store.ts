@@ -61,7 +61,7 @@ import type {
   UserAchievement
 } from '@/types/wordzen/achievement-types'
 import { achievementGroupByCode } from '@/types/wordzen/achievement-types'
-import type { AdminUser, RoleCode, UserStatusView } from '@/types/wordzen/user-types'
+import type { AdminUser, RoleCode, SubscriptionPayload, UserStatusView } from '@/types/wordzen/user-types'
 
 import {
   allocateId,
@@ -894,6 +894,37 @@ class WordzenMockStore {
 
       // ROLE_USER is implicit for every account and cannot be revoked.
       roles: [...new Set<RoleCode>(['ROLE_USER', ...roles])],
+      updatedAt: nowIso()
+    }
+
+    this.users = this.users.map(current => (current.uid === uid ? updated : current))
+    this.commit()
+
+    return updated
+  }
+
+  /**
+   * The plan switcher on the detail page. No endpoint switches a plan either — see the note
+   * in user-types.ts — so this writes the `auth_user_subscription` row the way account-api
+   * would: dropping it is what puts the learner back on the free tier.
+   */
+  setUserSubscription = (uid: string, payload: SubscriptionPayload): AdminUser | null => {
+    const user = this.getUser(uid)
+
+    if (!user) {
+      return null
+    }
+
+    const updated: AdminUser = {
+      ...user,
+      subscription:
+        payload.code === null
+          ? null
+          : {
+              code: payload.code,
+              endSubscriptionDate: payload.endSubscriptionDate,
+              updatedAt: nowIso()
+            },
       updatedAt: nowIso()
     }
 

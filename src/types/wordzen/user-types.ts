@@ -6,6 +6,12 @@
  * `PUT /users/{uid}/block`, `PUT /users/{uid}/unblock`). There is no admin list endpoint —
  * the closest is account-api's `GET /api/v1/users/search` — so the list below is backed by
  * the mock store and needs an API addition before it can be wired up.
+ *
+ * Subscriptions are the same story. account-api owns them, but both of its write paths are
+ * shaped for a payment rather than for an admin: `POST /api/v1/subscriptions/grant` wants a
+ * provider, transaction and idempotency key, and `POST /api/v1/subscriptions/{userUid}/refund`
+ * revokes outright. A plan switch is neither, so `SubscriptionPayload` below describes the
+ * endpoint an admin would need, not one that exists.
  */
 
 export const ROLE_CODES = ['ROLE_USER', 'ROLE_AUTHOR', 'ROLE_ADMIN'] as const
@@ -58,6 +64,16 @@ export type UserStatusView = {
 /** `dto/request/admin/BlockUserRequest` */
 export type BlockUserPayload = {
   reason: string | null
+}
+
+/**
+ * What the subscription switcher sends. `code: null` drops the row entirely, which is how
+ * an account goes back to the free tier, and a null `endSubscriptionDate` is an open-ended
+ * grant.
+ */
+export type SubscriptionPayload = {
+  code: SubscriptionCode | null
+  endSubscriptionDate: string | null
 }
 
 /**

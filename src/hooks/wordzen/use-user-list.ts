@@ -2,7 +2,13 @@
 
 import { useCallback, useMemo, useState } from 'react'
 
-import type { AdminUser, RoleCode, SubscriptionCode, UserStatusCode } from '@/types/wordzen/user-types'
+import type {
+  AdminUser,
+  RoleCode,
+  SubscriptionCode,
+  SubscriptionPayload,
+  UserStatusCode
+} from '@/types/wordzen/user-types'
 import { ROLE_CODES, primaryRole } from '@/types/wordzen/user-types'
 
 import { mockStore, useStoreSelector } from './use-mock-store'
@@ -113,6 +119,7 @@ export function useUserDetail(uid: string) {
     status,
     blockUser: useCallback((reason: string | null) => mockStore.blockUser(uid, reason), [uid]),
     unblockUser: useCallback(() => mockStore.unblockUser(uid), [uid]),
-    setRoles: useCallback((roles: RoleCode[]) => mockStore.setUserRoles(uid, roles), [uid])
+    setRoles: useCallback((roles: RoleCode[]) => mockStore.setUserRoles(uid, roles), [uid]),
+    setSubscription: useCallback((payload: SubscriptionPayload) => mockStore.setUserSubscription(uid, payload), [uid])
   }
 }

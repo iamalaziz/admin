@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 import Link from 'next/link'
 
-import { ArrowLeftIcon, BanIcon, CircleCheckIcon, TrophyIcon } from 'lucide-react'
+import { ArrowLeftIcon, BanIcon, CircleCheckIcon, CreditCardIcon, TrophyIcon } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -16,18 +16,20 @@ import { Switch } from '@/components/ui/switch'
 import { useUserAchievements } from '@/hooks/wordzen/use-achievement-list'
 import { useUserDetail } from '@/hooks/wordzen/use-user-list'
 import { useTranslation } from '@/lib/i18n'
-import type { RoleCode } from '@/types/wordzen/user-types'
+import type { RoleCode, SubscriptionPayload } from '@/types/wordzen/user-types'
 
 import { DetailRow, Timestamp, UserRoleBadge, UserStatusBadge } from '../shared/primitives'
 import { BlockUserDialog } from './block-user-dialog'
 import { UserAchievementsSheet } from './user-achievements-sheet'
+import { UserSubscriptionSheet } from './user-subscription-sheet'
 
 export function UserDetail({ uid }: { uid: string }) {
   const { t } = useTranslation()
-  const { user, status, blockUser, unblockUser, setRoles } = useUserDetail(uid)
+  const { user, status, blockUser, unblockUser, setRoles, setSubscription } = useUserDetail(uid)
   const achievements = useUserAchievements(uid)
   const [blocking, setBlocking] = useState(false)
   const [managingAchievements, setManagingAchievements] = useState(false)
+  const [changingSubscription, setChangingSubscription] = useState(false)
 
   if (!user || !status) {
     return (
@@ -67,6 +69,15 @@ export function UserDetail({ uid }: { uid: string }) {
     if (achievements.revokeAchievement(code)) {
       toast.success(t('manage.userAchievements.toast.revoked', { title: revoked?.title ?? code, name: user.username }))
     }
+  }
+
+  const changeSubscription = (payload: SubscriptionPayload) => {
+    setSubscription(payload)
+    toast.success(
+      payload.code
+        ? t('manage.userDetail.toast.subscriptionChanged', { plan: payload.code, name: user.username })
+        : t('manage.userDetail.toast.subscriptionCleared', { name: user.username })
+    )
   }
 
   const toggleRole = (role: RoleCode, granted: boolean) => {
@@ -186,22 +197,28 @@ export function UserDetail({ uid }: { uid: string }) {
             <CardTitle className='text-base'>{t('manage.userDetail.subscription.title')}</CardTitle>
             <CardDescription>{t('manage.userDetail.subscription.description')}</CardDescription>
           </CardHeader>
-          <CardContent className='flex flex-col divide-y'>
-            {user.subscription ? (
-              <>
-                <DetailRow label={t('manage.userDetail.fields.plan')}>
-                  <Badge variant='secondary'>{user.subscription.code}</Badge>
-                </DetailRow>
-                <DetailRow label={t('manage.userDetail.fields.ends')}>
-                  <Timestamp value={user.subscription.endSubscriptionDate} withTime />
-                </DetailRow>
-                <DetailRow label={t('manage.userDetail.fields.updated')}>
-                  <Timestamp value={user.subscription.updatedAt} withTime />
-                </DetailRow>
-              </>
-            ) : (
-              <p className='text-muted-foreground py-2 text-sm'>{t('manage.userDetail.subscription.none')}</p>
-            )}
+          <CardContent className='flex flex-col gap-4'>
+            <div className='flex flex-col divide-y'>
+              {user.subscription ? (
+                <>
+                  <DetailRow label={t('manage.userDetail.fields.plan')}>
+                    <Badge variant='secondary'>{user.subscription.code}</Badge>
+                  </DetailRow>
+                  <DetailRow label={t('manage.userDetail.fields.ends')}>
+                    <Timestamp value={user.subscription.endSubscriptionDate} withTime />
+                  </DetailRow>
+                  <DetailRow label={t('manage.userDetail.fields.updated')}>
+                    <Timestamp value={user.subscription.updatedAt} withTime />
+                  </DetailRow>
+                </>
+              ) : (
+                <p className='text-muted-foreground py-2 text-sm'>{t('manage.userDetail.subscription.none')}</p>
+              )}
+            </div>
+            <Button variant='outline' className='w-fit' onClick={() => setChangingSubscription(true)}>
+              <CreditCardIcon className='size-4' />
+              {t('manage.userDetail.subscription.change')}
+            </Button>
           </CardContent>
         </Card>
 
@@ -260,6 +277,12 @@ export function UserDetail({ uid }: { uid: string }) {
           </CardContent>
         </Card>
       </div>
+
+      <UserSubscriptionSheet
+        user={changingSubscription ? user : null}
+        onOpenChange={open => !open && setChangingSubscription(false)}
+        onSubmit={changeSubscription}
+      />
 
       <UserAchievementsSheet
         user={managingAchievements ? user : null}

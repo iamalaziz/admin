@@ -582,18 +582,21 @@
         "title": "Status"
       },
       "subscription": {
+        "change": "Obunani o‘zgartirish",
         "description": "auth_user_subscription dan.",
         "none": "Obuna yo‘q. O‘quvchi bepul tarifda va faqat FREE kurslarini ochishi mumkin.",
         "title": "Obuna"
       },
       "toast": {
         "roleGranted": "{{role}} roli berildi: {{name}}",
-        "roleRevoked": "{{role}} roli olindi: {{name}}"
+        "roleRevoked": "{{role}} roli olindi: {{name}}",
+        "subscriptionChanged": "{{name}} {{plan}} ga o‘tkazildi",
+        "subscriptionCleared": "{{name}} obunasi olib tashlandi"
       },
       "unblockUser": "Blokdan chiqarish"
     },
     "userRolesSheet": {
-      "description": "Rollar — administrator hisobda o‘zgartira oladigan yagona narsa. Foydalanuvchi nomi, email va obuna o‘quvchiga va payment-api ga tegishli.",
+      "description": "Foydalanuvchi nomi va email o‘quvchiga tegishli. Obuna payment-api ga tegishli va bu fiksturada uni foydalanuvchi sahifasi o‘zgartiradi.",
       "scopes": {
         "ROLE_ADMIN": "/api/v1/admin/** ni ochadi",
         "ROLE_AUTHOR": "/api/v1/manager/** ni ochadi"
@@ -603,6 +606,16 @@
       "toast": {
         "saved": "{{name}} rollari yangilandi"
       }
+    },
+    "userSubscriptionSheet": {
+      "description": "Obunalar account-api ga tegishli va u ularni faqat tasdiqlangan to‘lov bo‘yicha yozadi, shuning uchun bu yerdagi almashtirish faqat fiksturada qoladi.",
+      "endsHint": "Muddatsiz obuna uchun bo‘sh qoldiring. Kirish tanlangan kun oxiriga qadar amal qiladi.",
+      "endsLabel": "Tugash sanasi",
+      "freePlan": "Bepul — obunasiz",
+      "freePlanHint": "Obuna qatorini olib tashlaydi. O‘quvchida faqat FREE kurslari qoladi.",
+      "planHint": "BASIC ham, PRO ham pulli kurslarni ochadi.",
+      "submit": "Obunani saqlash",
+      "title": "{{name}} obunasi"
     },
     "users": {
       "empty": "Bu filtrlarga mos foydalanuvchi yo‘q.",
