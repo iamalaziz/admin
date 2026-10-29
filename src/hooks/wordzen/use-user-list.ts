@@ -98,7 +98,8 @@ export function useUserList() {
     users: pagination.pageItems,
     ...pagination,
     blockUser: useCallback((uid: string, reason: string | null) => mockStore.blockUser(uid, reason), []),
-    unblockUser: useCallback((uid: string) => mockStore.unblockUser(uid), [])
+    unblockUser: useCallback((uid: string) => mockStore.unblockUser(uid), []),
+    setRoles: useCallback((uid: string, roles: RoleCode[]) => mockStore.setUserRoles(uid, roles), [])
   }
 }
 

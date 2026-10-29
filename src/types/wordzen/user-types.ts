@@ -20,12 +20,6 @@ export const SUBSCRIPTION_CODES = ['BASIC', 'PRO'] as const
 
 export type SubscriptionCode = (typeof SUBSCRIPTION_CODES)[number]
 
-export const ROLE_LABELS: Record<RoleCode, string> = {
-  ROLE_USER: 'User',
-  ROLE_AUTHOR: 'Author',
-  ROLE_ADMIN: 'Admin'
-}
-
 /** `entity/UserSubscription` */
 export type UserSubscription = {
   code: SubscriptionCode
