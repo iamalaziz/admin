@@ -160,8 +160,6 @@
       "screenViews": "Ekran ko'rishlari",
       "sessions": "Seanslar"
     },
-    "mockNotice": "Sinov ma'lumotlari",
-    "mockNoticeHint": "Ilova trafigi va harakatlar jurnali — sinov ma'lumotlari.",
     "noChange": "o'zgarishsiz",
     "ofUsers": "ilovani ochganlarning {{percent}}",
     "openActivity": "Harakatlar tarixi",

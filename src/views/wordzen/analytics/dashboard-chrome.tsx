@@ -13,7 +13,6 @@ import Link from 'next/link'
 
 import { HistoryIcon } from 'lucide-react'
 
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useTranslation } from '@/lib/i18n'
@@ -46,12 +45,7 @@ export function DashboardHeader({ variant, range, onRangeChange }: DashboardHead
     <header className='flex flex-col gap-4'>
       <div className='flex flex-wrap items-start justify-between gap-4'>
         <div className='flex flex-col gap-1'>
-          <div className='flex flex-wrap items-center gap-2'>
-            <h1 className='text-xl font-semibold'>{t('dashboard.title')}</h1>
-            <Badge variant='outline' className='text-[11px] font-normal' title={t('dashboard.mockNoticeHint')}>
-              {t('dashboard.mockNotice')}
-            </Badge>
-          </div>
+          <h1 className='text-xl font-semibold'>{t('dashboard.title')}</h1>
           <p className='text-muted-foreground text-sm'>
             {t(`dashboard.variantHints.${variant}` as TranslationKey)}
           </p>

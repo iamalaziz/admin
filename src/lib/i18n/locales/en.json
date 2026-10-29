@@ -160,8 +160,6 @@
       "screenViews": "Screen views",
       "sessions": "Sessions"
     },
-    "mockNotice": "Mock data",
-    "mockNoticeHint": "App traffic and the audit trail are fixture data.",
     "noChange": "no change",
     "ofUsers": "{{percent}} of the users who opened the app",
     "openActivity": "Activity history",
