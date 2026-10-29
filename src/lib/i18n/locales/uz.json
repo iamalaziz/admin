@@ -1,60 +1,4 @@
 {
-  "auth": {
-    "backToLogin": "Kirishga qaytish",
-    "confirmPasswordLabel": "Parolni tasdiqlang*",
-    "emailLabel": "Email manzil*",
-    "emailPlaceholder": "Email manzilingizni kiriting",
-    "forgotPassword": {
-      "description": "Email manzilingizni kiriting — parolni tiklash bo‘yicha ko‘rsatmalarni yuboramiz",
-      "submit": "Tiklash havolasini yuborish",
-      "title": "Parolni unutdingizmi?"
-    },
-    "login": {
-      "createAccount": "Hisob yaratish",
-      "forgotPassword": "Parolni unutdingizmi?",
-      "loginAsAdmin": "Admin sifatida kirish",
-      "loginAsUser": "Foydalanuvchi sifatida kirish",
-      "magicLink": "sehrli havola",
-      "magicLinkPrefix": "Kirish:",
-      "newHerePrefix": "Bizda yangimisiz?",
-      "rememberMe": "Meni eslab qol",
-      "submit": "WordZen’ga kirish",
-      "title": "WordZen’ga kirish"
-    },
-    "newPasswordLabel": "Yangi parol*",
-    "passwordLabel": "Parol*",
-    "register": {
-      "agreePrefix": "Men qabul qilaman:",
-      "haveAccountPrefix": "Hisobingiz bormi?",
-      "privacyPolicy": "maxfiylik siyosati va shartlar",
-      "signInInstead": "Kirish",
-      "submit": "WordZen’da ro‘yxatdan o‘tish",
-      "title": "WordZen’da ro‘yxatdan o‘tish"
-    },
-    "resetPassword": {
-      "description": "Hisob xavfsizligini yangilash uchun joriy parolni kiriting va yangi parol tanlang.",
-      "submit": "Yangi parolni o‘rnatish",
-      "title": "Parolni tiklash"
-    },
-    "signInWithGoogle": "Google bilan kirish",
-    "tagline": "Tezroq ishga tushiring va o‘sishga e’tibor qarating.",
-    "twoSteps": {
-      "codeLabel": "Kod*",
-      "description": "Autentifikator ilovasidagi kodni kiritib, hisobingizga kirishni tasdiqlang",
-      "submit": "WordZen’ga kirish",
-      "title": "Ikki bosqichli tekshiruv",
-      "useRecoveryCode": "Tiklash kodidan foydalanish"
-    },
-    "usernameLabel": "Foydalanuvchi nomi*",
-    "usernamePlaceholder": "Foydalanuvchi nomini kiriting",
-    "verifyEmail": {
-      "description": "Aktivatsiya havolasi {{email}} manziliga yuborildi. Pochtangizni tekshirib, havolaga o‘tib jarayonni yakunlang.",
-      "noMailPrefix": "Xat kelmadimi?",
-      "resend": "Qayta yuborish",
-      "skipForNow": "Hozircha o‘tkazib yuborish",
-      "title": "Emailni tasdiqlang"
-    }
-  },
   "chrome": {
     "adminPanel": "Admin panel",
     "changeLanguage": "Tilni o‘zgartirish",
@@ -97,231 +41,407 @@
     "update": "Yangilash",
     "view": "Ko‘rish"
   },
-  "dashboard": {
-    "productInsights": {
-      "imageAlt": "Mahsulot",
-      "orderPlaced": "Berilgan buyurtmalar",
-      "orders": "Buyurtmalar",
-      "productReached": "Mahsulot qamrovi",
-      "publishedOn": "{{date}} da e’lon qilindi",
-      "reached": "Qamrov",
-      "title": "Mahsulot haqida"
-    },
-    "salesMetrics": {
-      "cohortDescription": "Mahsulot yoki xizmatga bir vaqtda qo‘shilgan foydalanuvchilar guruhining ma’lum davrdagi xatti-harakatini tahlil qiladi.",
-      "cohortTitle": "Kogorta tahlili ko‘rsatkichlari",
-      "discountOffers": "Chegirmali takliflar",
-      "logoAlt": "logotip",
-      "netProfit": "Sof foyda",
-      "openStatistics": "Statistikani ochish",
-      "percentageChange": "Foizdagi o‘zgarish",
-      "percentageProfit": "Umumiy savdodagi foyda ulushi",
-      "planCompleted": "Reja bajarildi",
-      "revenueGoal": "Daromad maqsadi",
-      "sales": "Savdo",
-      "salesPlan": "Savdo rejasi",
-      "salesTrend": "Savdo tendensiyasi",
-      "title": "Savdo ko‘rsatkichlari",
-      "totalOrders": "Jami buyurtmalar",
-      "totalProfit": "Umumiy foyda"
-    },
-    "stats": {
-      "damagedReturns": "Shikastlangan qaytarishlar",
-      "missedDeliverySlots": "O‘tkazib yuborilgan yetkazib berish vaqtlari",
-      "shippedOrders": "Jo‘natilgan buyurtmalar",
-      "thanLastWeek": "o‘tgan haftaga nisbatan"
-    },
-    "totalEarning": {
-      "comparison": "O‘tgan yilga nisbatan (${{amount}})",
-      "title": "Umumiy daromad"
-    }
-  },
-  "datatable": {
-    "all": "Barchasi",
-    "availabilityValues": {
-      "In Stock": "Mavjud",
-      "Limited": "Cheklangan",
-      "Out of Stock": "Mavjud emas"
-    },
-    "columns": {
-      "amount": "Summa",
-      "availability": "Mavjudligi",
-      "category": "Toifa",
-      "customer": "Mijoz",
-      "discontinued": "Sotuvdan olingan",
-      "email": "Email",
-      "name": "Ism",
-      "paidBy": "To‘lov usuli",
-      "price": "Narx",
-      "product": "Mahsulot",
-      "productName": "Mahsulot nomi",
-      "rating": "Reyting",
-      "status": "Holat",
-      "stockQuantity": "Omborda",
-      "supplier": "Yetkazib beruvchi"
-    },
-    "discontinuedValues": {
-      "no": "Yo‘q",
-      "yes": "Ha"
-    },
-    "duplicate": "Nusxalash",
-    "editItem": "Yozuvni tahrirlash",
-    "max": "Maks",
-    "maxAria": "{{column}}: maksimum",
-    "min": "Min",
-    "minAria": "{{column}}: minimum",
-    "paymentPlatformAlt": "To‘lov tizimi",
-    "paymentStatus": {
-      "failed": "Xatolik",
-      "paid": "To‘langan",
-      "pending": "Kutilmoqda",
-      "processing": "Jarayonda"
-    },
-    "pinOptions": "«{{column}}» ustunini qadash parametrlari",
-    "searchColumn": "Qidirish: {{column}}",
-    "sections": {
-      "basic": "Oddiy jadval",
-      "pinnable": "Qadab qo‘yiladigan ustunlar",
-      "withFilters": "Filtrlar bilan jadval"
-    },
-    "selectAll": "Barchasini tanlash",
-    "selectRow": "Qatorni tanlash",
-    "showingEntries": "{{total}} yozuvdan {{from}}–{{to}} ko‘rsatilmoqda",
-    "stickToLeft": "Chapga qadash",
-    "stickToRight": "O‘ngga qadash",
-    "unpinColumn": "«{{column}}» ustunini yechish"
-  },
   "forms": {
-    "basicForm": "Oddiy shakl",
-    "basicFormWithIcon": "Ikonkali oddiy shakl",
     "fields": {
-      "address": "Manzil",
-      "city": "Shahar",
-      "company": "Kompaniya",
-      "email": "Email",
       "firstName": "Ism",
-      "landmark": "Mo‘ljal",
       "lastName": "Familiya",
-      "message": "Xabar",
-      "mobile": "Mobil",
-      "name": "Ism",
-      "phone": "Telefon",
-      "phoneNo": "Telefon raqami",
-      "pincode": "Pochta indeksi",
-      "state": "Viloyat"
-    },
-    "modes": {
-      "demoInput": "Sinov maydoni",
-      "description": "Turli tekshiruv rejimlari qulaylikka qanday ta’sir qilishini ko‘ring. Har bir maydonga yozib, tekshiruv qachon ishga tushishini sinab ko‘ring.",
-      "onBlurBestFor": "Kamroq xalal beruvchi tekshiruv (ko‘p holatda tavsiya etiladi)",
-      "onBlurDescription": "Maydondan chiqqanda tekshiradi",
-      "onBlurHintAfter": "paydo bo‘ladi",
-      "onBlurHintBefore": "Xato maydondan",
-      "onBlurHintStrong": "chiqqandan keyin",
-      "onBlurTitle": "onBlur rejimi",
-      "onBlurWhen": "Maydondan chiqqanda",
-      "onChangeBestFor": "Darhol javob (masalan, parol ishonchliligi)",
-      "onChangeDescription": "Har bir tugma bosilganda tekshiradi",
-      "onChangeHintAfter": "yozish bilan paydo bo‘ladi",
-      "onChangeHintBefore": "Xato",
-      "onChangeHintStrong": "darhol",
-      "onChangeTitle": "onChange rejimi",
-      "onChangeWhen": "Har bir tugma bosilganda",
-      "onSubmitBestFor": "Oddiy shakllar, minimal xalal",
-      "onSubmitDescription": "Faqat yuborishda tekshiradi",
-      "onSubmitHintAfter": "yuborishni bosgandan keyin paydo bo‘ladi",
-      "onSubmitHintBefore": "Xato",
-      "onSubmitHintStrong": "faqat",
-      "onSubmitTitle": "onSubmit rejimi (standart)",
-      "onSubmitWhen": "Shakl yuborilganda",
-      "onTouchedBestFor": "Qulaylik va javob o‘rtasidagi muvozanat",
-      "onTouchedDescription": "Maydondan chiqqanda, so‘ng har bir o‘zgarishda tekshiradi",
-      "onTouchedHintAfter": "",
-      "onTouchedHintBefore": "Birinchi tekshiruv maydondan chiqqanda, so‘ng",
-      "onTouchedHintStrong": "real vaqtda",
-      "onTouchedTitle": "onTouched rejimi",
-      "onTouchedWhen": "Birinchi chiqishda, so‘ng har o‘zgarishda",
-      "submittedAlert": "{{mode}} shakli muvaffaqiyatli yuborildi!",
-      "tableBestFor": "Nima uchun qulay",
-      "tableMode": "Rejim",
-      "tableWhen": "Tekshiruv qachon ishlaydi",
-      "title": "Tekshiruv rejimlari namoyishi",
-      "typeHere": "Shu yerga yozing..."
+      "mobile": "Mobil"
     },
     "placeholders": {
-      "address": "Asosiy ko‘cha, 123",
-      "city": "Toshkent",
-      "company": "«Lola» MChJ",
-      "emailLocalPart": "ali.valiyev",
       "firstName": "Ali",
-      "landmark": "Markaziy park yonida",
       "lastName": "Valiyev",
-      "message": "Salom! Gaplashishga bir daqiqa vaqtingiz bormi?",
-      "mobile": "+998 90 123-45-67",
-      "name": "Ali Valiyev",
-      "phone": "658 799 8941",
-      "pincode": "Pochta indeksi",
-      "state": "Toshkent viloyati"
+      "mobile": "+998 90 123-45-67"
+    }
+  },
+  "manage": {
+    "badges": {
+      "draft": "Qoralama",
+      "free": "Bepul",
+      "none": "Yo‘q",
+      "public": "Ommaviy"
     },
-    "saveInformation": "Ma’lumotni saqlash",
-    "send": "Yuborish",
-    "validation": {
-      "companyPlaceholder": "Kompaniya nomi",
-      "department": "Bo‘lim",
-      "departmentOptions": {
-        "billing": "To‘lovlar",
-        "returns": "Qaytarishlar",
-        "sales": "Savdo",
-        "technical": "Texnik yordam"
+    "blockDialog": {
+      "description": "Hisob darhol to‘xtatiladi va uning tokenlari ishlamay qoladi, chunki bloklash foydalanuvchining avtorizatsiya versiyasini oshiradi.",
+      "reasonHint": "Majburiy emas, lekin bu nima uchun shunday bo‘lganining yagona yozuvi.",
+      "reasonLabel": "Sabab",
+      "reasonPlaceholder": "Foydalanuvchi yozuvida boshqa administratorlarga ko‘rinadi",
+      "submit": "Bloklash",
+      "title": "{{name}} bloklansinmi?"
+    },
+    "cardForm": {
+      "createDescription": "«{{module}}» modulida POST /api/v1/manager/cards orqali karta yaratadi.",
+      "createSubmit": "Karta yaratish",
+      "editDescription": "O‘zgarishlar PUT /api/v1/manager/cards/{cardId} ga ketadi.",
+      "editSubmit": "Kartani saqlash",
+      "editTitle": "Kartani tahrirlash",
+      "imageHint": "POST /api/v1/manager/file/tmp/form dan olinadi yoki /manager/generate/img orqali yaratiladi. Maydonni tozalash — DELETE /cards/{cardId}/image chaqiruvi.",
+      "imageLabel": "Rasm yo‘li",
+      "imagePlaceholder": "/cards/example.webp",
+      "newTitle": "Yangi karta",
+      "samples": {
+        "add": "Namuna qo‘shish",
+        "description": "Misol gaplar va ularning tarjimasi.",
+        "empty": "Namuna yo‘q. Kartada faqat so‘z va uning tarjimalari ko‘rinadi.",
+        "remove": "Namunani o‘chirish",
+        "sentence": "Gap",
+        "title": "Namunalar",
+        "translation": "Tarjima"
       },
-      "departmentPlaceholder": "Bo‘limni tanlang",
-      "describeIssue": "Muammoingizni yozing",
-      "describeIssuePlaceholder": "Muammo haqida batafsil ma’lumot bering",
-      "emailPlaceholder": "Email manzil",
-      "errors": {
-        "companyMin": "Kompaniya nomi kamida 2 belgidan iborat bo‘lishi kerak.",
-        "demoMax": "Ko‘pi bilan 20 belgi",
-        "demoMin": "Kamida 5 belgi",
-        "departmentRequired": "Bo‘limni tanlang.",
-        "emailInvalid": "To‘g‘ri email manzilini kiriting.",
-        "emailRequired": "Email kiritilishi shart",
-        "issueRequired": "Muammoni tanlang.",
-        "messageMin": "Muammoni kamida 50 belgida tasvirlab bering.",
-        "nameMin": "Ism kamida 2 belgidan iborat bo‘lishi kerak.",
-        "optionRequired": "Variantni tanlash shart.",
-        "orderIdRequired": "Buyurtma raqamini kiriting.",
-        "phoneInvalid": "To‘g‘ri telefon raqamini kiriting.",
-        "phoneRequired": "Telefon kiritilishi shart",
-        "priorityRequired": "Muhimlikni tanlang."
+      "termLabel": "So‘z",
+      "termPlaceholder": "O‘rgatiladigan so‘z",
+      "translations": {
+        "add": "Tarjima qo‘shish",
+        "description": "So‘z nimani anglatadi — tillar bo‘yicha.",
+        "remove": "Tarjimani o‘chirish",
+        "title": "Tarjimalar",
+        "value": "Qiymat"
       },
-      "howCanWeHelp": "Sizga qanday yordam bera olamiz?",
-      "issue": "Muammo",
-      "issueOptions": {
-        "damaged": "Mahsulot shikastlangan",
-        "got-different": "Boshqa mahsulot keldi",
-        "not-like": "Kutilganidek emas",
-        "other": "Boshqa"
+      "validation": {
+        "sentenceRequired": "Gap bo‘sh bo‘lmasligi kerak",
+        "sentenceTranslationRequired": "Gap tarjimasi bo‘sh bo‘lmasligi kerak",
+        "termRequired": "So‘zni kiriting",
+        "translationRequired": "Tarjima bo‘sh bo‘lmasligi kerak",
+        "translationsMin": "Kamida bitta tarjima qo‘shing"
+      }
+    },
+    "columns": {
+      "access": "Kirish",
+      "cards": "Kartalar",
+      "category": "Kategoriya",
+      "course": "Kurs",
+      "created": "Yaratilgan",
+      "image": "Rasm",
+      "joined": "Qo‘shilgan",
+      "module": "Modul",
+      "modules": "Modullar",
+      "phrases": "Iboralar",
+      "roles": "Rollar",
+      "samples": "Namunalar",
+      "state": "Holat",
+      "status": "Status",
+      "subscription": "Obuna",
+      "term": "So‘z",
+      "translations": "Tarjimalar",
+      "user": "Foydalanuvchi"
+    },
+    "common": {
+      "locale": "Til",
+      "published": "Nashr etilgan",
+      "text": "Matn",
+      "title": "Sarlavha"
+    },
+    "courseDetail": {
+      "allCourses": "Barcha kurslar",
+      "backToCourses": "Kurslarga qaytish",
+      "descriptions": {
+        "empty": "Tavsif yo‘q. O‘quvchilar faqat sarlavhani ko‘radi.",
+        "title": "Tavsiflar"
       },
-      "issuePlaceholder": "Qanday muammo yuz berdi",
-      "namePlaceholder": "To‘liq ismingiz",
-      "optionRefund": "Pulni qaytarish kerak",
-      "optionReplace": "Mahsulotni almashtirish kerak",
-      "optionSupport": "Maslahat yoki yordam kerak",
-      "orderId": "Buyurtma raqami",
-      "orderIdPlaceholder": "Buyurtma raqami",
-      "phonePlaceholder": "Telefon raqami",
-      "priority": "Muhimlik",
-      "priorityOptions": {
-        "high": "Yuqori",
-        "low": "Past",
-        "medium": "O‘rta",
-        "urgent": "Shoshilinch"
+      "editCourse": "Kursni tahrirlash",
+      "empty": "Bu filtrlarga mos modul yo‘q.",
+      "fields": {
+        "author": "Muallif",
+        "cover": "Muqova",
+        "created": "Yaratilgan",
+        "displayOrder": "Tartib",
+        "id": "Id"
       },
-      "priorityPlaceholder": "Muhimlikni tanlang",
-      "registrationFormTitle": "Ro‘yxatdan o‘tish shakli",
-      "reportIssue": "Muammo haqida xabar berish",
-      "reportIssueDescription": "Duch kelgan muammoni yozing — jamoamiz yordam beradi.",
-      "submittedToast": "Murojaat yuborildi! Jamoamiz tez orada siz bilan bog‘lanadi."
+      "infoTitle": "Kurs",
+      "moduleDelete": {
+        "description": "va uning {{count}} kartasi o‘chiriladi. Menejer API qatorlarni butunlay o‘chiradi — buni qaytarib bo‘lmaydi.",
+        "title": "Modul o‘chirilsinmi?"
+      },
+      "newModule": "Yangi modul",
+      "notFound": "{{id}} raqamli kurs topilmadi.",
+      "notFoundHint": "U o‘chirilgan bo‘lishi mumkin yoki sahifa yangilanganda fiksturalar qayta yaratilgan.",
+      "searchPlaceholder": "Modullarni qidirish",
+      "stats": {
+        "cards": "Kartalar",
+        "cardsHint": "Barcha modullar bo‘yicha",
+        "modules": "Modullar",
+        "phraseCards": "Ibora kartalari",
+        "published": "Nashr etilgan"
+      },
+      "toast": {
+        "courseUpdated": "«{{title}}» kursi yangilandi",
+        "moduleCreated": "«{{title}}» moduli yaratildi",
+        "moduleDeleted": "«{{title}}» moduli o‘chirildi",
+        "moduleUpdated": "«{{title}}» moduli yangilandi"
+      }
+    },
+    "courseForm": {
+      "accessHint": "Kursni qaysi obuna ochadi.",
+      "accessLabel": "Kirish",
+      "accessPlaceholder": "Kirishni tanlang",
+      "categoryLabel": "Kategoriya",
+      "categoryPlaceholder": "Kategoriyani tanlang",
+      "coverHint": "POST /api/v1/manager/file/tmp/form qaytargan yo‘l. Maydonni tozalash — DELETE /courses/{courseId}/cover chaqiruvi.",
+      "coverLabel": "Muqova yo‘li",
+      "coverPlaceholder": "/courses/example.webp",
+      "createDescription": "POST /api/v1/manager/courses orqali kurs yaratadi.",
+      "createSubmit": "Kurs yaratish",
+      "descriptions": {
+        "add": "Til qo‘shish",
+        "allUsed": "Har bir til uchun tavsif allaqachon bor",
+        "description": "Har bir til uchun bittadan — o‘quvchi o‘z tilida ko‘radi.",
+        "empty": "Hozircha tavsif yo‘q. Kurslar ro‘yxatida va ilovada faqat sarlavha ko‘rinadi.",
+        "remove": "Tavsifni o‘chirish",
+        "title": "Tavsiflar"
+      },
+      "editDescription": "O‘zgarishlar PUT /api/v1/manager/courses/{courseId} ga ketadi.",
+      "editSubmit": "Kursni saqlash",
+      "editTitle": "Kursni tahrirlash",
+      "newTitle": "Yangi kurs",
+      "publishedHint": "Qoralama kurs o‘quvchilardan yashiriladi.",
+      "titlePlaceholder": "Kurs sarlavhasi",
+      "validation": {
+        "descriptionRequired": "Tavsif bo‘sh bo‘lmasligi kerak",
+        "localeOnce": "Har bir til faqat bir marta ishlatilishi mumkin",
+        "titleMin": "Sarlavha kamida 2 belgidan iborat bo‘lishi kerak"
+      }
+    },
+    "courses": {
+      "delete": {
+        "description": "va uning {{count}} moduli (kartalari bilan) o‘chiriladi. Menejer API qatorlarni butunlay o‘chiradi — buni qaytarib bo‘lmaydi.",
+        "title": "Kurs o‘chirilsinmi?"
+      },
+      "empty": "Bu filtrlarga mos kurs yo‘q.",
+      "newCourse": "Yangi kurs",
+      "searchPlaceholder": "Sarlavha yoki muallif bo‘yicha qidirish",
+      "stats": {
+        "courses": "Kurslar",
+        "modules": "Modullar",
+        "modulesHint": "Barcha kurslar bo‘yicha",
+        "paid": "Pullik",
+        "paidHint": "BASIC yoki PRO",
+        "published": "Nashr etilgan",
+        "publishedHint": "O‘quvchilarga ko‘rinadi"
+      },
+      "toast": {
+        "created": "«{{title}}» kursi yaratildi",
+        "deleted": "«{{title}}» kursi o‘chirildi",
+        "updated": "«{{title}}» kursi yangilandi"
+      }
+    },
+    "filters": {
+      "access": "Kirish bo‘yicha filtr",
+      "accessPlaceholder": "Kirish",
+      "allAccess": "Barcha kirish turlari",
+      "allCategories": "Barcha kategoriyalar",
+      "allLocales": "Barcha tillar",
+      "allPlans": "Barcha tariflar",
+      "allRoles": "Barcha rollar",
+      "allStates": "Barcha holatlar",
+      "allStatuses": "Barcha statuslar",
+      "anyImage": "Rasm — har qanday",
+      "category": "Kategoriya bo‘yicha filtr",
+      "categoryPlaceholder": "Kategoriya",
+      "image": "Rasm bo‘yicha filtr",
+      "imagePlaceholder": "Rasm",
+      "locale": "Til bo‘yicha filtr",
+      "localePlaceholder": "Til",
+      "role": "Rol bo‘yicha filtr",
+      "rolePlaceholder": "Rol",
+      "state": "Holat bo‘yicha filtr",
+      "statePlaceholder": "Holat",
+      "status": "Status bo‘yicha filtr",
+      "statusPlaceholder": "Status",
+      "subscription": "Obuna bo‘yicha filtr",
+      "subscriptionPlaceholder": "Obuna",
+      "withImage": "Rasmli",
+      "withoutImage": "Rasmsiz"
+    },
+    "moduleDetail": {
+      "backToCourses": "Kurslarga qaytish",
+      "cardDelete": {
+        "description": "va uning tarjimalari va namunalari o‘chiriladi. Buni qaytarib bo‘lmaydi.",
+        "title": "Karta o‘chirilsinmi?"
+      },
+      "editModule": "Modulni tahrirlash",
+      "empty": "Bu filtrlarga mos karta yo‘q.",
+      "fields": {
+        "course": "Kurs",
+        "courseAccess": "Kurs kirishi",
+        "created": "Yaratilgan",
+        "id": "Id"
+      },
+      "infoTitle": "Modul",
+      "newCard": "Yangi karta",
+      "notFound": "{{id}} raqamli modul topilmadi.",
+      "notFoundHint": "Modullar har bir kurs uchun yaratiladi — modulni o‘z kursidan oching.",
+      "order": "Modul №{{order}}",
+      "phraseDelete": {
+        "description": "va uning izohlari o‘chiriladi. Buni qaytarib bo‘lmaydi.",
+        "title": "Ibora kartasi o‘chirilsinmi?"
+      },
+      "phrases": {
+        "empty": "Bu modulda ibora kartalari yo‘q.",
+        "new": "Yangi ibora kartasi",
+        "title": "Ibora kartalari"
+      },
+      "searchPlaceholder": "So‘z yoki tarjima bo‘yicha qidirish",
+      "stats": {
+        "cards": "Kartalar",
+        "phraseCards": "Ibora kartalari",
+        "samples": "Namunalar",
+        "samplesHint": "Barcha kartalar bo‘yicha",
+        "withImage": "Rasmli"
+      },
+      "tabs": {
+        "cards": "Kartalar ({{count}})",
+        "phrases": "Ibora kartalari ({{count}})"
+      },
+      "toast": {
+        "cardCreated": "«{{term}}» kartasi yaratildi",
+        "cardDeleted": "«{{term}}» kartasi o‘chirildi",
+        "cardUpdated": "«{{term}}» kartasi yangilandi",
+        "imageRemoved": "«{{term}}» rasmi olib tashlandi",
+        "moduleUpdated": "«{{title}}» moduli yangilandi",
+        "phraseCreated": "Ibora kartasi yaratildi",
+        "phraseDeleted": "Ibora kartasi o‘chirildi",
+        "phraseUpdated": "Ibora kartasi yangilandi"
+      }
+    },
+    "moduleForm": {
+      "createDescription": "«{{course}}» kursida POST /api/v1/manager/modules orqali modul yaratadi.",
+      "createSubmit": "Modul yaratish",
+      "draftCourseHint": "Kurs qoralama, shuning uchun uning modullari nashr etilmaydi.",
+      "editDescription": "O‘zgarishlar PUT /api/v1/manager/modules/{moduleId} ga ketadi.",
+      "editSubmit": "Modulni saqlash",
+      "editTitle": "Modulni tahrirlash",
+      "newTitle": "Yangi modul",
+      "publishedHint": "Qoralama modul o‘quvchilardan yashiriladi.",
+      "titlePlaceholder": "Modul sarlavhasi",
+      "validation": {
+        "titleMin": "Sarlavha kamida 2 belgidan iborat bo‘lishi kerak"
+      }
+    },
+    "nouns": {
+      "cards": "karta",
+      "courses": "kurs",
+      "modules": "modul",
+      "users": "foydalanuvchi"
+    },
+    "phraseCardForm": {
+      "createDescription": "«{{module}}» modulida POST /api/v1/manager/phrase-cards orqali ibora kartasi yaratadi.",
+      "createSubmit": "Ibora kartasi yaratish",
+      "editDescription": "O‘zgarishlar PUT /api/v1/manager/phrase-cards/{phraseCardId} ga ketadi.",
+      "editSubmit": "Ibora kartasini saqlash",
+      "editTitle": "Ibora kartasini tahrirlash",
+      "explanations": {
+        "add": "Izoh qo‘shish",
+        "description": "Ibora qanday ishlatiladi — tillar bo‘yicha.",
+        "empty": "Hozircha izoh yo‘q.",
+        "remove": "Izohni o‘chirish",
+        "title": "Izohlar"
+      },
+      "newTitle": "Yangi ibora kartasi",
+      "phraseLabel": "Ibora",
+      "phrasePlaceholder": "break the ice",
+      "validation": {
+        "explanationRequired": "Izoh bo‘sh bo‘lmasligi kerak",
+        "phraseRequired": "Iborani kiriting"
+      }
+    },
+    "roles": {
+      "ROLE_ADMIN": "Administrator",
+      "ROLE_AUTHOR": "Muallif",
+      "ROLE_USER": "Foydalanuvchi"
+    },
+    "rowActions": {
+      "delete": "{{name}}ni o‘chirish",
+      "edit": "{{name}}ni tahrirlash",
+      "moveDown": "{{name}}ni pastga ko‘chirish",
+      "moveUp": "{{name}}ni yuqoriga ko‘chirish",
+      "removeImage": "{{name}} rasmini olib tashlash"
+    },
+    "statuses": {
+      "ACTIVE": "Faol",
+      "BLOCKED": "Bloklangan"
+    },
+    "table": {
+      "rows": "Qatorlar",
+      "showing": "{{total}} {{noun}}dan {{from}}–{{to}} ko‘rsatilmoqda"
+    },
+    "userDetail": {
+      "account": {
+        "description": "auth_user va uning hisob ma’lumotlari qatoridan.",
+        "title": "Hisob"
+      },
+      "allUsers": "Barcha foydalanuvchilar",
+      "backToUsers": "Foydalanuvchilarga qaytish",
+      "blockUser": "Foydalanuvchini bloklash",
+      "blockedAlert": {
+        "by": "bloklagan: {{name}}",
+        "noReason": "Sabab yozilmagan.",
+        "on": "Bloklangan",
+        "title": "Hisob bloklangan"
+      },
+      "fields": {
+        "authVersion": "Avtorizatsiya versiyasi",
+        "blockedAt": "Bloklangan vaqti",
+        "blockedBy": "Kim bloklagan",
+        "blockedReason": "Bloklash sababi",
+        "created": "Yaratilgan",
+        "email": "Email",
+        "ends": "Tugaydi",
+        "id": "Id",
+        "lastReset": "Oxirgi tiklash",
+        "plan": "Tarif",
+        "status": "Status",
+        "uid": "Uid",
+        "updated": "Yangilangan"
+      },
+      "notFound": "Foydalanuvchi topilmadi.",
+      "notFoundHint": "{{uid}} uid bilan hisob yo‘q.",
+      "roles": {
+        "description": "ROLE_AUTHOR /api/v1/manager/** ni ochadi, ROLE_ADMIN /api/v1/admin/** ni ochadi. Rol beradigan endpoint hali yo‘q, shuning uchun bu o‘zgarishlar faqat fiksturada qoladi.",
+        "implicit": "ROLE_USER har bir hisobda sukut bo‘yicha bor.",
+        "title": "Rollar",
+        "toggle": "{{role}} rolini almashtirish"
+      },
+      "status": {
+        "description": "GET /api/v1/admin/users/{uid}/status",
+        "title": "Status"
+      },
+      "subscription": {
+        "description": "auth_user_subscription dan.",
+        "none": "Obuna yo‘q. O‘quvchi bepul tarifda va faqat FREE kurslarini ochishi mumkin.",
+        "title": "Obuna"
+      },
+      "toast": {
+        "roleGranted": "{{role}} roli berildi: {{name}}",
+        "roleRevoked": "{{role}} roli olindi: {{name}}"
+      },
+      "unblockUser": "Blokdan chiqarish"
+    },
+    "userRolesSheet": {
+      "description": "Rollar — administrator hisobda o‘zgartira oladigan yagona narsa. Foydalanuvchi nomi, email va obuna o‘quvchiga va payment-api ga tegishli.",
+      "scopes": {
+        "ROLE_ADMIN": "/api/v1/admin/** ni ochadi",
+        "ROLE_AUTHOR": "/api/v1/manager/** ni ochadi"
+      },
+      "submit": "Rollarni saqlash",
+      "title": "{{name}}ni tahrirlash"
+    },
+    "users": {
+      "block": "Bloklash",
+      "empty": "Bu filtrlarga mos foydalanuvchi yo‘q.",
+      "searchPlaceholder": "Foydalanuvchi nomi, email yoki uid bo‘yicha qidirish",
+      "stats": {
+        "blocked": "Bloklangan",
+        "staff": "Xodimlar",
+        "staffHint": "Muallif yoki administrator",
+        "subscribed": "Obunachilar",
+        "subscribedHint": "BASIC yoki PRO",
+        "users": "Foydalanuvchilar"
+      },
+      "toast": {
+        "blocked": "{{name}} bloklandi",
+        "unblocked": "{{name}} blokdan chiqarildi"
+      },
+      "unblock": "Blokdan chiqarish",
+      "until": "tugashi:"
     }
   },
   "misc": {
@@ -336,63 +456,22 @@
     "may": "May"
   },
   "nav": {
-    "authForgotPassword": "Parolni tiklash",
-    "authLogin": "Kirish",
-    "authRegister": "Ro‘yxatdan o‘tish",
-    "authResetPassword": "Parolni yangilash",
-    "authTwoSteps": "Ikki bosqichli tekshiruv",
-    "authVerifyEmail": "Emailni tasdiqlash",
-    "authentication": "Autentifikatsiya",
-    "dataTable": "Ma’lumot jadvali",
-    "errorPage": "Xatolik sahifasi",
-    "formLayouts": "Shakl maketlari",
-    "formLayoutsHorizontal": "Gorizontal maket",
-    "formLayoutsVertical": "Vertikal maket",
-    "formValidation": "Shakl tekshiruvi",
     "groups": {
-      "apps": "Ilovalar",
-      "dashboard": "Boshqaruv paneli",
-      "formsAndTables": "Shakllar va jadvallar",
       "manage": "Boshqaruv",
       "pages": "Sahifalar"
     },
     "manageCourses": "Kurslar",
-    "manageUsers": "Foydalanuvchilar",
-    "orders": "Buyurtmalar",
-    "settingsGeneral": "Asosiy",
-    "settingsWorkspace": "Ish maydoni",
-    "userSettings": "Foydalanuvchi sozlamalari",
-    "users": "Foydalanuvchilar",
-    "usersList": "Ro‘yxat",
-    "usersView": "Karta"
+    "manageUsers": "Foydalanuvchilar"
   },
   "routes": {
-    "apps": "Ilovalar",
-    "auth": "Autentifikatsiya",
     "courses": "Kurslar",
-    "dashboard": "Boshqaruv paneli",
-    "datatable": "Ma’lumot jadvali",
     "error-page": "Xatolik sahifasi",
-    "forgot-password": "Parolni tiklash",
-    "form-layouts": "Shakl maketlari",
-    "form-validation": "Shakl tekshiruvi",
-    "forms": "Shakllar",
-    "horizontal": "Gorizontal",
-    "list": "Ro‘yxat",
-    "login": "Kirish",
     "manage": "Boshqaruv",
     "misc": "Boshqa",
     "modules": "Modullar",
-    "orders": "Buyurtmalar",
     "pages": "Sahifalar",
-    "register": "Ro‘yxatdan o‘tish",
-    "reset-password": "Parolni yangilash",
-    "two-steps": "Ikki bosqichli tekshiruv",
-    "user-settings": "Foydalanuvchi sozlamalari",
-    "users": "Foydalanuvchilar",
-    "verify-email": "Emailni tasdiqlash",
-    "vertical": "Vertikal",
-    "view": "Karta"
+    "user-settings": "Sozlamalar",
+    "users": "Foydalanuvchilar"
   },
   "settings": {
     "connectAccounts": {
@@ -445,16 +524,6 @@
       },
       "title": "Email va parol"
     },
-    "organizations": {
-      "confirmDescription": "Bu tashkilotdan chiqishni xohlaysizmi?",
-      "confirmTitle": "Ishonchingiz komilmi?",
-      "description": "Ish maydoni tashkilotlari va sozlamalarini boshqaring.",
-      "discordDescription": "jamoa moderatori va yordam kanali a’zosi",
-      "githubDescription": "repozitoriy hamkori va CI mas’uli",
-      "leave": "Chiqish",
-      "notionDescription": "mahsulot va hujjat loyihalarida a’zo va hamkor",
-      "title": "Tashkilotlar"
-    },
     "personal": {
       "avatar": "Avataringiz",
       "avatarPreviewAlt": "avatar ko‘rinishi",
@@ -499,261 +568,13 @@
       "title": "Ijtimoiy tarmoq havolalari"
     },
     "tabs": {
-      "general": "Asosiy",
-      "workspace": "Ish maydoni"
+      "general": "Asosiy"
     },
     "title": "Hisob va foydalanuvchilarni boshqarish",
     "upload": {
       "notAnImage": "Rasm faylini tanlang",
       "sizeHint": "1 MB gacha rasm tanlang.",
       "tooLarge": "Fayl 1 MB dan kichik bo‘lishi kerak"
-    },
-    "workspaceDanger": {
-      "deleteWorkspace": "Ish maydonini o‘chirish",
-      "deleteWorkspaceDescription": "Ish maydonini butunlay o‘chirish. Bu amal barcha ma’lumotlarni o‘chiradi va qaytarib bo‘lmaydi.",
-      "description": "Ish maydonini boshqarish. Batafsil ma’lumot uchun tizim administratoriga murojaat qiling",
-      "learnMore": "Batafsil",
-      "leave": "Chiqish",
-      "leaveWorkspace": "Ish maydonidan chiqish",
-      "leaveWorkspaceDescription": "Bu jamoaga kirishingizni bekor qilish. Siz qo‘shgan boshqa odamlar qoladi.",
-      "notAdmin": "Siz tizim administratori bo‘lmaganingiz uchun ish maydonini o‘chira olmaysiz.",
-      "title": "Xavfli hudud"
-    },
-    "workspaceData": {
-      "completed": "Tugallandi",
-      "csvExport": "CSV eksport",
-      "date": "SANA",
-      "description": "Zaxira yoki ko‘chirish uchun ish maydoni ma’lumotlarini eksport qiling.",
-      "downloadSuccess": "Muvaffaqiyatli yuklandi!",
-      "getStarted": "Boshlash",
-      "loading": "Yuklanmoqda...",
-      "progress": "Jarayon {{percent}}%",
-      "title": "Ish maydoni ma’lumotlarini eksport qilish",
-      "type": "TURI"
-    },
-    "workspaceDetail": {
-      "description": "Ish maydoni tafsilotlari va sozlamalarini boshqaring.",
-      "descriptionLabel": "Ish maydoni tavsifi",
-      "descriptionPlaceholder": "Fikringizni shu yerga yozing",
-      "logo": "Ish maydoni logotipi",
-      "logoPreviewAlt": "logotip ko‘rinishi",
-      "slug": "Ish maydoni slug’i",
-      "slugHint": "Faqat kichik harflar, raqamlar va chiziqchalar. Maksimum 48 belgi",
-      "title": "Ish maydoni tafsilotlari",
-      "uploadLogo": "Logotip yuklash",
-      "uploadLogoAria": "Ish maydoni logotipini yuklash",
-      "url": "Ish maydoni URL"
-    },
-    "workspaceName": {
-      "appId": "Ilova ID",
-      "description": "Ish maydoni nomi va vaqt mintaqasi sozlamalarini boshqaring.",
-      "nameLabel": "Ish maydoni nomi",
-      "noTimezone": "Vaqt mintaqasi topilmadi.",
-      "searchTimezone": "Vaqt mintaqasini qidirish",
-      "selectTimezone": "Vaqt mintaqasini tanlang",
-      "timezone": "Vaqt mintaqasi",
-      "title": "Ish maydoni nomi va vaqt mintaqasi"
-    }
-  },
-  "users": {
-    "billing": {
-      "action": "Amal",
-      "billingDetails": "To‘lov ma’lumotlari",
-      "billingEmail": "Hisob-faktura emaili",
-      "company": "Kompaniya",
-      "country": "Davlat",
-      "currentPlan": "Joriy tarif",
-      "days": "Kunlar",
-      "daysUsed": "{{total}} kundan {{used}} tasi",
-      "downloadInvoice": "{{number}} ni yuklab olish",
-      "invoice": "Hisob-faktura",
-      "invoiceHistory": "Hisob-fakturalar tarixi",
-      "invoiceStatus": {
-        "cancelled": "Bekor qilingan",
-        "draft": "Qoralama",
-        "paid": "To‘langan",
-        "pending": "Kutilmoqda"
-      },
-      "issuedDate": "Berilgan sana",
-      "noInvoices": "Hisob-fakturalar topilmadi.",
-      "noPlan": "Tarif tayinlanmagan.",
-      "periodUsed": "To‘lov davrining {{percent}}% ishlatilgan",
-      "planLine": "{{plan}} tarifi · {{billing}}",
-      "popular": "Mashhur",
-      "status": "Holat",
-      "taxId": "STIR",
-      "total": "Summa",
-      "upgradePlan": "Tarifni o‘zgartirish"
-    },
-    "billingMethods": {
-      "autoDebit": "Avtomatik yechish",
-      "creditCard": "Bank kartasi",
-      "manualPaypal": "Qo‘lda — PayPal"
-    },
-    "columns": {
-      "billing": "To‘lov",
-      "joinedDate": "Ro‘yxatdan o‘tgan sana",
-      "plan": "Tarif",
-      "role": "Rol",
-      "status": "Holat",
-      "user": "Foydalanuvchi"
-    },
-    "connections": {
-      "connect": "{{name}} ni ulash",
-      "connectedAccounts": "Ulangan hisoblar",
-      "connectedAccountsDescription": "Ulangan hisoblaringizdagi kontentni saytingizda ko‘rsatish",
-      "disconnect": "{{name}} ni uzish",
-      "integrations": {
-        "asanaDescription": "Muloqot",
-        "githubDescription": "Git repozitoriyingizni boshqarish",
-        "googleDescription": "Kalendar va kontaktlar",
-        "mailchimpDescription": "Email marketing xizmati",
-        "slackDescription": "Muloqot"
-      },
-      "notConnected": "Ulanmagan",
-      "socialAccounts": "Ijtimoiy tarmoqlar",
-      "socialAccountsDescription": "Ijtimoiy tarmoqlardagi kontentni saytingizda ko‘rsatish",
-      "toggle": "{{name}} ni almashtirish"
-    },
-    "countries": {
-      "Australia": "Avstraliya",
-      "Brazil": "Braziliya",
-      "Canada": "Kanada",
-      "France": "Fransiya",
-      "Germany": "Germaniya",
-      "India": "Hindiston",
-      "Italy": "Italiya",
-      "Japan": "Yaponiya",
-      "Mexico": "Meksika",
-      "Netherlands": "Niderlandiya",
-      "Singapore": "Singapur",
-      "South Korea": "Janubiy Koreya",
-      "Spain": "Ispaniya",
-      "United Kingdom": "Buyuk Britaniya",
-      "United States": "AQSH"
-    },
-    "filters": {
-      "all": "Barchasi",
-      "selectPlan": "Tarifni tanlang",
-      "selectRole": "Rolni tanlang",
-      "selectStatus": "Holatni tanlang"
-    },
-    "panel": {
-      "contact": "Aloqa",
-      "country": "Davlat",
-      "details": "Tafsilotlar",
-      "email": "Email",
-      "language": "Til",
-      "projectDone": "Tugatilgan loyihalar",
-      "role": "Rol",
-      "status": "Holat",
-      "suspend": "Bloklash",
-      "taskDone": "Bajarilgan vazifalar",
-      "taxId": "STIR",
-      "username": "Foydalanuvchi nomi"
-    },
-    "plans": {
-      "Basic": "Boshlang‘ich",
-      "Enterprise": "Korporativ",
-      "Team": "Jamoa"
-    },
-    "projects": {
-      "action": "Amal",
-      "leader": "Rahbar",
-      "none": "Loyihalar topilmadi",
-      "progress": "Jarayon",
-      "project": "Loyiha",
-      "rowActions": "Loyiha amallari",
-      "searchLabel": "Loyihalarni qidirish",
-      "searchPlaceholder": "Loyihani qidirish",
-      "selectAll": "Barcha loyihalarni tanlash",
-      "selectOne": "{{name}} ni tanlash",
-      "team": "Jamoa",
-      "title": "Loyihalar ro‘yxati"
-    },
-    "roles": {
-      "Admin": "Administrator",
-      "Editor": "Muharrir",
-      "Guest": "Mehmon",
-      "Maintainer": "Mas’ul",
-      "Subscriber": "Obunachi"
-    },
-    "rowActions": {
-      "activate": "Faollashtirish",
-      "deleteUser": "Foydalanuvchini o‘chirish",
-      "editUser": "Foydalanuvchini tahrirlash",
-      "openActions": "Amallarni ochish",
-      "suspend": "Bloklash",
-      "viewUser": "Foydalanuvchini ko‘rish"
-    },
-    "security": {
-      "browser": "Brauzer",
-      "changePassword": "Parolni o‘zgartirish",
-      "confirmNewPassword": "Yangi parolni tasdiqlang",
-      "currentPassword": "Joriy parol",
-      "device": "Qurilma",
-      "hintCase": "Kamida bitta kichik va bitta katta harf",
-      "hintLength": "Kamida 8 belgi — qanchalik uzun bo‘lsa, shunchalik yaxshi",
-      "hintSymbol": "Kamida bitta raqam, belgi yoki bo‘sh joy",
-      "location": "Joylashuv",
-      "newPassword": "Yangi parol",
-      "noRecentDevices": "So‘nggi qurilmalar topilmadi.",
-      "recentActivity": "So‘nggi faollik",
-      "recentDevices": "So‘nggi qurilmalar",
-      "twoFactorDisabled": "Ikki faktorli autentifikatsiya hali yoqilmagan.",
-      "twoFactorEnabled": "Bu hisob uchun ikki faktorli autentifikatsiya yoqilgan.",
-      "twoStepsAria": "Ikki bosqichli tekshiruv",
-      "twoStepsDescription": "Hisobingizni qo‘shimcha autentifikatsiya bosqichi bilan himoyalang.",
-      "twoStepsTitle": "Ikki bosqichli tekshiruv"
-    },
-    "sheet": {
-      "addTitle": "Foydalanuvchi qo‘shish",
-      "company": "Kompaniya",
-      "companyPlaceholder": "Kompaniya nomi",
-      "contact": "Aloqa",
-      "contactPlaceholder": "+998 90 000-00-00",
-      "country": "Davlat",
-      "editTitle": "Foydalanuvchini tahrirlash",
-      "email": "Email",
-      "emailPlaceholder": "name@example.com",
-      "errors": {
-        "emailInvalid": "To‘g‘ri email manzilini kiriting",
-        "emailRequired": "Emailni kiriting",
-        "nameRequired": "Ismni kiriting"
-      },
-      "name": "Ism",
-      "namePlaceholder": "To‘liq ism",
-      "plan": "Tarif",
-      "role": "Rol",
-      "selectCountry": "Davlatni tanlang",
-      "selectPlan": "Tarifni tanlang",
-      "selectRole": "Rolni tanlang",
-      "selectStatus": "Holatni tanlang",
-      "status": "Holat"
-    },
-    "showingEntries": "{{total}} yozuvdan {{from}}–{{to}} ko‘rsatilmoqda",
-    "statuses": {
-      "Active": "Faol",
-      "Inactive": "Nofaol",
-      "Pending": "Kutilmoqda",
-      "Suspended": "Bloklangan"
-    },
-    "tabs": {
-      "account": "Hisob",
-      "billing": "To‘lov va tariflar",
-      "connections": "Ulanishlar",
-      "security": "Xavfsizlik"
-    },
-    "toolbar": {
-      "addNewUser": "Foydalanuvchi qo‘shish",
-      "export": "Eksport",
-      "exportCsv": "CSV ga eksport",
-      "exportExcel": "Excel ga eksport",
-      "exportJson": "JSON ga eksport",
-      "import": "Import",
-      "searchLabel": "Foydalanuvchini qidirish",
-      "searchPlaceholder": "Foydalanuvchini qidirish",
-      "showLabel": "Ko‘rsatish"
     }
   }
 }

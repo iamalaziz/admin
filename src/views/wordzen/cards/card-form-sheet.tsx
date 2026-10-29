@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
@@ -12,35 +12,38 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { Textarea } from '@/components/ui/textarea'
+import { useTranslation } from '@/lib/i18n'
+import type { Translate } from '@/lib/i18n'
 import type { Card, CardPayload, Module } from '@/types/wordzen/content-types'
 import { LOCALE_CODES } from '@/types/wordzen/content-types'
 
 import { RepeaterEmpty, RepeaterHeader, RepeaterRow } from '../shared/repeater'
 
 /** Mirrors `dto/request/CardRequest`, including its nested translations and samples. */
-const cardFormSchema = z.object({
-  term: z.string().trim().min(1, 'Term is required'),
-  image: z.string().trim(),
-  translations: z
-    .array(
+const createCardFormSchema = (t: Translate) =>
+  z.object({
+    term: z.string().trim().min(1, t('manage.cardForm.validation.termRequired')),
+    image: z.string().trim(),
+    translations: z
+      .array(
+        z.object({
+          locale: z.enum(LOCALE_CODES),
+          value: z.string().trim().min(1, t('manage.cardForm.validation.translationRequired'))
+        })
+      )
+
+      // A card with no gloss teaches nothing, so unlike samples this list cannot be empty.
+      .min(1, t('manage.cardForm.validation.translationsMin')),
+    samples: z.array(
       z.object({
         locale: z.enum(LOCALE_CODES),
-        value: z.string().trim().min(1, 'Translation cannot be empty')
+        value: z.string().trim().min(1, t('manage.cardForm.validation.sentenceRequired')),
+        translation: z.string().trim().min(1, t('manage.cardForm.validation.sentenceTranslationRequired'))
       })
     )
+  })
 
-    // A card with no gloss teaches nothing, so unlike samples this list cannot be empty.
-    .min(1, 'Add at least one translation'),
-  samples: z.array(
-    z.object({
-      locale: z.enum(LOCALE_CODES),
-      value: z.string().trim().min(1, 'Sentence cannot be empty'),
-      translation: z.string().trim().min(1, 'Sentence translation cannot be empty')
-    })
-  )
-})
-
-type CardFormValues = z.infer<typeof cardFormSchema>
+type CardFormValues = z.infer<ReturnType<typeof createCardFormSchema>>
 
 const emptyValues: CardFormValues = {
   term: '',
@@ -72,10 +75,13 @@ export interface CardFormSheetProps {
 }
 
 export function CardFormSheet({ open, card, module, onOpenChange, onSubmit }: CardFormSheetProps) {
+  const { t } = useTranslation()
   const isEdit = card !== null
 
+  const schema = useMemo(() => createCardFormSchema(t), [t])
+
   const form = useForm<CardFormValues>({
-    resolver: zodResolver(cardFormSchema),
+    resolver: zodResolver(schema),
     defaultValues: emptyValues
   })
 
@@ -106,11 +112,13 @@ export function CardFormSheet({ open, card, module, onOpenChange, onSubmit }: Ca
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side='right' className='w-full overflow-y-auto sm:max-w-[560px]'>
         <SheetHeader className='pb-0'>
-          <SheetTitle className='text-lg font-medium'>{isEdit ? 'Edit card' : 'New card'}</SheetTitle>
+          <SheetTitle className='text-lg font-medium'>
+            {isEdit ? t('manage.cardForm.editTitle') : t('manage.cardForm.newTitle')}
+          </SheetTitle>
           <SheetDescription>
             {isEdit
-              ? 'Changes map to PUT /api/v1/manager/cards/{cardId}.'
-              : `Creates a card in "${module.title}" via POST /api/v1/manager/cards.`}
+              ? t('manage.cardForm.editDescription')
+              : t('manage.cardForm.createDescription', { module: module.title })}
           </SheetDescription>
         </SheetHeader>
 
@@ -121,11 +129,11 @@ export function CardFormSheet({ open, card, module, onOpenChange, onSubmit }: Ca
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className='gap-2'>
-                  <FieldLabel htmlFor={field.name}>Term</FieldLabel>
+                  <FieldLabel htmlFor={field.name}>{t('manage.cardForm.termLabel')}</FieldLabel>
                   <Input
                     {...field}
                     id={field.name}
-                    placeholder='The word being taught'
+                    placeholder={t('manage.cardForm.termPlaceholder')}
                     aria-invalid={fieldState.invalid}
                   />
                   {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
@@ -138,12 +146,9 @@ export function CardFormSheet({ open, card, module, onOpenChange, onSubmit }: Ca
               control={form.control}
               render={({ field }) => (
                 <Field className='gap-2'>
-                  <FieldLabel htmlFor={field.name}>Image path</FieldLabel>
-                  <Input {...field} id={field.name} placeholder='/cards/example.webp' />
-                  <FieldDescription>
-                    From POST /api/v1/manager/file/tmp/form, or generated via /manager/generate/img. Clearing it is the
-                    DELETE /cards/{'{cardId}'}/image call.
-                  </FieldDescription>
+                  <FieldLabel htmlFor={field.name}>{t('manage.cardForm.imageLabel')}</FieldLabel>
+                  <Input {...field} id={field.name} placeholder={t('manage.cardForm.imagePlaceholder')} />
+                  <FieldDescription>{t('manage.cardForm.imageHint')}</FieldDescription>
                 </Field>
               )}
             />
@@ -151,21 +156,25 @@ export function CardFormSheet({ open, card, module, onOpenChange, onSubmit }: Ca
 
           <div className='flex flex-col gap-3'>
             <RepeaterHeader
-              title='Translations'
-              description='What the term means, per locale.'
-              addLabel='Add translation'
+              title={t('manage.cardForm.translations.title')}
+              description={t('manage.cardForm.translations.description')}
+              addLabel={t('manage.cardForm.translations.add')}
               onAdd={() => translations.append({ locale: 'RU', value: '' })}
             />
 
             {translations.fields.map((row, index) => (
-              <RepeaterRow key={row.id} onRemove={() => translations.remove(index)} removeLabel='Remove translation'>
+              <RepeaterRow
+                key={row.id}
+                onRemove={() => translations.remove(index)}
+                removeLabel={t('manage.cardForm.translations.remove')}
+              >
                 <div className='flex flex-col gap-3 sm:flex-row sm:items-start'>
                   <Controller
                     name={`translations.${index}.locale`}
                     control={form.control}
                     render={({ field }) => (
                       <Field className='gap-2 sm:w-28'>
-                        <FieldLabel htmlFor={field.name}>Locale</FieldLabel>
+                        <FieldLabel htmlFor={field.name}>{t('manage.common.locale')}</FieldLabel>
                         <Select value={field.value} onValueChange={field.onChange}>
                           <SelectTrigger id={field.name} className='w-full'>
                             <SelectValue />
@@ -186,7 +195,7 @@ export function CardFormSheet({ open, card, module, onOpenChange, onSubmit }: Ca
                     control={form.control}
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid} className='min-w-0 flex-1 gap-2'>
-                        <FieldLabel htmlFor={field.name}>Value</FieldLabel>
+                        <FieldLabel htmlFor={field.name}>{t('manage.cardForm.translations.value')}</FieldLabel>
                         <Input {...field} id={field.name} aria-invalid={fieldState.invalid} />
                         {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
                       </Field>
@@ -203,23 +212,27 @@ export function CardFormSheet({ open, card, module, onOpenChange, onSubmit }: Ca
 
           <div className='flex flex-col gap-3'>
             <RepeaterHeader
-              title='Samples'
-              description='Example sentences and their translation.'
-              addLabel='Add sample'
+              title={t('manage.cardForm.samples.title')}
+              description={t('manage.cardForm.samples.description')}
+              addLabel={t('manage.cardForm.samples.add')}
               onAdd={() => samples.append({ locale: 'RU', value: '', translation: '' })}
             />
 
             {samples.fields.length === 0 ? (
-              <RepeaterEmpty message='No samples. The card will show the term and its translations only.' />
+              <RepeaterEmpty message={t('manage.cardForm.samples.empty')} />
             ) : (
               samples.fields.map((row, index) => (
-                <RepeaterRow key={row.id} onRemove={() => samples.remove(index)} removeLabel='Remove sample'>
+                <RepeaterRow
+                  key={row.id}
+                  onRemove={() => samples.remove(index)}
+                  removeLabel={t('manage.cardForm.samples.remove')}
+                >
                   <Controller
                     name={`samples.${index}.locale`}
                     control={form.control}
                     render={({ field }) => (
                       <Field className='gap-2 sm:w-28'>
-                        <FieldLabel htmlFor={field.name}>Locale</FieldLabel>
+                        <FieldLabel htmlFor={field.name}>{t('manage.common.locale')}</FieldLabel>
                         <Select value={field.value} onValueChange={field.onChange}>
                           <SelectTrigger id={field.name} className='w-full'>
                             <SelectValue />
@@ -240,7 +253,7 @@ export function CardFormSheet({ open, card, module, onOpenChange, onSubmit }: Ca
                     control={form.control}
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid} className='gap-2'>
-                        <FieldLabel htmlFor={field.name}>Sentence</FieldLabel>
+                        <FieldLabel htmlFor={field.name}>{t('manage.cardForm.samples.sentence')}</FieldLabel>
                         <Textarea {...field} id={field.name} rows={2} aria-invalid={fieldState.invalid} />
                         {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
                       </Field>
@@ -251,7 +264,7 @@ export function CardFormSheet({ open, card, module, onOpenChange, onSubmit }: Ca
                     control={form.control}
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid} className='gap-2'>
-                        <FieldLabel htmlFor={field.name}>Translation</FieldLabel>
+                        <FieldLabel htmlFor={field.name}>{t('manage.cardForm.samples.translation')}</FieldLabel>
                         <Textarea {...field} id={field.name} rows={2} aria-invalid={fieldState.invalid} />
                         {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
                       </Field>
@@ -264,9 +277,11 @@ export function CardFormSheet({ open, card, module, onOpenChange, onSubmit }: Ca
 
           <SheetFooter className='flex-row justify-end gap-2 px-0'>
             <Button type='button' variant='outline' onClick={() => onOpenChange(false)}>
-              Cancel
+              {t('common.cancel')}
             </Button>
-            <Button type='submit'>{isEdit ? 'Save card' : 'Create card'}</Button>
+            <Button type='submit'>
+              {isEdit ? t('manage.cardForm.editSubmit') : t('manage.cardForm.createSubmit')}
+            </Button>
           </SheetFooter>
         </form>
       </SheetContent>

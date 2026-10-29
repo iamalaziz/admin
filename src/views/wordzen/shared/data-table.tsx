@@ -6,6 +6,7 @@ import { ChevronDownIcon, ChevronUpIcon, ChevronsUpDownIcon } from 'lucide-react
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import type { Sorting } from '@/hooks/wordzen/use-table-controls'
+import { useTranslation } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 
 export interface DataTableProps<TRow, TColumn extends string> {
@@ -30,8 +31,10 @@ export function DataTable<TRow, TColumn extends string>({
   sorting,
   onSortingChange,
   getRowId,
-  emptyMessage = 'Nothing to show.'
+  emptyMessage
 }: DataTableProps<TRow, TColumn>) {
+  const { t } = useTranslation()
+
   const sortingState: SortingState = sorting ? [sorting] : []
 
   const handleSortingChange = (updater: Updater<SortingState>) => {
@@ -104,7 +107,7 @@ export function DataTable<TRow, TColumn extends string>({
         {table.getRowModel().rows.length === 0 ? (
           <TableRow className='hover:bg-transparent'>
             <TableCell colSpan={columns.length} className='text-muted-foreground h-28 text-center'>
-              {emptyMessage}
+              {emptyMessage ?? t('common.noResults')}
             </TableCell>
           </TableRow>
         ) : (

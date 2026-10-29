@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form'
@@ -13,6 +13,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
+import { useTranslation } from '@/lib/i18n'
+import type { Translate } from '@/lib/i18n'
 import type { Course, CoursePayload } from '@/types/wordzen/content-types'
 import {
   COURSE_ACCESS_CODES,
@@ -23,29 +25,34 @@ import {
 
 import { RepeaterEmpty, RepeaterHeader, RepeaterRow } from '../shared/repeater'
 
-/** Mirrors `dto/request/CourseRequest`. `displayOrder` is left to the reorder endpoint. */
-const courseFormSchema = z.object({
-  title: z.string().trim().min(2, 'Title must be at least 2 characters'),
-  category: z.enum(COURSE_CATEGORY_CODES),
-  accessCode: z.enum(COURSE_ACCESS_CODES),
-  isPublic: z.boolean(),
-  cover: z.string().trim(),
-  descriptions: z
-    .array(
-      z.object({
-        locale: z.enum(LOCALE_CODES),
-        value: z.string().trim().min(1, 'Description cannot be empty')
+/**
+ * Mirrors `dto/request/CourseRequest`. `displayOrder` is left to the reorder endpoint.
+ *
+ * Built from `t` rather than at module scope, so the messages follow the active language.
+ */
+const createCourseFormSchema = (t: Translate) =>
+  z.object({
+    title: z.string().trim().min(2, t('manage.courseForm.validation.titleMin')),
+    category: z.enum(COURSE_CATEGORY_CODES),
+    accessCode: z.enum(COURSE_ACCESS_CODES),
+    isPublic: z.boolean(),
+    cover: z.string().trim(),
+    descriptions: z
+      .array(
+        z.object({
+          locale: z.enum(LOCALE_CODES),
+          value: z.string().trim().min(1, t('manage.courseForm.validation.descriptionRequired'))
+        })
+      )
+
+      // One row per locale: `CourseDescription` is keyed by locale, so two RU rows would
+      // mean two descriptions competing for the same slot on the learner side.
+      .refine(rows => new Set(rows.map(row => row.locale)).size === rows.length, {
+        message: t('manage.courseForm.validation.localeOnce')
       })
-    )
+  })
 
-    // One row per locale: `CourseDescription` is keyed by locale, so two RU rows would
-    // mean two descriptions competing for the same slot on the learner side.
-    .refine(rows => new Set(rows.map(row => row.locale)).size === rows.length, {
-      message: 'Each locale can only appear once'
-    })
-})
-
-type CourseFormValues = z.infer<typeof courseFormSchema>
+type CourseFormValues = z.infer<ReturnType<typeof createCourseFormSchema>>
 
 const emptyValues: CourseFormValues = {
   title: '',
@@ -78,10 +85,13 @@ export interface CourseFormSheetProps {
 }
 
 export function CourseFormSheet({ open, course, onOpenChange, onSubmit }: CourseFormSheetProps) {
+  const { t } = useTranslation()
   const isEdit = course !== null
 
+  const schema = useMemo(() => createCourseFormSchema(t), [t])
+
   const form = useForm<CourseFormValues>({
-    resolver: zodResolver(courseFormSchema),
+    resolver: zodResolver(schema),
     defaultValues: emptyValues
   })
 
@@ -118,11 +128,11 @@ export function CourseFormSheet({ open, course, onOpenChange, onSubmit }: Course
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side='right' className='w-full overflow-y-auto sm:max-w-[520px]'>
         <SheetHeader className='pb-0'>
-          <SheetTitle className='text-lg font-medium'>{isEdit ? 'Edit course' : 'New course'}</SheetTitle>
+          <SheetTitle className='text-lg font-medium'>
+            {isEdit ? t('manage.courseForm.editTitle') : t('manage.courseForm.newTitle')}
+          </SheetTitle>
           <SheetDescription>
-            {isEdit
-              ? 'Changes map to PUT /api/v1/manager/courses/{courseId}.'
-              : 'Creates a course via POST /api/v1/manager/courses.'}
+            {isEdit ? t('manage.courseForm.editDescription') : t('manage.courseForm.createDescription')}
           </SheetDescription>
         </SheetHeader>
 
@@ -133,8 +143,13 @@ export function CourseFormSheet({ open, course, onOpenChange, onSubmit }: Course
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className='gap-2'>
-                  <FieldLabel htmlFor={field.name}>Title</FieldLabel>
-                  <Input {...field} id={field.name} placeholder='Course title' aria-invalid={fieldState.invalid} />
+                  <FieldLabel htmlFor={field.name}>{t('manage.common.title')}</FieldLabel>
+                  <Input
+                    {...field}
+                    id={field.name}
+                    placeholder={t('manage.courseForm.titlePlaceholder')}
+                    aria-invalid={fieldState.invalid}
+                  />
                   {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
                 </Field>
               )}
@@ -146,10 +161,10 @@ export function CourseFormSheet({ open, course, onOpenChange, onSubmit }: Course
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid} className='gap-2'>
-                    <FieldLabel htmlFor='category'>Category</FieldLabel>
+                    <FieldLabel htmlFor='category'>{t('manage.courseForm.categoryLabel')}</FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger id='category' className='w-full'>
-                        <SelectValue placeholder='Select category' />
+                        <SelectValue placeholder={t('manage.courseForm.categoryPlaceholder')} />
                       </SelectTrigger>
                       <SelectContent>
                         {COURSE_CATEGORIES.map(category => (
@@ -169,10 +184,10 @@ export function CourseFormSheet({ open, course, onOpenChange, onSubmit }: Course
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid} className='gap-2'>
-                    <FieldLabel htmlFor='accessCode'>Access</FieldLabel>
+                    <FieldLabel htmlFor='accessCode'>{t('manage.courseForm.accessLabel')}</FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger id='accessCode' className='w-full'>
-                        <SelectValue placeholder='Select access' />
+                        <SelectValue placeholder={t('manage.courseForm.accessPlaceholder')} />
                       </SelectTrigger>
                       <SelectContent>
                         {COURSE_ACCESS_CODES.map(code => (
@@ -182,7 +197,7 @@ export function CourseFormSheet({ open, course, onOpenChange, onSubmit }: Course
                         ))}
                       </SelectContent>
                     </Select>
-                    <FieldDescription>Which subscription unlocks the course.</FieldDescription>
+                    <FieldDescription>{t('manage.courseForm.accessHint')}</FieldDescription>
                   </Field>
                 )}
               />
@@ -193,12 +208,9 @@ export function CourseFormSheet({ open, course, onOpenChange, onSubmit }: Course
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className='gap-2'>
-                  <FieldLabel htmlFor={field.name}>Cover path</FieldLabel>
-                  <Input {...field} id={field.name} placeholder='/courses/example.webp' />
-                  <FieldDescription>
-                    The path returned by POST /api/v1/manager/file/tmp/form. Clearing it is the DELETE /courses/
-                    {'{courseId}'}/cover call.
-                  </FieldDescription>
+                  <FieldLabel htmlFor={field.name}>{t('manage.courseForm.coverLabel')}</FieldLabel>
+                  <Input {...field} id={field.name} placeholder={t('manage.courseForm.coverPlaceholder')} />
+                  <FieldDescription>{t('manage.courseForm.coverHint')}</FieldDescription>
                 </Field>
               )}
             />
@@ -209,8 +221,8 @@ export function CourseFormSheet({ open, course, onOpenChange, onSubmit }: Course
               render={({ field }) => (
                 <Field orientation='horizontal' className='items-center justify-between gap-3'>
                   <div className='flex flex-col gap-0.5'>
-                    <FieldLabel htmlFor='isPublic'>Published</FieldLabel>
-                    <FieldDescription>A draft course is hidden from learners.</FieldDescription>
+                    <FieldLabel htmlFor='isPublic'>{t('manage.common.published')}</FieldLabel>
+                    <FieldDescription>{t('manage.courseForm.publishedHint')}</FieldDescription>
                   </div>
                   <Switch id='isPublic' checked={field.value} onCheckedChange={field.onChange} />
                 </Field>
@@ -220,25 +232,29 @@ export function CourseFormSheet({ open, course, onOpenChange, onSubmit }: Course
 
           <div className='flex flex-col gap-3'>
             <RepeaterHeader
-              title='Descriptions'
-              description='One per locale, shown to learners in their language.'
-              addLabel='Add locale'
+              title={t('manage.courseForm.descriptions.title')}
+              description={t('manage.courseForm.descriptions.description')}
+              addLabel={t('manage.courseForm.descriptions.add')}
               onAdd={() => nextFreeLocale && descriptions.append({ locale: nextFreeLocale, value: '' })}
               disabled={!nextFreeLocale}
-              disabledHint='Every locale already has a description'
+              disabledHint={t('manage.courseForm.descriptions.allUsed')}
             />
 
             {descriptions.fields.length === 0 ? (
-              <RepeaterEmpty message='No descriptions yet. The course list and learner app will show the title only.' />
+              <RepeaterEmpty message={t('manage.courseForm.descriptions.empty')} />
             ) : (
               descriptions.fields.map((row, index) => (
-                <RepeaterRow key={row.id} onRemove={() => descriptions.remove(index)} removeLabel='Remove description'>
+                <RepeaterRow
+                  key={row.id}
+                  onRemove={() => descriptions.remove(index)}
+                  removeLabel={t('manage.courseForm.descriptions.remove')}
+                >
                   <Controller
                     name={`descriptions.${index}.locale`}
                     control={form.control}
                     render={({ field }) => (
                       <Field className='gap-2'>
-                        <FieldLabel htmlFor={field.name}>Locale</FieldLabel>
+                        <FieldLabel htmlFor={field.name}>{t('manage.common.locale')}</FieldLabel>
                         <Select value={field.value} onValueChange={field.onChange}>
                           <SelectTrigger id={field.name} className='w-full sm:w-32'>
                             <SelectValue />
@@ -259,7 +275,7 @@ export function CourseFormSheet({ open, course, onOpenChange, onSubmit }: Course
                     control={form.control}
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid} className='gap-2'>
-                        <FieldLabel htmlFor={field.name}>Text</FieldLabel>
+                        <FieldLabel htmlFor={field.name}>{t('manage.common.text')}</FieldLabel>
                         <Textarea {...field} id={field.name} rows={3} aria-invalid={fieldState.invalid} />
                         {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
                       </Field>
@@ -276,9 +292,11 @@ export function CourseFormSheet({ open, course, onOpenChange, onSubmit }: Course
 
           <SheetFooter className='flex-row justify-end gap-2 px-0'>
             <Button type='button' variant='outline' onClick={() => onOpenChange(false)}>
-              Cancel
+              {t('common.cancel')}
             </Button>
-            <Button type='submit'>{isEdit ? 'Save course' : 'Create course'}</Button>
+            <Button type='submit'>
+              {isEdit ? t('manage.courseForm.editSubmit') : t('manage.courseForm.createSubmit')}
+            </Button>
           </SheetFooter>
         </form>
       </SheetContent>

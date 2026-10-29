@@ -10,6 +10,7 @@ import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem } fro
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { usePagination } from '@/hooks/use-pagination'
 import { ROWS_PER_PAGE_OPTIONS } from '@/hooks/wordzen/use-table-controls'
+import { useTranslation } from '@/lib/i18n'
 
 export interface TableToolbarProps {
   search: string
@@ -28,12 +29,15 @@ export interface TableToolbarProps {
 export function TableToolbar({
   search,
   onSearchChange,
-  searchPlaceholder = 'Search',
+  searchPlaceholder,
   rowsPerPage,
   onRowsPerPageChange,
   filters,
   actions
 }: TableToolbarProps) {
+  const { t } = useTranslation()
+  const placeholder = searchPlaceholder ?? t('common.search')
+
   return (
     <div className='flex flex-wrap items-center justify-between gap-3 px-4 py-3'>
       <div className='flex flex-wrap items-center gap-3'>
@@ -44,8 +48,8 @@ export function TableToolbar({
           <InputGroupInput
             value={search}
             onChange={event => onSearchChange(event.target.value)}
-            placeholder={searchPlaceholder}
-            aria-label={searchPlaceholder}
+            placeholder={placeholder}
+            aria-label={placeholder}
           />
         </InputGroup>
         {filters}
@@ -53,9 +57,9 @@ export function TableToolbar({
 
       <div className='flex flex-wrap items-center gap-3'>
         <div className='flex items-center gap-2'>
-          <span className='text-muted-foreground text-sm whitespace-nowrap'>Rows</span>
+          <span className='text-muted-foreground text-sm whitespace-nowrap'>{t('manage.table.rows')}</span>
           <Select value={String(rowsPerPage)} onValueChange={value => onRowsPerPageChange(Number(value))}>
-            <SelectTrigger className='w-20' aria-label='Rows per page'>
+            <SelectTrigger className='w-20' aria-label={t('common.rowsPerPage')}>
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -94,6 +98,8 @@ export function TablePagination({
   onPageChange,
   noun
 }: TablePaginationProps) {
+  const { t } = useTranslation()
+
   const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
     currentPage: page,
     totalPages,
@@ -103,7 +109,7 @@ export function TablePagination({
   return (
     <div className='flex items-center justify-between gap-3 px-4 py-3 max-sm:flex-col'>
       <p className='text-muted-foreground text-sm whitespace-nowrap' aria-live='polite'>
-        Showing {showingFrom} to {showingTo} of {total} {noun}
+        {t('manage.table.showing', { from: showingFrom, to: showingTo, total, noun })}
       </p>
 
       <Pagination>
@@ -113,10 +119,10 @@ export function TablePagination({
               variant='ghost'
               onClick={() => onPageChange(page - 1)}
               disabled={page <= 1}
-              aria-label='Go to previous page'
+              aria-label={t('common.goToPreviousPage')}
             >
               <ChevronLeftIcon aria-hidden='true' />
-              <span className='max-sm:hidden'>Previous</span>
+              <span className='max-sm:hidden'>{t('common.previous')}</span>
             </Button>
           </PaginationItem>
 
@@ -150,9 +156,9 @@ export function TablePagination({
               variant='ghost'
               onClick={() => onPageChange(page + 1)}
               disabled={page >= totalPages}
-              aria-label='Go to next page'
+              aria-label={t('common.goToNextPage')}
             >
-              <span className='max-sm:hidden'>Next</span>
+              <span className='max-sm:hidden'>{t('common.next')}</span>
               <ChevronRightIcon aria-hidden='true' />
             </Button>
           </PaginationItem>

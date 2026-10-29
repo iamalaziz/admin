@@ -16,4 +16,7 @@ export interface I18nContextValue {
   setLanguage: (language: UILanguage) => void
 }
 
+/** The lookup on its own, for helpers that take `t` instead of calling the hook. */
+export type Translate = I18nContextValue['t']
+
 export const I18nContext = createContext<I18nContextValue | null>(null)

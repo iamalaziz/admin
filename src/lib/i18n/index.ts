@@ -1,5 +1,6 @@
 export { I18nProvider } from './I18nProvider'
 export { useTranslation } from './useTranslation'
 export { locales, localeFor } from './locales'
+export type { Translate } from './i18nContext'
 export type { TranslationKey } from './translationKeys'
 export type { Translations } from './types'

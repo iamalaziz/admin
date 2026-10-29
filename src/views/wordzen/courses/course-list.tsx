@@ -13,6 +13,7 @@ import { Card } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import type { CourseSortColumn } from '@/hooks/wordzen/use-course-list'
 import { useCourseList } from '@/hooks/wordzen/use-course-list'
+import { useTranslation } from '@/lib/i18n'
 import type { Course, CoursePayload } from '@/types/wordzen/content-types'
 import { COURSE_ACCESS_CODES, COURSE_CATEGORIES } from '@/types/wordzen/content-types'
 
@@ -22,6 +23,7 @@ import { TablePagination, TableToolbar } from '../shared/table-chrome'
 import { CourseFormSheet } from './course-form-sheet'
 
 export function CourseList() {
+  const { t } = useTranslation()
   const list = useCourseList()
 
   const [formOpen, setFormOpen] = useState(false)
@@ -41,25 +43,25 @@ export function CourseList() {
   const handleSubmit = (payload: CoursePayload) => {
     if (editing) {
       list.updateCourse(editing.id, payload)
-      toast.success(`Course "${payload.title}" updated`)
+      toast.success(t('manage.courses.toast.updated', { title: payload.title }))
 
       return
     }
 
     list.createCourse(payload)
-    toast.success(`Course "${payload.title}" created`)
+    toast.success(t('manage.courses.toast.created', { title: payload.title }))
   }
 
   const handleDelete = (course: Course) => {
     list.deleteCourse(course.id)
-    toast.success(`Course "${course.title}" deleted`)
+    toast.success(t('manage.courses.toast.deleted', { title: course.title }))
   }
 
   const columns = useMemo<ColumnDef<Course>[]>(
     () => [
       {
         id: 'title',
-        header: 'Course',
+        header: t('manage.columns.course'),
         cell: ({ row }) => (
           <div className='flex min-w-0 flex-col'>
             <Link href={`/manage/courses/${row.original.id}`} className='truncate font-medium hover:underline'>
@@ -73,7 +75,7 @@ export function CourseList() {
       },
       {
         id: 'category',
-        header: 'Category',
+        header: t('manage.columns.category'),
         cell: ({ row }) => (
           <div className='flex flex-col'>
             <span className='text-sm'>{row.original.category.code}</span>
@@ -83,22 +85,22 @@ export function CourseList() {
       },
       {
         id: 'access',
-        header: 'Access',
+        header: t('manage.columns.access'),
         cell: ({ row }) => <AccessBadge accessCode={row.original.accessCode} />
       },
       {
         id: 'published',
-        header: 'State',
+        header: t('manage.columns.state'),
         cell: ({ row }) => <PublishedBadge isPublic={row.original.isPublic} />
       },
       {
         id: 'modules',
-        header: 'Modules',
+        header: t('manage.columns.modules'),
         cell: ({ row }) => <span className='text-sm'>{row.original.moduleCount}</span>
       },
       {
         id: 'created',
-        header: 'Created',
+        header: t('manage.columns.created'),
         cell: ({ row }) => (
           <span className='text-muted-foreground text-sm'>
             <Timestamp value={row.original.createdAt} />
@@ -107,14 +109,14 @@ export function CourseList() {
       },
       {
         id: 'actions',
-        header: () => <span className='sr-only'>Actions</span>,
+        header: () => <span className='sr-only'>{t('common.actions')}</span>,
         enableSorting: false,
         cell: ({ row }) => (
           <div className='flex items-center justify-end gap-1'>
             <Button
               variant='ghost'
               size='icon'
-              aria-label={`Move ${row.original.title} up`}
+              aria-label={t('manage.rowActions.moveUp', { name: row.original.title })}
               disabled={row.original.displayOrder <= 1}
               onClick={() => list.moveCourse(row.original, -1)}
             >
@@ -123,7 +125,7 @@ export function CourseList() {
             <Button
               variant='ghost'
               size='icon'
-              aria-label={`Move ${row.original.title} down`}
+              aria-label={t('manage.rowActions.moveDown', { name: row.original.title })}
               disabled={row.original.displayOrder >= list.stats.courseCount}
               onClick={() => list.moveCourse(row.original, 1)}
             >
@@ -132,7 +134,7 @@ export function CourseList() {
             <Button
               variant='ghost'
               size='icon'
-              aria-label={`Edit ${row.original.title}`}
+              aria-label={t('manage.rowActions.edit', { name: row.original.title })}
               onClick={() => openEdit(row.original)}
             >
               <PencilIcon className='size-4' />
@@ -140,7 +142,7 @@ export function CourseList() {
             <Button
               variant='ghost'
               size='icon'
-              aria-label={`Delete ${row.original.title}`}
+              aria-label={t('manage.rowActions.delete', { name: row.original.title })}
               className='text-muted-foreground hover:text-destructive'
               onClick={() => setPendingDelete(row.original)}
             >
@@ -150,17 +152,29 @@ export function CourseList() {
         )
       }
     ],
-    [list]
+    [list, t]
   )
 
   return (
     <div className='flex flex-col gap-3 lg:gap-6'>
       <StatCards
         items={[
-          { label: 'Courses', value: list.stats.courseCount },
-          { label: 'Published', value: list.stats.publishedCourseCount, hint: 'Visible to learners' },
-          { label: 'Modules', value: list.stats.moduleCount, hint: 'Across all courses' },
-          { label: 'Paid', value: list.stats.paidCourseCount, hint: 'BASIC or PRO' }
+          { label: t('manage.courses.stats.courses'), value: list.stats.courseCount },
+          {
+            label: t('manage.courses.stats.published'),
+            value: list.stats.publishedCourseCount,
+            hint: t('manage.courses.stats.publishedHint')
+          },
+          {
+            label: t('manage.courses.stats.modules'),
+            value: list.stats.moduleCount,
+            hint: t('manage.courses.stats.modulesHint')
+          },
+          {
+            label: t('manage.courses.stats.paid'),
+            value: list.stats.paidCourseCount,
+            hint: t('manage.courses.stats.paidHint')
+          }
         ]}
       />
 
@@ -169,7 +183,7 @@ export function CourseList() {
           <TableToolbar
             search={list.search}
             onSearchChange={list.setSearch}
-            searchPlaceholder='Search title or author'
+            searchPlaceholder={t('manage.courses.searchPlaceholder')}
             rowsPerPage={list.rowsPerPage}
             onRowsPerPageChange={list.setRowsPerPage}
             filters={
@@ -178,11 +192,11 @@ export function CourseList() {
                   value={list.filters.category}
                   onValueChange={value => list.setFilters({ category: value as typeof list.filters.category })}
                 >
-                  <SelectTrigger className='w-40' aria-label='Filter by category'>
-                    <SelectValue placeholder='Category' />
+                  <SelectTrigger className='w-40' aria-label={t('manage.filters.category')}>
+                    <SelectValue placeholder={t('manage.filters.categoryPlaceholder')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value='all'>All categories</SelectItem>
+                    <SelectItem value='all'>{t('manage.filters.allCategories')}</SelectItem>
                     {COURSE_CATEGORIES.map(category => (
                       <SelectItem key={category.code} value={category.code}>
                         {category.code} - {category.name}
@@ -195,11 +209,11 @@ export function CourseList() {
                   value={list.filters.access}
                   onValueChange={value => list.setFilters({ access: value as typeof list.filters.access })}
                 >
-                  <SelectTrigger className='w-32' aria-label='Filter by access'>
-                    <SelectValue placeholder='Access' />
+                  <SelectTrigger className='w-32' aria-label={t('manage.filters.access')}>
+                    <SelectValue placeholder={t('manage.filters.accessPlaceholder')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value='all'>All access</SelectItem>
+                    <SelectItem value='all'>{t('manage.filters.allAccess')}</SelectItem>
                     {COURSE_ACCESS_CODES.map(code => (
                       <SelectItem key={code} value={code}>
                         {code}
@@ -212,13 +226,13 @@ export function CourseList() {
                   value={list.filters.published}
                   onValueChange={value => list.setFilters({ published: value as typeof list.filters.published })}
                 >
-                  <SelectTrigger className='w-32' aria-label='Filter by state'>
-                    <SelectValue placeholder='State' />
+                  <SelectTrigger className='w-32' aria-label={t('manage.filters.state')}>
+                    <SelectValue placeholder={t('manage.filters.statePlaceholder')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value='all'>All states</SelectItem>
-                    <SelectItem value='public'>Public</SelectItem>
-                    <SelectItem value='draft'>Draft</SelectItem>
+                    <SelectItem value='all'>{t('manage.filters.allStates')}</SelectItem>
+                    <SelectItem value='public'>{t('manage.badges.public')}</SelectItem>
+                    <SelectItem value='draft'>{t('manage.badges.draft')}</SelectItem>
                   </SelectContent>
                 </Select>
               </>
@@ -226,7 +240,7 @@ export function CourseList() {
             actions={
               <Button onClick={openCreate}>
                 <PlusIcon className='size-4' />
-                New course
+                {t('manage.courses.newCourse')}
               </Button>
             }
           />
@@ -237,7 +251,7 @@ export function CourseList() {
             sorting={list.sorting}
             onSortingChange={list.setSorting}
             getRowId={course => String(course.id)}
-            emptyMessage='No courses match these filters.'
+            emptyMessage={t('manage.courses.empty')}
           />
 
           <TablePagination
@@ -247,7 +261,7 @@ export function CourseList() {
             page={list.page}
             totalPages={list.totalPages}
             onPageChange={list.setPage}
-            noun='courses'
+            noun={t('manage.nouns.courses')}
           />
         </div>
       </Card>
@@ -257,12 +271,12 @@ export function CourseList() {
       <ConfirmDialog
         open={pendingDelete !== null}
         onOpenChange={open => !open && setPendingDelete(null)}
-        title='Delete course?'
+        title={t('manage.courses.delete.title')}
         description={
           pendingDelete ? (
             <>
-              <strong>{pendingDelete.title}</strong> and its {pendingDelete.moduleCount} modules (with their cards) will
-              be removed. The manager API deletes the rows outright — this cannot be undone.
+              <strong>{pendingDelete.title}</strong>{' '}
+              {t('manage.courses.delete.description', { count: pendingDelete.moduleCount })}
             </>
           ) : null
         }

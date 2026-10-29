@@ -1,60 +1,4 @@
 {
-  "auth": {
-    "backToLogin": "Назад ко входу",
-    "confirmPasswordLabel": "Подтвердите пароль*",
-    "emailLabel": "Адрес эл. почты*",
-    "emailPlaceholder": "Введите адрес эл. почты",
-    "forgotPassword": {
-      "description": "Укажите адрес эл. почты — мы отправим инструкции по сбросу пароля",
-      "submit": "Отправить ссылку для сброса",
-      "title": "Забыли пароль?"
-    },
-    "login": {
-      "createAccount": "Создать аккаунт",
-      "forgotPassword": "Забыли пароль?",
-      "loginAsAdmin": "Войти как админ",
-      "loginAsUser": "Войти как пользователь",
-      "magicLink": "волшебной ссылке",
-      "magicLinkPrefix": "Войти по",
-      "newHerePrefix": "Впервые у нас?",
-      "rememberMe": "Запомнить меня",
-      "submit": "Войти в WordZen",
-      "title": "Вход в WordZen"
-    },
-    "newPasswordLabel": "Новый пароль*",
-    "passwordLabel": "Пароль*",
-    "register": {
-      "agreePrefix": "Я принимаю",
-      "haveAccountPrefix": "Уже есть аккаунт?",
-      "privacyPolicy": "политику конфиденциальности и условия",
-      "signInInstead": "Войти",
-      "submit": "Зарегистрироваться в WordZen",
-      "title": "Регистрация в WordZen"
-    },
-    "resetPassword": {
-      "description": "Введите текущий пароль и выберите новый, чтобы обновить защиту аккаунта.",
-      "submit": "Установить новый пароль",
-      "title": "Сброс пароля"
-    },
-    "signInWithGoogle": "Войти через Google",
-    "tagline": "Запускайте быстрее и сосредоточьтесь на росте.",
-    "twoSteps": {
-      "codeLabel": "Код*",
-      "description": "Подтвердите доступ к аккаунту, введя код из приложения-аутентификатора",
-      "submit": "Войти в WordZen",
-      "title": "Двухэтапная проверка",
-      "useRecoveryCode": "Использовать код восстановления"
-    },
-    "usernameLabel": "Имя пользователя*",
-    "usernamePlaceholder": "Введите имя пользователя",
-    "verifyEmail": {
-      "description": "Ссылка для активации отправлена на адрес {{email}}. Проверьте входящие и перейдите по ссылке, чтобы завершить активацию.",
-      "noMailPrefix": "Письмо не пришло?",
-      "resend": "Отправить снова",
-      "skipForNow": "Пропустить",
-      "title": "Подтвердите эл. почту"
-    }
-  },
   "chrome": {
     "adminPanel": "Админ-панель",
     "changeLanguage": "Сменить язык",
@@ -97,231 +41,407 @@
     "update": "Обновить",
     "view": "Просмотр"
   },
-  "dashboard": {
-    "productInsights": {
-      "imageAlt": "Товар",
-      "orderPlaced": "Оформлено заказов",
-      "orders": "Заказы",
-      "productReached": "Охват товара",
-      "publishedOn": "Опубликовано {{date}}",
-      "reached": "Охват",
-      "title": "О товаре"
-    },
-    "salesMetrics": {
-      "cohortDescription": "Анализирует поведение группы пользователей, пришедших к продукту или сервису в одно время, за определённый период.",
-      "cohortTitle": "Показатели когортного анализа",
-      "discountOffers": "Скидочные предложения",
-      "logoAlt": "логотип",
-      "netProfit": "Чистая прибыль",
-      "openStatistics": "Открыть статистику",
-      "percentageChange": "Изменение в процентах",
-      "percentageProfit": "Доля прибыли от общих продаж",
-      "planCompleted": "План выполнен",
-      "revenueGoal": "Цель по выручке",
-      "sales": "Продажи",
-      "salesPlan": "План продаж",
-      "salesTrend": "Тренд продаж",
-      "title": "Метрики продаж",
-      "totalOrders": "Всего заказов",
-      "totalProfit": "Общая прибыль"
-    },
-    "stats": {
-      "damagedReturns": "Возвраты с повреждениями",
-      "missedDeliverySlots": "Пропущенные слоты доставки",
-      "shippedOrders": "Отправленные заказы",
-      "thanLastWeek": "по сравнению с прошлой неделей"
-    },
-    "totalEarning": {
-      "comparison": "По сравнению с прошлым годом (${{amount}})",
-      "title": "Общий доход"
-    }
-  },
-  "datatable": {
-    "all": "Все",
-    "availabilityValues": {
-      "In Stock": "В наличии",
-      "Limited": "Ограничено",
-      "Out of Stock": "Нет в наличии"
-    },
-    "columns": {
-      "amount": "Сумма",
-      "availability": "Наличие",
-      "category": "Категория",
-      "customer": "Клиент",
-      "discontinued": "Снят с продажи",
-      "email": "Эл. почта",
-      "name": "Имя",
-      "paidBy": "Способ оплаты",
-      "price": "Цена",
-      "product": "Товар",
-      "productName": "Название товара",
-      "rating": "Рейтинг",
-      "status": "Статус",
-      "stockQuantity": "Остаток на складе",
-      "supplier": "Поставщик"
-    },
-    "discontinuedValues": {
-      "no": "Нет",
-      "yes": "Да"
-    },
-    "duplicate": "Дублировать",
-    "editItem": "Изменить запись",
-    "max": "Макс",
-    "maxAria": "{{column}}: максимум",
-    "min": "Мин",
-    "minAria": "{{column}}: минимум",
-    "paymentPlatformAlt": "Платёжная система",
-    "paymentStatus": {
-      "failed": "Ошибка",
-      "paid": "Оплачено",
-      "pending": "Ожидает",
-      "processing": "В обработке"
-    },
-    "pinOptions": "Параметры закрепления столбца «{{column}}»",
-    "searchColumn": "Поиск: {{column}}",
-    "sections": {
-      "basic": "Базовая таблица",
-      "pinnable": "Закрепляемые столбцы",
-      "withFilters": "Таблица с фильтрами"
-    },
-    "selectAll": "Выбрать все",
-    "selectRow": "Выбрать строку",
-    "showingEntries": "Показано с {{from}} по {{to}} из {{total}} записей",
-    "stickToLeft": "Закрепить слева",
-    "stickToRight": "Закрепить справа",
-    "unpinColumn": "Открепить столбец «{{column}}»"
-  },
   "forms": {
-    "basicForm": "Базовая форма",
-    "basicFormWithIcon": "Базовая форма с иконками",
     "fields": {
-      "address": "Адрес",
-      "city": "Город",
-      "company": "Компания",
-      "email": "Эл. почта",
       "firstName": "Имя",
-      "landmark": "Ориентир",
       "lastName": "Фамилия",
-      "message": "Сообщение",
-      "mobile": "Мобильный",
-      "name": "Имя",
-      "phone": "Телефон",
-      "phoneNo": "Номер телефона",
-      "pincode": "Индекс",
-      "state": "Регион"
-    },
-    "modes": {
-      "demoInput": "Тестовое поле",
-      "description": "Посмотрите, как разные режимы валидации влияют на удобство. Попробуйте ввести текст в каждое поле и увидите, когда срабатывает проверка.",
-      "onBlurBestFor": "Менее навязчивая проверка (рекомендуется в большинстве случаев)",
-      "onBlurDescription": "Проверяет при выходе из поля",
-      "onBlurHintAfter": "как вы покинете поле",
-      "onBlurHintBefore": "Ошибка появляется",
-      "onBlurHintStrong": "после того",
-      "onBlurTitle": "Режим onBlur",
-      "onBlurWhen": "При выходе из поля",
-      "onChangeBestFor": "Мгновенная обратная связь (например, надёжность пароля)",
-      "onChangeDescription": "Проверяет при каждом нажатии клавиши",
-      "onChangeHintAfter": "при вводе",
-      "onChangeHintBefore": "Ошибка появляется",
-      "onChangeHintStrong": "сразу",
-      "onChangeTitle": "Режим onChange",
-      "onChangeWhen": "Каждое нажатие клавиши",
-      "onSubmitBestFor": "Простые формы, минимум помех",
-      "onSubmitDescription": "Проверяет только при отправке",
-      "onSubmitHintAfter": "после нажатия «Отправить»",
-      "onSubmitHintBefore": "Ошибка появляется",
-      "onSubmitHintStrong": "только",
-      "onSubmitTitle": "Режим onSubmit (по умолчанию)",
-      "onSubmitWhen": "При отправке формы",
-      "onTouchedBestFor": "Баланс между удобством и обратной связью",
-      "onTouchedDescription": "Проверяет при выходе из поля, затем при каждом изменении",
-      "onTouchedHintAfter": "",
-      "onTouchedHintBefore": "Сначала проверка при выходе, затем",
-      "onTouchedHintStrong": "в реальном времени",
-      "onTouchedTitle": "Режим onTouched",
-      "onTouchedWhen": "Первый выход из поля, затем каждое изменение",
-      "submittedAlert": "Форма {{mode}} успешно отправлена!",
-      "tableBestFor": "Подходит для",
-      "tableMode": "Режим",
-      "tableWhen": "Когда срабатывает проверка",
-      "title": "Демо режимов валидации",
-      "typeHere": "Введите текст..."
+      "mobile": "Мобильный"
     },
     "placeholders": {
-      "address": "ул. Главная, 123",
-      "city": "Москва",
-      "company": "ООО «Ромашка»",
-      "emailLocalPart": "ivan.ivanov",
       "firstName": "Иван",
-      "landmark": "Рядом с Центральным парком",
       "lastName": "Иванов",
-      "message": "Здравствуйте! Найдётся минута обсудить?",
-      "mobile": "+7 (900) 123-45-67",
-      "name": "Иван Иванов",
-      "phone": "658 799 8941",
-      "pincode": "Почтовый индекс",
-      "state": "Московская обл."
+      "mobile": "+7 (900) 123-45-67"
+    }
+  },
+  "manage": {
+    "badges": {
+      "draft": "Черновик",
+      "free": "Бесплатно",
+      "none": "Нет",
+      "public": "Опубликован"
     },
-    "saveInformation": "Сохранить данные",
-    "send": "Отправить",
-    "validation": {
-      "companyPlaceholder": "Название компании",
-      "department": "Отдел",
-      "departmentOptions": {
-        "billing": "Оплата",
-        "returns": "Возвраты",
-        "sales": "Продажи",
-        "technical": "Техподдержка"
+    "blockDialog": {
+      "description": "Аккаунт блокируется сразу, и его токены перестают работать, потому что блокировка повышает версию авторизации пользователя.",
+      "reasonHint": "Необязательно, но это единственная запись о том, почему это произошло.",
+      "reasonLabel": "Причина",
+      "reasonPlaceholder": "Видна другим администраторам в карточке пользователя",
+      "submit": "Заблокировать",
+      "title": "Заблокировать {{name}}?"
+    },
+    "cardForm": {
+      "createDescription": "Создаёт карточку в модуле «{{module}}» через POST /api/v1/manager/cards.",
+      "createSubmit": "Создать карточку",
+      "editDescription": "Изменения уходят в PUT /api/v1/manager/cards/{cardId}.",
+      "editSubmit": "Сохранить карточку",
+      "editTitle": "Изменить карточку",
+      "imageHint": "Из POST /api/v1/manager/file/tmp/form или сгенерировано через /manager/generate/img. Очистка поля — это вызов DELETE /cards/{cardId}/image.",
+      "imageLabel": "Путь к изображению",
+      "imagePlaceholder": "/cards/example.webp",
+      "newTitle": "Новая карточка",
+      "samples": {
+        "add": "Добавить пример",
+        "description": "Примеры предложений и их перевод.",
+        "empty": "Примеров нет. В карточке будут только слово и его переводы.",
+        "remove": "Удалить пример",
+        "sentence": "Предложение",
+        "title": "Примеры",
+        "translation": "Перевод"
       },
-      "departmentPlaceholder": "Выберите отдел",
-      "describeIssue": "Опишите вашу проблему",
-      "describeIssuePlaceholder": "Подробно расскажите о проблеме",
-      "emailPlaceholder": "Адрес эл. почты",
-      "errors": {
-        "companyMin": "Название компании должно содержать не менее 2 символов.",
-        "demoMax": "Не более 20 символов",
-        "demoMin": "Не менее 5 символов",
-        "departmentRequired": "Выберите отдел.",
-        "emailInvalid": "Введите корректный адрес эл. почты.",
-        "emailRequired": "Укажите эл. почту",
-        "issueRequired": "Выберите проблему.",
-        "messageMin": "Опишите проблему минимум в 50 символах.",
-        "nameMin": "Имя должно содержать не менее 2 символов.",
-        "optionRequired": "Необходимо выбрать вариант.",
-        "orderIdRequired": "Укажите номер заказа.",
-        "phoneInvalid": "Введите корректный номер телефона.",
-        "phoneRequired": "Укажите телефон",
-        "priorityRequired": "Выберите приоритет."
+      "termLabel": "Слово",
+      "termPlaceholder": "Слово, которому учим",
+      "translations": {
+        "add": "Добавить перевод",
+        "description": "Что означает слово — по локалям.",
+        "remove": "Удалить перевод",
+        "title": "Переводы",
+        "value": "Значение"
       },
-      "howCanWeHelp": "Чем мы можем помочь?",
-      "issue": "Проблема",
-      "issueOptions": {
-        "damaged": "Товар повреждён",
-        "got-different": "Пришёл не тот товар",
-        "not-like": "Не соответствует ожиданиям",
-        "other": "Другое"
+      "validation": {
+        "sentenceRequired": "Предложение не может быть пустым",
+        "sentenceTranslationRequired": "Перевод предложения не может быть пустым",
+        "termRequired": "Укажите слово",
+        "translationRequired": "Перевод не может быть пустым",
+        "translationsMin": "Добавьте хотя бы один перевод"
+      }
+    },
+    "columns": {
+      "access": "Доступ",
+      "cards": "Карточки",
+      "category": "Категория",
+      "course": "Курс",
+      "created": "Создан",
+      "image": "Изображение",
+      "joined": "Регистрация",
+      "module": "Модуль",
+      "modules": "Модули",
+      "phrases": "Фразы",
+      "roles": "Роли",
+      "samples": "Примеры",
+      "state": "Состояние",
+      "status": "Статус",
+      "subscription": "Подписка",
+      "term": "Слово",
+      "translations": "Переводы",
+      "user": "Пользователь"
+    },
+    "common": {
+      "locale": "Локаль",
+      "published": "Опубликовано",
+      "text": "Текст",
+      "title": "Название"
+    },
+    "courseDetail": {
+      "allCourses": "Все курсы",
+      "backToCourses": "Назад к курсам",
+      "descriptions": {
+        "empty": "Описаний нет. Учащиеся увидят только название.",
+        "title": "Описания"
       },
-      "issuePlaceholder": "С чем возникла проблема",
-      "namePlaceholder": "Ваше полное имя",
-      "optionRefund": "Нужен возврат средств",
-      "optionReplace": "Нужна замена товара",
-      "optionSupport": "Нужна консультация или поддержка",
-      "orderId": "Номер заказа",
-      "orderIdPlaceholder": "Номер заказа",
-      "phonePlaceholder": "Номер телефона",
-      "priority": "Приоритет",
-      "priorityOptions": {
-        "high": "Высокий",
-        "low": "Низкий",
-        "medium": "Средний",
-        "urgent": "Срочный"
+      "editCourse": "Изменить курс",
+      "empty": "Нет модулей по этим фильтрам.",
+      "fields": {
+        "author": "Автор",
+        "cover": "Обложка",
+        "created": "Создан",
+        "displayOrder": "Порядок",
+        "id": "Id"
       },
-      "priorityPlaceholder": "Выберите приоритет",
-      "registrationFormTitle": "Форма регистрации",
-      "reportIssue": "Сообщить о проблеме",
-      "reportIssueDescription": "Опишите возникшую проблему — наша команда вам поможет.",
-      "submittedToast": "Обращение отправлено! Наша команда скоро свяжется с вами."
+      "infoTitle": "Курс",
+      "moduleDelete": {
+        "description": "и его карточки ({{count}}) будут удалены. Менеджерский API удаляет строки безвозвратно — отменить это нельзя.",
+        "title": "Удалить модуль?"
+      },
+      "newModule": "Новый модуль",
+      "notFound": "Курс {{id}} не найден.",
+      "notFoundHint": "Возможно, он удалён или фикстуры пересозданы при перезагрузке.",
+      "searchPlaceholder": "Поиск модулей",
+      "stats": {
+        "cards": "Карточки",
+        "cardsHint": "По всем модулям",
+        "modules": "Модули",
+        "phraseCards": "Фразовые карточки",
+        "published": "Опубликованы"
+      },
+      "toast": {
+        "courseUpdated": "Курс «{{title}}» обновлён",
+        "moduleCreated": "Модуль «{{title}}» создан",
+        "moduleDeleted": "Модуль «{{title}}» удалён",
+        "moduleUpdated": "Модуль «{{title}}» обновлён"
+      }
+    },
+    "courseForm": {
+      "accessHint": "Какая подписка открывает курс.",
+      "accessLabel": "Доступ",
+      "accessPlaceholder": "Выберите доступ",
+      "categoryLabel": "Категория",
+      "categoryPlaceholder": "Выберите категорию",
+      "coverHint": "Путь, который возвращает POST /api/v1/manager/file/tmp/form. Очистка поля — это вызов DELETE /courses/{courseId}/cover.",
+      "coverLabel": "Путь к обложке",
+      "coverPlaceholder": "/courses/example.webp",
+      "createDescription": "Создаёт курс через POST /api/v1/manager/courses.",
+      "createSubmit": "Создать курс",
+      "descriptions": {
+        "add": "Добавить локаль",
+        "allUsed": "Для каждой локали описание уже есть",
+        "description": "По одному на локаль — учащийся видит его на своём языке.",
+        "empty": "Описаний пока нет. В списке курсов и в приложении будет только название.",
+        "remove": "Удалить описание",
+        "title": "Описания"
+      },
+      "editDescription": "Изменения уходят в PUT /api/v1/manager/courses/{courseId}.",
+      "editSubmit": "Сохранить курс",
+      "editTitle": "Изменить курс",
+      "newTitle": "Новый курс",
+      "publishedHint": "Курс-черновик скрыт от учащихся.",
+      "titlePlaceholder": "Название курса",
+      "validation": {
+        "descriptionRequired": "Описание не может быть пустым",
+        "localeOnce": "Каждая локаль может встречаться только один раз",
+        "titleMin": "Название должно быть не короче 2 символов"
+      }
+    },
+    "courses": {
+      "delete": {
+        "description": "и его модули ({{count}}) вместе с карточками будут удалены. Менеджерский API удаляет строки безвозвратно — отменить это нельзя.",
+        "title": "Удалить курс?"
+      },
+      "empty": "Нет курсов по этим фильтрам.",
+      "newCourse": "Новый курс",
+      "searchPlaceholder": "Поиск по названию или автору",
+      "stats": {
+        "courses": "Курсы",
+        "modules": "Модули",
+        "modulesHint": "По всем курсам",
+        "paid": "Платные",
+        "paidHint": "BASIC или PRO",
+        "published": "Опубликованы",
+        "publishedHint": "Видны учащимся"
+      },
+      "toast": {
+        "created": "Курс «{{title}}» создан",
+        "deleted": "Курс «{{title}}» удалён",
+        "updated": "Курс «{{title}}» обновлён"
+      }
+    },
+    "filters": {
+      "access": "Фильтр по доступу",
+      "accessPlaceholder": "Доступ",
+      "allAccess": "Любой доступ",
+      "allCategories": "Все категории",
+      "allLocales": "Все локали",
+      "allPlans": "Любой тариф",
+      "allRoles": "Все роли",
+      "allStates": "Все состояния",
+      "allStatuses": "Все статусы",
+      "anyImage": "Любое изображение",
+      "category": "Фильтр по категории",
+      "categoryPlaceholder": "Категория",
+      "image": "Фильтр по изображению",
+      "imagePlaceholder": "Изображение",
+      "locale": "Фильтр по локали",
+      "localePlaceholder": "Локаль",
+      "role": "Фильтр по роли",
+      "rolePlaceholder": "Роль",
+      "state": "Фильтр по состоянию",
+      "statePlaceholder": "Состояние",
+      "status": "Фильтр по статусу",
+      "statusPlaceholder": "Статус",
+      "subscription": "Фильтр по подписке",
+      "subscriptionPlaceholder": "Подписка",
+      "withImage": "С изображением",
+      "withoutImage": "Без изображения"
+    },
+    "moduleDetail": {
+      "backToCourses": "Назад к курсам",
+      "cardDelete": {
+        "description": "и её переводы и примеры будут удалены. Отменить это нельзя.",
+        "title": "Удалить карточку?"
+      },
+      "editModule": "Изменить модуль",
+      "empty": "Нет карточек по этим фильтрам.",
+      "fields": {
+        "course": "Курс",
+        "courseAccess": "Доступ курса",
+        "created": "Создан",
+        "id": "Id"
+      },
+      "infoTitle": "Модуль",
+      "newCard": "Новая карточка",
+      "notFound": "Модуль {{id}} не найден.",
+      "notFoundHint": "Модули генерируются для каждого курса — откройте модуль из его курса.",
+      "order": "Модуль №{{order}}",
+      "phraseDelete": {
+        "description": "и её пояснения будут удалены. Отменить это нельзя.",
+        "title": "Удалить фразовую карточку?"
+      },
+      "phrases": {
+        "empty": "В этом модуле нет фразовых карточек.",
+        "new": "Новая фразовая карточка",
+        "title": "Фразовые карточки"
+      },
+      "searchPlaceholder": "Поиск по слову или переводу",
+      "stats": {
+        "cards": "Карточки",
+        "phraseCards": "Фразовые карточки",
+        "samples": "Примеры",
+        "samplesHint": "По всем карточкам",
+        "withImage": "С изображением"
+      },
+      "tabs": {
+        "cards": "Карточки ({{count}})",
+        "phrases": "Фразовые карточки ({{count}})"
+      },
+      "toast": {
+        "cardCreated": "Карточка «{{term}}» создана",
+        "cardDeleted": "Карточка «{{term}}» удалена",
+        "cardUpdated": "Карточка «{{term}}» обновлена",
+        "imageRemoved": "Изображение у «{{term}}» удалено",
+        "moduleUpdated": "Модуль «{{title}}» обновлён",
+        "phraseCreated": "Фразовая карточка создана",
+        "phraseDeleted": "Фразовая карточка удалена",
+        "phraseUpdated": "Фразовая карточка обновлена"
+      }
+    },
+    "moduleForm": {
+      "createDescription": "Создаёт модуль в курсе «{{course}}» через POST /api/v1/manager/modules.",
+      "createSubmit": "Создать модуль",
+      "draftCourseHint": "Курс — черновик, поэтому его модули остаются неопубликованными.",
+      "editDescription": "Изменения уходят в PUT /api/v1/manager/modules/{moduleId}.",
+      "editSubmit": "Сохранить модуль",
+      "editTitle": "Изменить модуль",
+      "newTitle": "Новый модуль",
+      "publishedHint": "Модуль-черновик скрыт от учащихся.",
+      "titlePlaceholder": "Название модуля",
+      "validation": {
+        "titleMin": "Название должно быть не короче 2 символов"
+      }
+    },
+    "nouns": {
+      "cards": "карточек",
+      "courses": "курсов",
+      "modules": "модулей",
+      "users": "пользователей"
+    },
+    "phraseCardForm": {
+      "createDescription": "Создаёт фразовую карточку в модуле «{{module}}» через POST /api/v1/manager/phrase-cards.",
+      "createSubmit": "Создать фразовую карточку",
+      "editDescription": "Изменения уходят в PUT /api/v1/manager/phrase-cards/{phraseCardId}.",
+      "editSubmit": "Сохранить фразовую карточку",
+      "editTitle": "Изменить фразовую карточку",
+      "explanations": {
+        "add": "Добавить пояснение",
+        "description": "Как используется фраза — по локалям.",
+        "empty": "Пояснений пока нет.",
+        "remove": "Удалить пояснение",
+        "title": "Пояснения"
+      },
+      "newTitle": "Новая фразовая карточка",
+      "phraseLabel": "Фраза",
+      "phrasePlaceholder": "break the ice",
+      "validation": {
+        "explanationRequired": "Пояснение не может быть пустым",
+        "phraseRequired": "Укажите фразу"
+      }
+    },
+    "roles": {
+      "ROLE_ADMIN": "Администратор",
+      "ROLE_AUTHOR": "Автор",
+      "ROLE_USER": "Пользователь"
+    },
+    "rowActions": {
+      "delete": "Удалить {{name}}",
+      "edit": "Изменить {{name}}",
+      "moveDown": "Переместить {{name}} вниз",
+      "moveUp": "Переместить {{name}} вверх",
+      "removeImage": "Удалить изображение у {{name}}"
+    },
+    "statuses": {
+      "ACTIVE": "Активен",
+      "BLOCKED": "Заблокирован"
+    },
+    "table": {
+      "rows": "Строк",
+      "showing": "Показано с {{from}} по {{to}} из {{total}} {{noun}}"
+    },
+    "userDetail": {
+      "account": {
+        "description": "Из auth_user и его записи с учётными данными.",
+        "title": "Аккаунт"
+      },
+      "allUsers": "Все пользователи",
+      "backToUsers": "Назад к пользователям",
+      "blockUser": "Заблокировать пользователя",
+      "blockedAlert": {
+        "by": "заблокировал: {{name}}",
+        "noReason": "Причина не указана.",
+        "on": "Заблокирован",
+        "title": "Аккаунт заблокирован"
+      },
+      "fields": {
+        "authVersion": "Версия авторизации",
+        "blockedAt": "Заблокирован",
+        "blockedBy": "Кем заблокирован",
+        "blockedReason": "Причина блокировки",
+        "created": "Создан",
+        "email": "Email",
+        "ends": "Заканчивается",
+        "id": "Id",
+        "lastReset": "Последний сброс",
+        "plan": "Тариф",
+        "status": "Статус",
+        "uid": "Uid",
+        "updated": "Обновлён"
+      },
+      "notFound": "Пользователь не найден.",
+      "notFoundHint": "Нет аккаунта с uid {{uid}}.",
+      "roles": {
+        "description": "ROLE_AUTHOR открывает /api/v1/manager/**, ROLE_ADMIN — /api/v1/admin/**. Эндпоинта для выдачи ролей пока нет, поэтому эти изменения остаются в фикстуре.",
+        "implicit": "ROLE_USER есть у каждого аккаунта по умолчанию.",
+        "title": "Роли",
+        "toggle": "Переключить роль {{role}}"
+      },
+      "status": {
+        "description": "GET /api/v1/admin/users/{uid}/status",
+        "title": "Статус"
+      },
+      "subscription": {
+        "description": "Из auth_user_subscription.",
+        "none": "Подписки нет. Учащийся на бесплатном тарифе и может открывать только курсы FREE.",
+        "title": "Подписка"
+      },
+      "toast": {
+        "roleGranted": "Роль {{role}} выдана: {{name}}",
+        "roleRevoked": "Роль {{role}} снята: {{name}}"
+      },
+      "unblockUser": "Разблокировать пользователя"
+    },
+    "userRolesSheet": {
+      "description": "Роли — единственное, что администратор может менять в аккаунте. Имя, email и подписка принадлежат учащемуся и payment-api.",
+      "scopes": {
+        "ROLE_ADMIN": "Открывает /api/v1/admin/**",
+        "ROLE_AUTHOR": "Открывает /api/v1/manager/**"
+      },
+      "submit": "Сохранить роли",
+      "title": "Изменить {{name}}"
+    },
+    "users": {
+      "block": "Заблокировать",
+      "empty": "Нет пользователей по этим фильтрам.",
+      "searchPlaceholder": "Поиск по имени, email или uid",
+      "stats": {
+        "blocked": "Заблокированы",
+        "staff": "Сотрудники",
+        "staffHint": "Автор или администратор",
+        "subscribed": "С подпиской",
+        "subscribedHint": "BASIC или PRO",
+        "users": "Пользователи"
+      },
+      "toast": {
+        "blocked": "{{name}} заблокирован",
+        "unblocked": "{{name}} разблокирован"
+      },
+      "unblock": "Разблокировать",
+      "until": "до"
     }
   },
   "misc": {
@@ -336,63 +456,22 @@
     "may": "Май"
   },
   "nav": {
-    "authForgotPassword": "Восстановление пароля",
-    "authLogin": "Вход",
-    "authRegister": "Регистрация",
-    "authResetPassword": "Сброс пароля",
-    "authTwoSteps": "Двухэтапная проверка",
-    "authVerifyEmail": "Подтверждение почты",
-    "authentication": "Аутентификация",
-    "dataTable": "Таблица данных",
-    "errorPage": "Страница ошибки",
-    "formLayouts": "Макеты форм",
-    "formLayoutsHorizontal": "Горизонтальный макет",
-    "formLayoutsVertical": "Вертикальный макет",
-    "formValidation": "Валидация форм",
     "groups": {
-      "apps": "Приложения",
-      "dashboard": "Дашборд",
-      "formsAndTables": "Формы и таблицы",
       "manage": "Управление",
       "pages": "Страницы"
     },
     "manageCourses": "Курсы",
-    "manageUsers": "Пользователи",
-    "orders": "Заказы",
-    "settingsGeneral": "Основные",
-    "settingsWorkspace": "Рабочее пространство",
-    "userSettings": "Настройки пользователя",
-    "users": "Пользователи",
-    "usersList": "Список",
-    "usersView": "Карточка"
+    "manageUsers": "Пользователи"
   },
   "routes": {
-    "apps": "Приложения",
-    "auth": "Аутентификация",
     "courses": "Курсы",
-    "dashboard": "Дашборд",
-    "datatable": "Таблица данных",
     "error-page": "Страница ошибки",
-    "forgot-password": "Восстановление пароля",
-    "form-layouts": "Макеты форм",
-    "form-validation": "Валидация форм",
-    "forms": "Формы",
-    "horizontal": "Горизонтальный",
-    "list": "Список",
-    "login": "Вход",
     "manage": "Управление",
     "misc": "Разное",
     "modules": "Модули",
-    "orders": "Заказы",
     "pages": "Страницы",
-    "register": "Регистрация",
-    "reset-password": "Сброс пароля",
-    "two-steps": "Двухэтапная проверка",
-    "user-settings": "Настройки пользователя",
-    "users": "Пользователи",
-    "verify-email": "Подтверждение почты",
-    "vertical": "Вертикальный",
-    "view": "Карточка"
+    "user-settings": "Настройки",
+    "users": "Пользователи"
   },
   "settings": {
     "connectAccounts": {
@@ -445,16 +524,6 @@
       },
       "title": "Эл. почта и пароль"
     },
-    "organizations": {
-      "confirmDescription": "Вы уверены, что хотите покинуть эту организацию?",
-      "confirmTitle": "Вы уверены?",
-      "description": "Управляйте организациями рабочего пространства и их настройками.",
-      "discordDescription": "модератор сообщества и участник канала поддержки",
-      "githubDescription": "соавтор репозитория и сопровождающий CI",
-      "leave": "Покинуть",
-      "notionDescription": "участник и соавтор в проектах продукта и документации",
-      "title": "Организации"
-    },
     "personal": {
       "avatar": "Ваш аватар",
       "avatarPreviewAlt": "предпросмотр аватара",
@@ -499,261 +568,13 @@
       "title": "Ссылки на соцсети"
     },
     "tabs": {
-      "general": "Основные",
-      "workspace": "Рабочее пространство"
+      "general": "Основные"
     },
     "title": "Аккаунт и управление пользователями",
     "upload": {
       "notAnImage": "Выберите файл изображения",
       "sizeHint": "Выберите фото до 1 МБ.",
       "tooLarge": "Файл должен быть меньше 1 МБ"
-    },
-    "workspaceDanger": {
-      "deleteWorkspace": "Удалить пространство",
-      "deleteWorkspaceDescription": "Безвозвратно удалить рабочее пространство. Это действие удалит все данные и его нельзя отменить.",
-      "description": "Управление рабочим пространством. За подробностями обратитесь к системному администратору",
-      "learnMore": "Подробнее",
-      "leave": "Покинуть",
-      "leaveWorkspace": "Покинуть пространство",
-      "leaveWorkspaceDescription": "Отозвать ваш доступ к этой команде. Остальные добавленные участники останутся.",
-      "notAdmin": "Вы не можете удалить рабочее пространство, так как не являетесь системным администратором.",
-      "title": "Опасная зона"
-    },
-    "workspaceData": {
-      "completed": "Завершено",
-      "csvExport": "Экспорт в CSV",
-      "date": "ДАТА",
-      "description": "Экспортируйте данные рабочего пространства для резервной копии или переноса.",
-      "downloadSuccess": "Скачивание выполнено!",
-      "getStarted": "Начать",
-      "loading": "Загрузка...",
-      "progress": "Прогресс {{percent}}%",
-      "title": "Экспорт данных пространства",
-      "type": "ТИП"
-    },
-    "workspaceDetail": {
-      "description": "Управляйте деталями и настройками рабочего пространства.",
-      "descriptionLabel": "Описание пространства",
-      "descriptionPlaceholder": "Напишите здесь свой отзыв",
-      "logo": "Логотип пространства",
-      "logoPreviewAlt": "предпросмотр логотипа",
-      "slug": "Slug пространства",
-      "slugHint": "Только строчные буквы, цифры и дефисы. Максимум 48 символов",
-      "title": "Детали пространства",
-      "uploadLogo": "Загрузить логотип",
-      "uploadLogoAria": "Загрузить логотип пространства",
-      "url": "URL пространства"
-    },
-    "workspaceName": {
-      "appId": "ID приложения",
-      "description": "Управляйте названием рабочего пространства и часовым поясом.",
-      "nameLabel": "Название пространства",
-      "noTimezone": "Часовой пояс не найден.",
-      "searchTimezone": "Поиск часового пояса",
-      "selectTimezone": "Выберите часовой пояс",
-      "timezone": "Часовой пояс",
-      "title": "Название и часовой пояс пространства"
-    }
-  },
-  "users": {
-    "billing": {
-      "action": "Действие",
-      "billingDetails": "Платёжные данные",
-      "billingEmail": "Эл. почта для счетов",
-      "company": "Компания",
-      "country": "Страна",
-      "currentPlan": "Текущий тариф",
-      "days": "Дней",
-      "daysUsed": "{{used}} из {{total}} дней",
-      "downloadInvoice": "Скачать {{number}}",
-      "invoice": "Счёт",
-      "invoiceHistory": "История счетов",
-      "invoiceStatus": {
-        "cancelled": "Отменён",
-        "draft": "Черновик",
-        "paid": "Оплачен",
-        "pending": "Ожидает"
-      },
-      "issuedDate": "Дата выставления",
-      "noInvoices": "Счетов не найдено.",
-      "noPlan": "Тариф не назначен.",
-      "periodUsed": "Использовано {{percent}}% платёжного периода",
-      "planLine": "Тариф {{plan}} · {{billing}}",
-      "popular": "Популярный",
-      "status": "Статус",
-      "taxId": "ИНН",
-      "total": "Сумма",
-      "upgradePlan": "Сменить тариф"
-    },
-    "billingMethods": {
-      "autoDebit": "Автосписание",
-      "creditCard": "Банковская карта",
-      "manualPaypal": "Вручную — PayPal"
-    },
-    "columns": {
-      "billing": "Оплата",
-      "joinedDate": "Дата регистрации",
-      "plan": "Тариф",
-      "role": "Роль",
-      "status": "Статус",
-      "user": "Пользователь"
-    },
-    "connections": {
-      "connect": "Подключить {{name}}",
-      "connectedAccounts": "Подключённые аккаунты",
-      "connectedAccountsDescription": "Показывать контент из подключённых аккаунтов на сайте",
-      "disconnect": "Отключить {{name}}",
-      "integrations": {
-        "asanaDescription": "Коммуникация",
-        "githubDescription": "Управление Git-репозиторием",
-        "googleDescription": "Календарь и контакты",
-        "mailchimpDescription": "Сервис email-рассылок",
-        "slackDescription": "Коммуникация"
-      },
-      "notConnected": "Не подключено",
-      "socialAccounts": "Соцсети",
-      "socialAccountsDescription": "Показывать контент из соцсетей на сайте",
-      "toggle": "Переключить {{name}}"
-    },
-    "countries": {
-      "Australia": "Австралия",
-      "Brazil": "Бразилия",
-      "Canada": "Канада",
-      "France": "Франция",
-      "Germany": "Германия",
-      "India": "Индия",
-      "Italy": "Италия",
-      "Japan": "Япония",
-      "Mexico": "Мексика",
-      "Netherlands": "Нидерланды",
-      "Singapore": "Сингапур",
-      "South Korea": "Южная Корея",
-      "Spain": "Испания",
-      "United Kingdom": "Великобритания",
-      "United States": "США"
-    },
-    "filters": {
-      "all": "Все",
-      "selectPlan": "Выберите тариф",
-      "selectRole": "Выберите роль",
-      "selectStatus": "Выберите статус"
-    },
-    "panel": {
-      "contact": "Контакт",
-      "country": "Страна",
-      "details": "Подробности",
-      "email": "Эл. почта",
-      "language": "Язык",
-      "projectDone": "Проектов завершено",
-      "role": "Роль",
-      "status": "Статус",
-      "suspend": "Заблокировать",
-      "taskDone": "Задач выполнено",
-      "taxId": "ИНН",
-      "username": "Имя пользователя"
-    },
-    "plans": {
-      "Basic": "Базовый",
-      "Enterprise": "Корпоративный",
-      "Team": "Командный"
-    },
-    "projects": {
-      "action": "Действие",
-      "leader": "Руководитель",
-      "none": "Проектов не найдено",
-      "progress": "Прогресс",
-      "project": "Проект",
-      "rowActions": "Действия с проектом",
-      "searchLabel": "Поиск проектов",
-      "searchPlaceholder": "Поиск проекта",
-      "selectAll": "Выбрать все проекты",
-      "selectOne": "Выбрать {{name}}",
-      "team": "Команда",
-      "title": "Список проектов"
-    },
-    "roles": {
-      "Admin": "Администратор",
-      "Editor": "Редактор",
-      "Guest": "Гость",
-      "Maintainer": "Сопровождающий",
-      "Subscriber": "Подписчик"
-    },
-    "rowActions": {
-      "activate": "Активировать",
-      "deleteUser": "Удалить пользователя",
-      "editUser": "Изменить пользователя",
-      "openActions": "Открыть действия",
-      "suspend": "Заблокировать",
-      "viewUser": "Открыть пользователя"
-    },
-    "security": {
-      "browser": "Браузер",
-      "changePassword": "Смена пароля",
-      "confirmNewPassword": "Подтвердите новый пароль",
-      "currentPassword": "Текущий пароль",
-      "device": "Устройство",
-      "hintCase": "Хотя бы одна строчная и одна заглавная буква",
-      "hintLength": "Не менее 8 символов — чем больше, тем лучше",
-      "hintSymbol": "Хотя бы одна цифра, символ или пробел",
-      "location": "Расположение",
-      "newPassword": "Новый пароль",
-      "noRecentDevices": "Недавних устройств не найдено.",
-      "recentActivity": "Последняя активность",
-      "recentDevices": "Недавние устройства",
-      "twoFactorDisabled": "Двухфакторная аутентификация ещё не включена.",
-      "twoFactorEnabled": "Двухфакторная аутентификация включена для этого аккаунта.",
-      "twoStepsAria": "Двухэтапная проверка",
-      "twoStepsDescription": "Защитите аккаунт дополнительным шагом аутентификации.",
-      "twoStepsTitle": "Двухэтапная проверка"
-    },
-    "sheet": {
-      "addTitle": "Добавить пользователя",
-      "company": "Компания",
-      "companyPlaceholder": "Название компании",
-      "contact": "Контакт",
-      "contactPlaceholder": "+7 (900) 000-00-00",
-      "country": "Страна",
-      "editTitle": "Изменить пользователя",
-      "email": "Эл. почта",
-      "emailPlaceholder": "name@example.com",
-      "errors": {
-        "emailInvalid": "Введите корректный адрес эл. почты",
-        "emailRequired": "Укажите эл. почту",
-        "nameRequired": "Укажите имя"
-      },
-      "name": "Имя",
-      "namePlaceholder": "Полное имя",
-      "plan": "Тариф",
-      "role": "Роль",
-      "selectCountry": "Выберите страну",
-      "selectPlan": "Выберите тариф",
-      "selectRole": "Выберите роль",
-      "selectStatus": "Выберите статус",
-      "status": "Статус"
-    },
-    "showingEntries": "Показано с {{from}} по {{to}} из {{total}} записей",
-    "statuses": {
-      "Active": "Активен",
-      "Inactive": "Неактивен",
-      "Pending": "Ожидает",
-      "Suspended": "Заблокирован"
-    },
-    "tabs": {
-      "account": "Аккаунт",
-      "billing": "Оплата и тарифы",
-      "connections": "Подключения",
-      "security": "Безопасность"
-    },
-    "toolbar": {
-      "addNewUser": "Добавить пользователя",
-      "export": "Экспорт",
-      "exportCsv": "Экспорт в CSV",
-      "exportExcel": "Экспорт в Excel",
-      "exportJson": "Экспорт в JSON",
-      "import": "Импорт",
-      "searchLabel": "Поиск пользователя",
-      "searchPlaceholder": "Поиск пользователя",
-      "showLabel": "Показывать"
     }
   }
 }

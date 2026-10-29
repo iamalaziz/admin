@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
@@ -12,23 +12,26 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { Textarea } from '@/components/ui/textarea'
+import { useTranslation } from '@/lib/i18n'
+import type { Translate } from '@/lib/i18n'
 import type { Module, PhraseCard, PhraseCardPayload } from '@/types/wordzen/content-types'
 import { LOCALE_CODES } from '@/types/wordzen/content-types'
 
 import { RepeaterEmpty, RepeaterHeader, RepeaterRow } from '../shared/repeater'
 
 /** Mirrors `dto/request/PhraseCardRequest` and its nested explanations. */
-const phraseCardFormSchema = z.object({
-  text: z.string().trim().min(1, 'Phrase is required'),
-  explanations: z.array(
-    z.object({
-      locale: z.enum(LOCALE_CODES),
-      text: z.string().trim().min(1, 'Explanation cannot be empty')
-    })
-  )
-})
+const createPhraseCardFormSchema = (t: Translate) =>
+  z.object({
+    text: z.string().trim().min(1, t('manage.phraseCardForm.validation.phraseRequired')),
+    explanations: z.array(
+      z.object({
+        locale: z.enum(LOCALE_CODES),
+        text: z.string().trim().min(1, t('manage.phraseCardForm.validation.explanationRequired'))
+      })
+    )
+  })
 
-type PhraseCardFormValues = z.infer<typeof phraseCardFormSchema>
+type PhraseCardFormValues = z.infer<ReturnType<typeof createPhraseCardFormSchema>>
 
 const emptyValues: PhraseCardFormValues = {
   text: '',
@@ -44,10 +47,13 @@ export interface PhraseCardFormSheetProps {
 }
 
 export function PhraseCardFormSheet({ open, phraseCard, module, onOpenChange, onSubmit }: PhraseCardFormSheetProps) {
+  const { t } = useTranslation()
   const isEdit = phraseCard !== null
 
+  const schema = useMemo(() => createPhraseCardFormSchema(t), [t])
+
   const form = useForm<PhraseCardFormValues>({
-    resolver: zodResolver(phraseCardFormSchema),
+    resolver: zodResolver(schema),
     defaultValues: emptyValues
   })
 
@@ -85,11 +91,13 @@ export function PhraseCardFormSheet({ open, phraseCard, module, onOpenChange, on
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side='right' className='w-full overflow-y-auto sm:max-w-[520px]'>
         <SheetHeader className='pb-0'>
-          <SheetTitle className='text-lg font-medium'>{isEdit ? 'Edit phrase card' : 'New phrase card'}</SheetTitle>
+          <SheetTitle className='text-lg font-medium'>
+            {isEdit ? t('manage.phraseCardForm.editTitle') : t('manage.phraseCardForm.newTitle')}
+          </SheetTitle>
           <SheetDescription>
             {isEdit
-              ? 'Changes map to PUT /api/v1/manager/phrase-cards/{phraseCardId}.'
-              : `Creates a phrase card in "${module.title}" via POST /api/v1/manager/phrase-cards.`}
+              ? t('manage.phraseCardForm.editDescription')
+              : t('manage.phraseCardForm.createDescription', { module: module.title })}
           </SheetDescription>
         </SheetHeader>
 
@@ -100,8 +108,13 @@ export function PhraseCardFormSheet({ open, phraseCard, module, onOpenChange, on
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className='gap-2'>
-                  <FieldLabel htmlFor={field.name}>Phrase</FieldLabel>
-                  <Input {...field} id={field.name} placeholder='break the ice' aria-invalid={fieldState.invalid} />
+                  <FieldLabel htmlFor={field.name}>{t('manage.phraseCardForm.phraseLabel')}</FieldLabel>
+                  <Input
+                    {...field}
+                    id={field.name}
+                    placeholder={t('manage.phraseCardForm.phrasePlaceholder')}
+                    aria-invalid={fieldState.invalid}
+                  />
                   {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
                 </Field>
               )}
@@ -110,23 +123,27 @@ export function PhraseCardFormSheet({ open, phraseCard, module, onOpenChange, on
 
           <div className='flex flex-col gap-3'>
             <RepeaterHeader
-              title='Explanations'
-              description='How the phrase is used, per locale.'
-              addLabel='Add explanation'
+              title={t('manage.phraseCardForm.explanations.title')}
+              description={t('manage.phraseCardForm.explanations.description')}
+              addLabel={t('manage.phraseCardForm.explanations.add')}
               onAdd={() => explanations.append({ locale: 'RU', text: '' })}
             />
 
             {explanations.fields.length === 0 ? (
-              <RepeaterEmpty message='No explanations yet.' />
+              <RepeaterEmpty message={t('manage.phraseCardForm.explanations.empty')} />
             ) : (
               explanations.fields.map((row, index) => (
-                <RepeaterRow key={row.id} onRemove={() => explanations.remove(index)} removeLabel='Remove explanation'>
+                <RepeaterRow
+                  key={row.id}
+                  onRemove={() => explanations.remove(index)}
+                  removeLabel={t('manage.phraseCardForm.explanations.remove')}
+                >
                   <Controller
                     name={`explanations.${index}.locale`}
                     control={form.control}
                     render={({ field }) => (
                       <Field className='gap-2 sm:w-28'>
-                        <FieldLabel htmlFor={field.name}>Locale</FieldLabel>
+                        <FieldLabel htmlFor={field.name}>{t('manage.common.locale')}</FieldLabel>
                         <Select value={field.value} onValueChange={field.onChange}>
                           <SelectTrigger id={field.name} className='w-full'>
                             <SelectValue />
@@ -147,7 +164,7 @@ export function PhraseCardFormSheet({ open, phraseCard, module, onOpenChange, on
                     control={form.control}
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid} className='gap-2'>
-                        <FieldLabel htmlFor={field.name}>Text</FieldLabel>
+                        <FieldLabel htmlFor={field.name}>{t('manage.common.text')}</FieldLabel>
                         <Textarea {...field} id={field.name} rows={3} aria-invalid={fieldState.invalid} />
                         {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
                       </Field>
@@ -160,9 +177,11 @@ export function PhraseCardFormSheet({ open, phraseCard, module, onOpenChange, on
 
           <SheetFooter className='flex-row justify-end gap-2 px-0'>
             <Button type='button' variant='outline' onClick={() => onOpenChange(false)}>
-              Cancel
+              {t('common.cancel')}
             </Button>
-            <Button type='submit'>{isEdit ? 'Save phrase card' : 'Create phrase card'}</Button>
+            <Button type='submit'>
+              {isEdit ? t('manage.phraseCardForm.editSubmit') : t('manage.phraseCardForm.createSubmit')}
+            </Button>
           </SheetFooter>
         </form>
       </SheetContent>

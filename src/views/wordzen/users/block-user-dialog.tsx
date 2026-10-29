@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/dialog'
 import { Field, FieldDescription, FieldLabel } from '@/components/ui/field'
 import { Textarea } from '@/components/ui/textarea'
+import { useTranslation } from '@/lib/i18n'
 import type { AdminUser } from '@/types/wordzen/user-types'
 
 export interface BlockUserDialogProps {
@@ -28,6 +29,7 @@ export interface BlockUserDialogProps {
  * allows an empty one rather than forcing a placeholder into the audit trail.
  */
 export function BlockUserDialog({ user, onOpenChange, onConfirm }: BlockUserDialogProps) {
+  const { t } = useTranslation()
   const [reason, setReason] = useState('')
 
   // Clearing on close rather than on open keeps this out of an effect, and covers every
@@ -44,28 +46,25 @@ export function BlockUserDialog({ user, onOpenChange, onConfirm }: BlockUserDial
     <Dialog open={user !== null} onOpenChange={handleOpenChange}>
       <DialogContent className='sm:max-w-md'>
         <DialogHeader>
-          <DialogTitle>Block {user?.username}?</DialogTitle>
-          <DialogDescription>
-            The account is suspended immediately and its tokens stop working, because blocking bumps the user&apos;s
-            auth version.
-          </DialogDescription>
+          <DialogTitle>{t('manage.blockDialog.title', { name: user?.username ?? '' })}</DialogTitle>
+          <DialogDescription>{t('manage.blockDialog.description')}</DialogDescription>
         </DialogHeader>
 
         <Field className='gap-2'>
-          <FieldLabel htmlFor='blockReason'>Reason</FieldLabel>
+          <FieldLabel htmlFor='blockReason'>{t('manage.blockDialog.reasonLabel')}</FieldLabel>
           <Textarea
             id='blockReason'
             rows={3}
             value={reason}
             onChange={event => setReason(event.target.value)}
-            placeholder='Visible to other admins on the user record'
+            placeholder={t('manage.blockDialog.reasonPlaceholder')}
           />
-          <FieldDescription>Optional, but it is the only record of why this happened.</FieldDescription>
+          <FieldDescription>{t('manage.blockDialog.reasonHint')}</FieldDescription>
         </Field>
 
         <DialogFooter>
           <Button variant='outline' type='button' onClick={() => handleOpenChange(false)}>
-            Cancel
+            {t('common.cancel')}
           </Button>
           <Button
             variant='destructive'
@@ -75,7 +74,7 @@ export function BlockUserDialog({ user, onOpenChange, onConfirm }: BlockUserDial
               handleOpenChange(false)
             }}
           >
-            Block user
+            {t('manage.blockDialog.submit')}
           </Button>
         </DialogFooter>
       </DialogContent>

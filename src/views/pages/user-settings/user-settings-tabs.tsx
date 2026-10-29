@@ -9,7 +9,6 @@ import { parseAsString, useQueryState } from 'nuqs'
 // Component Imports
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import UserGeneral from '@/views/pages/user-settings/general'
-import Workspace from '@/views/pages/user-settings/workspace'
 
 // Hook Imports
 import { useTranslation } from '@/lib/i18n'
@@ -20,11 +19,6 @@ const tabs: { nameKey: TranslationKey; value: string; content: React.ReactNode }
     nameKey: 'settings.tabs.general',
     value: 'general',
     content: <UserGeneral />
-  },
-  {
-    nameKey: 'settings.tabs.workspace',
-    value: 'workspace',
-    content: <Workspace />
   }
 ]
 

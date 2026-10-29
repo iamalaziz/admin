@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
@@ -11,15 +11,18 @@ import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@/c
 import { Input } from '@/components/ui/input'
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { Switch } from '@/components/ui/switch'
+import { useTranslation } from '@/lib/i18n'
+import type { Translate } from '@/lib/i18n'
 import type { Course, Module, ModulePayload } from '@/types/wordzen/content-types'
 
 /** Mirrors `dto/request/ModuleRequest`; cards are managed on their own endpoint. */
-const moduleFormSchema = z.object({
-  title: z.string().trim().min(2, 'Title must be at least 2 characters'),
-  isPublic: z.boolean()
-})
+const createModuleFormSchema = (t: Translate) =>
+  z.object({
+    title: z.string().trim().min(2, t('manage.moduleForm.validation.titleMin')),
+    isPublic: z.boolean()
+  })
 
-type ModuleFormValues = z.infer<typeof moduleFormSchema>
+type ModuleFormValues = z.infer<ReturnType<typeof createModuleFormSchema>>
 
 const emptyValues: ModuleFormValues = { title: '', isPublic: false }
 
@@ -32,10 +35,13 @@ export interface ModuleFormSheetProps {
 }
 
 export function ModuleFormSheet({ open, module, course, onOpenChange, onSubmit }: ModuleFormSheetProps) {
+  const { t } = useTranslation()
   const isEdit = module !== null
 
+  const schema = useMemo(() => createModuleFormSchema(t), [t])
+
   const form = useForm<ModuleFormValues>({
-    resolver: zodResolver(moduleFormSchema),
+    resolver: zodResolver(schema),
     defaultValues: emptyValues
   })
 
@@ -61,11 +67,13 @@ export function ModuleFormSheet({ open, module, course, onOpenChange, onSubmit }
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side='right' className='w-full overflow-y-auto sm:max-w-[460px]'>
         <SheetHeader className='pb-0'>
-          <SheetTitle className='text-lg font-medium'>{isEdit ? 'Edit module' : 'New module'}</SheetTitle>
+          <SheetTitle className='text-lg font-medium'>
+            {isEdit ? t('manage.moduleForm.editTitle') : t('manage.moduleForm.newTitle')}
+          </SheetTitle>
           <SheetDescription>
             {isEdit
-              ? 'Changes map to PUT /api/v1/manager/modules/{moduleId}.'
-              : `Creates a module in "${course.title}" via POST /api/v1/manager/modules.`}
+              ? t('manage.moduleForm.editDescription')
+              : t('manage.moduleForm.createDescription', { course: course.title })}
           </SheetDescription>
         </SheetHeader>
 
@@ -76,8 +84,13 @@ export function ModuleFormSheet({ open, module, course, onOpenChange, onSubmit }
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className='gap-2'>
-                  <FieldLabel htmlFor={field.name}>Title</FieldLabel>
-                  <Input {...field} id={field.name} placeholder='Module title' aria-invalid={fieldState.invalid} />
+                  <FieldLabel htmlFor={field.name}>{t('manage.common.title')}</FieldLabel>
+                  <Input
+                    {...field}
+                    id={field.name}
+                    placeholder={t('manage.moduleForm.titlePlaceholder')}
+                    aria-invalid={fieldState.invalid}
+                  />
                   {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
                 </Field>
               )}
@@ -89,11 +102,9 @@ export function ModuleFormSheet({ open, module, course, onOpenChange, onSubmit }
               render={({ field }) => (
                 <Field orientation='horizontal' className='items-center justify-between gap-3'>
                   <div className='flex flex-col gap-0.5'>
-                    <FieldLabel htmlFor='moduleIsPublic'>Published</FieldLabel>
+                    <FieldLabel htmlFor='moduleIsPublic'>{t('manage.common.published')}</FieldLabel>
                     <FieldDescription>
-                      {course.isPublic
-                        ? 'A draft module is hidden from learners.'
-                        : 'The course is a draft, so its modules stay unpublished.'}
+                      {course.isPublic ? t('manage.moduleForm.publishedHint') : t('manage.moduleForm.draftCourseHint')}
                     </FieldDescription>
                   </div>
                   <Switch
@@ -109,9 +120,11 @@ export function ModuleFormSheet({ open, module, course, onOpenChange, onSubmit }
 
           <SheetFooter className='flex-row justify-end gap-2 px-0'>
             <Button type='button' variant='outline' onClick={() => onOpenChange(false)}>
-              Cancel
+              {t('common.cancel')}
             </Button>
-            <Button type='submit'>{isEdit ? 'Save module' : 'Create module'}</Button>
+            <Button type='submit'>
+              {isEdit ? t('manage.moduleForm.editSubmit') : t('manage.moduleForm.createSubmit')}
+            </Button>
           </SheetFooter>
         </form>
       </SheetContent>

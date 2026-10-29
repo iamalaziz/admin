@@ -14,12 +14,19 @@ import {
   DialogHeader,
   DialogTitle
 } from '@/components/ui/dialog'
+import { useTranslation } from '@/lib/i18n'
 import type { CourseAccessCode, LocaleCode } from '@/types/wordzen/content-types'
 import type { UserStatusCode } from '@/types/wordzen/user-types'
 
 /** `true`/`false` on `isPublic`, phrased the way the API means it. */
 export function PublishedBadge({ isPublic }: { isPublic: boolean }) {
-  return <Badge variant={isPublic ? 'default' : 'outline'}>{isPublic ? 'Public' : 'Draft'}</Badge>
+  const { t } = useTranslation()
+
+  return (
+    <Badge variant={isPublic ? 'default' : 'outline'}>
+      {isPublic ? t('manage.badges.public') : t('manage.badges.draft')}
+    </Badge>
+  )
 }
 
 /** `CourseAccessCode` — FREE is unremarkable, the paid tiers should stand out. */
@@ -36,7 +43,9 @@ export function LocaleBadge({ locale }: { locale: LocaleCode }) {
 }
 
 export function UserStatusBadge({ status }: { status: UserStatusCode }) {
-  return <Badge variant={status === 'BLOCKED' ? 'destructive' : 'secondary'}>{status}</Badge>
+  const { t } = useTranslation()
+
+  return <Badge variant={status === 'BLOCKED' ? 'destructive' : 'secondary'}>{t(`manage.statuses.${status}`)}</Badge>
 }
 
 /**
@@ -44,9 +53,11 @@ export function UserStatusBadge({ status }: { status: UserStatusCode }) {
  * service, not a URL, so there is nothing to render as an image here — showing the path
  * is both honest and the thing an admin actually needs to check.
  */
-export function FilePathCell({ path, emptyLabel = 'None' }: { path: string | null; emptyLabel?: string }) {
+export function FilePathCell({ path, emptyLabel }: { path: string | null; emptyLabel?: string }) {
+  const { t } = useTranslation()
+
   if (!path) {
-    return <span className='text-muted-foreground text-sm'>{emptyLabel}</span>
+    return <span className='text-muted-foreground text-sm'>{emptyLabel ?? t('manage.badges.none')}</span>
   }
 
   return (
@@ -86,14 +97,9 @@ export interface ConfirmDialogProps {
  * (`ManagerCourseDao.delete` hard-deletes), and a course takes its modules and cards with
  * it, so the copy has to say what is actually about to disappear.
  */
-export function ConfirmDialog({
-  open,
-  onOpenChange,
-  title,
-  description,
-  confirmLabel = 'Delete',
-  onConfirm
-}: ConfirmDialogProps) {
+export function ConfirmDialog({ open, onOpenChange, title, description, confirmLabel, onConfirm }: ConfirmDialogProps) {
+  const { t } = useTranslation()
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='sm:max-w-md'>
@@ -105,7 +111,7 @@ export function ConfirmDialog({
           <DialogClose
             render={
               <Button variant='outline' type='button'>
-                Cancel
+                {t('common.cancel')}
               </Button>
             }
             nativeButton={false}
@@ -118,7 +124,7 @@ export function ConfirmDialog({
               onOpenChange(false)
             }}
           >
-            {confirmLabel}
+            {confirmLabel ?? t('common.delete')}
           </Button>
         </DialogFooter>
       </DialogContent>

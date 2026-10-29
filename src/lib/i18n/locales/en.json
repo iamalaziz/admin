@@ -1,60 +1,4 @@
 {
-  "auth": {
-    "backToLogin": "Back to login",
-    "confirmPasswordLabel": "Confirm Password*",
-    "emailLabel": "Email address*",
-    "emailPlaceholder": "Enter your email address",
-    "forgotPassword": {
-      "description": "Enter your email and we’ll send you instructions to reset your password",
-      "submit": "Send Reset Link",
-      "title": "Forgot Password?"
-    },
-    "login": {
-      "createAccount": "Create an account",
-      "forgotPassword": "Forgot Password?",
-      "loginAsAdmin": "Login as Admin",
-      "loginAsUser": "Login as User",
-      "magicLink": "Magic Link",
-      "magicLinkPrefix": "Login with",
-      "newHerePrefix": "New on our platform?",
-      "rememberMe": "Remember Me",
-      "submit": "Sign in to WordZen",
-      "title": "Sign in to WordZen"
-    },
-    "newPasswordLabel": "New Password*",
-    "passwordLabel": "Password*",
-    "register": {
-      "agreePrefix": "I agree to",
-      "haveAccountPrefix": "Already have an account?",
-      "privacyPolicy": "privacy policy & terms",
-      "signInInstead": "Sign in instead",
-      "submit": "Sign Up to WordZen",
-      "title": "Sign Up to WordZen"
-    },
-    "resetPassword": {
-      "description": "Please enter your current password and choose a new password to update your account security.",
-      "submit": "Set New Password",
-      "title": "Reset Password"
-    },
-    "signInWithGoogle": "Sign in with google",
-    "tagline": "Ship Faster and Focus on Growth.",
-    "twoSteps": {
-      "codeLabel": "Code*",
-      "description": "Please confirm access to your account by entering the code provided by your authenticator application",
-      "submit": "Sign in to WordZen",
-      "title": "Two Steps Verification",
-      "useRecoveryCode": "Use a recovery code"
-    },
-    "usernameLabel": "Username*",
-    "usernamePlaceholder": "Enter your username",
-    "verifyEmail": {
-      "description": "An activation link has been sent to your email address: {{email}}. Please check your inbox and click on the link to complete the activation process.",
-      "noMailPrefix": "Didn’t get the mail?",
-      "resend": "Resend",
-      "skipForNow": "Skip for now",
-      "title": "Verify your email"
-    }
-  },
   "chrome": {
     "adminPanel": "Admin Panel",
     "changeLanguage": "Change language",
@@ -97,231 +41,407 @@
     "update": "Update",
     "view": "View"
   },
-  "dashboard": {
-    "productInsights": {
-      "imageAlt": "Product",
-      "orderPlaced": "Order placed",
-      "orders": "Orders",
-      "productReached": "Product reached",
-      "publishedOn": "Published on {{date}}",
-      "reached": "Reached",
-      "title": "Product insight"
-    },
-    "salesMetrics": {
-      "cohortDescription": "Analyzes the behaviour of a group of users who joined a product/service at the same time. over a certain period.",
-      "cohortTitle": "Cohort analysis indicators",
-      "discountOffers": "Discount offers",
-      "logoAlt": "logo",
-      "netProfit": "Net profit",
-      "openStatistics": "Open Statistics",
-      "percentageChange": "Percentage Change",
-      "percentageProfit": "Percentage profit from total sales",
-      "planCompleted": "Plan completed",
-      "revenueGoal": "Revenue goal",
-      "sales": "Sales",
-      "salesPlan": "Sales plan",
-      "salesTrend": "Sales trend",
-      "title": "Sales metrics",
-      "totalOrders": "Total orders",
-      "totalProfit": "Total Profit"
-    },
-    "stats": {
-      "damagedReturns": "Damaged Returns",
-      "missedDeliverySlots": "Missed Delivery Slots",
-      "shippedOrders": "Shipped Orders",
-      "thanLastWeek": "than last week"
-    },
-    "totalEarning": {
-      "comparison": "Compare to last year (${{amount}})",
-      "title": "Total Earning"
-    }
-  },
-  "datatable": {
-    "all": "All",
-    "availabilityValues": {
-      "In Stock": "In Stock",
-      "Limited": "Limited",
-      "Out of Stock": "Out of Stock"
-    },
-    "columns": {
-      "amount": "Amount",
-      "availability": "Availability",
-      "category": "Category",
-      "customer": "Customer",
-      "discontinued": "Discontinued",
-      "email": "Email",
-      "name": "Name",
-      "paidBy": "Paid by",
-      "price": "Price",
-      "product": "Product",
-      "productName": "Product Name",
-      "rating": "Rating",
-      "status": "Status",
-      "stockQuantity": "Stock Quantity",
-      "supplier": "Supplier"
-    },
-    "discontinuedValues": {
-      "no": "No",
-      "yes": "Yes"
-    },
-    "duplicate": "Duplicate",
-    "editItem": "Edit item",
-    "max": "Max",
-    "maxAria": "{{column}} max",
-    "min": "Min",
-    "minAria": "{{column}} min",
-    "paymentPlatformAlt": "Payment platform",
-    "paymentStatus": {
-      "failed": "Failed",
-      "paid": "Paid",
-      "pending": "Pending",
-      "processing": "Processing"
-    },
-    "pinOptions": "Pin options for {{column}} column",
-    "searchColumn": "Search {{column}}",
-    "sections": {
-      "basic": "Basic Data Table",
-      "pinnable": "Pinnable Columns",
-      "withFilters": "Datatable with Filters"
-    },
-    "selectAll": "Select all",
-    "selectRow": "Select row",
-    "showingEntries": "Showing {{from}} to {{to}} of {{total}} entries",
-    "stickToLeft": "Stick to left",
-    "stickToRight": "Stick to right",
-    "unpinColumn": "Unpin {{column}} column"
-  },
   "forms": {
-    "basicForm": "Basic Form",
-    "basicFormWithIcon": "Basic Form with Icon",
     "fields": {
-      "address": "Address",
-      "city": "City",
-      "company": "Company",
-      "email": "Email",
       "firstName": "First Name",
-      "landmark": "Landmark",
       "lastName": "Last Name",
-      "message": "Message",
-      "mobile": "Mobile",
-      "name": "Name",
-      "phone": "Phone",
-      "phoneNo": "Phone No",
-      "pincode": "Pincode",
-      "state": "State"
-    },
-    "modes": {
-      "demoInput": "Demo Input",
-      "description": "Experience how different validation modes affect user experience. Try typing in each field to see when validation occurs.",
-      "onBlurBestFor": "Less intrusive validation (recommended for most cases)",
-      "onBlurDescription": "Validates when you leave the field",
-      "onBlurHintAfter": "you leave the field",
-      "onBlurHintBefore": "Error appears",
-      "onBlurHintStrong": "after",
-      "onBlurTitle": "onBlur Mode",
-      "onBlurWhen": "When leaving the field",
-      "onChangeBestFor": "Real-time feedback (e.g., password strength)",
-      "onChangeDescription": "Validates on every keystroke",
-      "onChangeHintAfter": "as you type",
-      "onChangeHintBefore": "Error appears",
-      "onChangeHintStrong": "instantly",
-      "onChangeTitle": "onChange Mode",
-      "onChangeWhen": "Every keystroke",
-      "onSubmitBestFor": "Simple forms, minimal interruption",
-      "onSubmitDescription": "Validates only when you click submit",
-      "onSubmitHintAfter": "after clicking submit",
-      "onSubmitHintBefore": "Error appears",
-      "onSubmitHintStrong": "only",
-      "onSubmitTitle": "onSubmit Mode (Default)",
-      "onSubmitWhen": "When form is submitted",
-      "onTouchedBestFor": "Balance between UX and feedback",
-      "onTouchedDescription": "Validates on blur, then on every change",
-      "onTouchedHintAfter": "",
-      "onTouchedHintBefore": "First validation on blur, then",
-      "onTouchedHintStrong": "real-time",
-      "onTouchedTitle": "onTouched Mode",
-      "onTouchedWhen": "First blur, then every change",
-      "submittedAlert": "{{mode}} form submitted successfully!",
-      "tableBestFor": "Best For",
-      "tableMode": "Mode",
-      "tableWhen": "When Validation Occurs",
-      "title": "Validation Modes Demo",
-      "typeHere": "Type here..."
+      "mobile": "Mobile"
     },
     "placeholders": {
-      "address": "123 Main St",
-      "city": "New York",
-      "company": "ACME Inc.",
-      "emailLocalPart": "john.doe",
       "firstName": "John",
-      "landmark": "Near Central Park, New York",
       "lastName": "Doe",
-      "message": "Hi, Do you have a moment to talk Joe?",
-      "mobile": "+1 (555) 123-4567",
-      "name": "John Doe",
-      "phone": "658 799 8941",
-      "pincode": "Postal Code",
-      "state": "NY"
+      "mobile": "+1 (555) 123-4567"
+    }
+  },
+  "manage": {
+    "badges": {
+      "draft": "Draft",
+      "free": "Free",
+      "none": "None",
+      "public": "Public"
     },
-    "saveInformation": "Save Information",
-    "send": "Send",
-    "validation": {
-      "companyPlaceholder": "Company name",
-      "department": "Department",
-      "departmentOptions": {
-        "billing": "Billing",
-        "returns": "Returns",
-        "sales": "Sales",
-        "technical": "Technical Support"
+    "blockDialog": {
+      "description": "The account is suspended immediately and its tokens stop working, because blocking bumps the user’s auth version.",
+      "reasonHint": "Optional, but it is the only record of why this happened.",
+      "reasonLabel": "Reason",
+      "reasonPlaceholder": "Visible to other admins on the user record",
+      "submit": "Block user",
+      "title": "Block {{name}}?"
+    },
+    "cardForm": {
+      "createDescription": "Creates a card in \"{{module}}\" via POST /api/v1/manager/cards.",
+      "createSubmit": "Create card",
+      "editDescription": "Changes map to PUT /api/v1/manager/cards/{cardId}.",
+      "editSubmit": "Save card",
+      "editTitle": "Edit card",
+      "imageHint": "From POST /api/v1/manager/file/tmp/form, or generated via /manager/generate/img. Clearing it is the DELETE /cards/{cardId}/image call.",
+      "imageLabel": "Image path",
+      "imagePlaceholder": "/cards/example.webp",
+      "newTitle": "New card",
+      "samples": {
+        "add": "Add sample",
+        "description": "Example sentences and their translation.",
+        "empty": "No samples. The card will show the term and its translations only.",
+        "remove": "Remove sample",
+        "sentence": "Sentence",
+        "title": "Samples",
+        "translation": "Translation"
       },
-      "departmentPlaceholder": "Select department",
-      "describeIssue": "Please describe your issue",
-      "describeIssuePlaceholder": "Provide detailed information about your issue",
-      "emailPlaceholder": "Email address",
-      "errors": {
-        "companyMin": "Company name must be at least 2 characters.",
-        "demoMax": "Must be at most 20 characters",
-        "demoMin": "Must be at least 5 characters",
-        "departmentRequired": "Kindly select a department.",
-        "emailInvalid": "Please enter a valid email address.",
-        "emailRequired": "Email is required",
-        "issueRequired": "Kindly select an issue.",
-        "messageMin": "Describe your issue using at least 50 characters.",
-        "nameMin": "Name must be at least 2 characters.",
-        "optionRequired": "Selection of an option is required.",
-        "orderIdRequired": "Order ID is required.",
-        "phoneInvalid": "Please enter a valid phone number.",
-        "phoneRequired": "Phone is required",
-        "priorityRequired": "Kindly select a priority."
+      "termLabel": "Term",
+      "termPlaceholder": "The word being taught",
+      "translations": {
+        "add": "Add translation",
+        "description": "What the term means, per locale.",
+        "remove": "Remove translation",
+        "title": "Translations",
+        "value": "Value"
       },
-      "howCanWeHelp": "How can we help you?",
-      "issue": "Issue",
-      "issueOptions": {
-        "damaged": "Product is Damaged",
-        "got-different": "Received wrong product",
-        "not-like": "Not as expectation",
-        "other": "Other"
+      "validation": {
+        "sentenceRequired": "Sentence cannot be empty",
+        "sentenceTranslationRequired": "Sentence translation cannot be empty",
+        "termRequired": "Term is required",
+        "translationRequired": "Translation cannot be empty",
+        "translationsMin": "Add at least one translation"
+      }
+    },
+    "columns": {
+      "access": "Access",
+      "cards": "Cards",
+      "category": "Category",
+      "course": "Course",
+      "created": "Created",
+      "image": "Image",
+      "joined": "Joined",
+      "module": "Module",
+      "modules": "Modules",
+      "phrases": "Phrases",
+      "roles": "Roles",
+      "samples": "Samples",
+      "state": "State",
+      "status": "Status",
+      "subscription": "Subscription",
+      "term": "Term",
+      "translations": "Translations",
+      "user": "User"
+    },
+    "common": {
+      "locale": "Locale",
+      "published": "Published",
+      "text": "Text",
+      "title": "Title"
+    },
+    "courseDetail": {
+      "allCourses": "All courses",
+      "backToCourses": "Back to courses",
+      "descriptions": {
+        "empty": "No descriptions. Learners will see the title on its own.",
+        "title": "Descriptions"
       },
-      "issuePlaceholder": "Issue you are facing",
-      "namePlaceholder": "Your full name",
-      "optionRefund": "Need a refund",
-      "optionReplace": "Need a product replacement",
-      "optionSupport": "Need guidance or support",
-      "orderId": "Order ID",
-      "orderIdPlaceholder": "Order ID",
-      "phonePlaceholder": "Phone number",
-      "priority": "Priority",
-      "priorityOptions": {
-        "high": "High",
-        "low": "Low",
-        "medium": "Medium",
-        "urgent": "Urgent"
+      "editCourse": "Edit course",
+      "empty": "No modules match these filters.",
+      "fields": {
+        "author": "Author",
+        "cover": "Cover",
+        "created": "Created",
+        "displayOrder": "Display order",
+        "id": "Id"
       },
-      "priorityPlaceholder": "Select priority",
-      "registrationFormTitle": "Registration Form",
-      "reportIssue": "Report Issue",
-      "reportIssueDescription": "Describe the issue you’re facing; our team will help you.",
-      "submittedToast": "Issue submitted successfully! Our team will reach out to you shortly."
+      "infoTitle": "Course",
+      "moduleDelete": {
+        "description": "and its {{count}} cards will be removed. The manager API deletes the rows outright — this cannot be undone.",
+        "title": "Delete module?"
+      },
+      "newModule": "New module",
+      "notFound": "Course {{id}} not found.",
+      "notFoundHint": "It may have been deleted, or the fixtures were regenerated by a reload.",
+      "searchPlaceholder": "Search modules",
+      "stats": {
+        "cards": "Cards",
+        "cardsHint": "Across all modules",
+        "modules": "Modules",
+        "phraseCards": "Phrase cards",
+        "published": "Published"
+      },
+      "toast": {
+        "courseUpdated": "Course \"{{title}}\" updated",
+        "moduleCreated": "Module \"{{title}}\" created",
+        "moduleDeleted": "Module \"{{title}}\" deleted",
+        "moduleUpdated": "Module \"{{title}}\" updated"
+      }
+    },
+    "courseForm": {
+      "accessHint": "Which subscription unlocks the course.",
+      "accessLabel": "Access",
+      "accessPlaceholder": "Select access",
+      "categoryLabel": "Category",
+      "categoryPlaceholder": "Select category",
+      "coverHint": "The path returned by POST /api/v1/manager/file/tmp/form. Clearing it is the DELETE /courses/{courseId}/cover call.",
+      "coverLabel": "Cover path",
+      "coverPlaceholder": "/courses/example.webp",
+      "createDescription": "Creates a course via POST /api/v1/manager/courses.",
+      "createSubmit": "Create course",
+      "descriptions": {
+        "add": "Add locale",
+        "allUsed": "Every locale already has a description",
+        "description": "One per locale, shown to learners in their language.",
+        "empty": "No descriptions yet. The course list and learner app will show the title only.",
+        "remove": "Remove description",
+        "title": "Descriptions"
+      },
+      "editDescription": "Changes map to PUT /api/v1/manager/courses/{courseId}.",
+      "editSubmit": "Save course",
+      "editTitle": "Edit course",
+      "newTitle": "New course",
+      "publishedHint": "A draft course is hidden from learners.",
+      "titlePlaceholder": "Course title",
+      "validation": {
+        "descriptionRequired": "Description cannot be empty",
+        "localeOnce": "Each locale can only appear once",
+        "titleMin": "Title must be at least 2 characters"
+      }
+    },
+    "courses": {
+      "delete": {
+        "description": "and its {{count}} modules (with their cards) will be removed. The manager API deletes the rows outright — this cannot be undone.",
+        "title": "Delete course?"
+      },
+      "empty": "No courses match these filters.",
+      "newCourse": "New course",
+      "searchPlaceholder": "Search title or author",
+      "stats": {
+        "courses": "Courses",
+        "modules": "Modules",
+        "modulesHint": "Across all courses",
+        "paid": "Paid",
+        "paidHint": "BASIC or PRO",
+        "published": "Published",
+        "publishedHint": "Visible to learners"
+      },
+      "toast": {
+        "created": "Course \"{{title}}\" created",
+        "deleted": "Course \"{{title}}\" deleted",
+        "updated": "Course \"{{title}}\" updated"
+      }
+    },
+    "filters": {
+      "access": "Filter by access",
+      "accessPlaceholder": "Access",
+      "allAccess": "All access",
+      "allCategories": "All categories",
+      "allLocales": "All locales",
+      "allPlans": "Any plan",
+      "allRoles": "All roles",
+      "allStates": "All states",
+      "allStatuses": "All statuses",
+      "anyImage": "Any image",
+      "category": "Filter by category",
+      "categoryPlaceholder": "Category",
+      "image": "Filter by image",
+      "imagePlaceholder": "Image",
+      "locale": "Filter by locale",
+      "localePlaceholder": "Locale",
+      "role": "Filter by role",
+      "rolePlaceholder": "Role",
+      "state": "Filter by state",
+      "statePlaceholder": "State",
+      "status": "Filter by status",
+      "statusPlaceholder": "Status",
+      "subscription": "Filter by subscription",
+      "subscriptionPlaceholder": "Subscription",
+      "withImage": "With image",
+      "withoutImage": "Without image"
+    },
+    "moduleDetail": {
+      "backToCourses": "Back to courses",
+      "cardDelete": {
+        "description": "and its translations and samples will be removed. This cannot be undone.",
+        "title": "Delete card?"
+      },
+      "editModule": "Edit module",
+      "empty": "No cards match these filters.",
+      "fields": {
+        "course": "Course",
+        "courseAccess": "Course access",
+        "created": "Created",
+        "id": "Id"
+      },
+      "infoTitle": "Module",
+      "newCard": "New card",
+      "notFound": "Module {{id}} not found.",
+      "notFoundHint": "Modules are generated per course, so open the module from its course to load it.",
+      "order": "Module #{{order}}",
+      "phraseDelete": {
+        "description": "and its explanations will be removed. This cannot be undone.",
+        "title": "Delete phrase card?"
+      },
+      "phrases": {
+        "empty": "This module has no phrase cards.",
+        "new": "New phrase card",
+        "title": "Phrase cards"
+      },
+      "searchPlaceholder": "Search term or translation",
+      "stats": {
+        "cards": "Cards",
+        "phraseCards": "Phrase cards",
+        "samples": "Samples",
+        "samplesHint": "Across all cards",
+        "withImage": "With image"
+      },
+      "tabs": {
+        "cards": "Cards ({{count}})",
+        "phrases": "Phrase cards ({{count}})"
+      },
+      "toast": {
+        "cardCreated": "Card \"{{term}}\" created",
+        "cardDeleted": "Card \"{{term}}\" deleted",
+        "cardUpdated": "Card \"{{term}}\" updated",
+        "imageRemoved": "Image removed from \"{{term}}\"",
+        "moduleUpdated": "Module \"{{title}}\" updated",
+        "phraseCreated": "Phrase card created",
+        "phraseDeleted": "Phrase card deleted",
+        "phraseUpdated": "Phrase card updated"
+      }
+    },
+    "moduleForm": {
+      "createDescription": "Creates a module in \"{{course}}\" via POST /api/v1/manager/modules.",
+      "createSubmit": "Create module",
+      "draftCourseHint": "The course is a draft, so its modules stay unpublished.",
+      "editDescription": "Changes map to PUT /api/v1/manager/modules/{moduleId}.",
+      "editSubmit": "Save module",
+      "editTitle": "Edit module",
+      "newTitle": "New module",
+      "publishedHint": "A draft module is hidden from learners.",
+      "titlePlaceholder": "Module title",
+      "validation": {
+        "titleMin": "Title must be at least 2 characters"
+      }
+    },
+    "nouns": {
+      "cards": "cards",
+      "courses": "courses",
+      "modules": "modules",
+      "users": "users"
+    },
+    "phraseCardForm": {
+      "createDescription": "Creates a phrase card in \"{{module}}\" via POST /api/v1/manager/phrase-cards.",
+      "createSubmit": "Create phrase card",
+      "editDescription": "Changes map to PUT /api/v1/manager/phrase-cards/{phraseCardId}.",
+      "editSubmit": "Save phrase card",
+      "editTitle": "Edit phrase card",
+      "explanations": {
+        "add": "Add explanation",
+        "description": "How the phrase is used, per locale.",
+        "empty": "No explanations yet.",
+        "remove": "Remove explanation",
+        "title": "Explanations"
+      },
+      "newTitle": "New phrase card",
+      "phraseLabel": "Phrase",
+      "phrasePlaceholder": "break the ice",
+      "validation": {
+        "explanationRequired": "Explanation cannot be empty",
+        "phraseRequired": "Phrase is required"
+      }
+    },
+    "roles": {
+      "ROLE_ADMIN": "Admin",
+      "ROLE_AUTHOR": "Author",
+      "ROLE_USER": "User"
+    },
+    "rowActions": {
+      "delete": "Delete {{name}}",
+      "edit": "Edit {{name}}",
+      "moveDown": "Move {{name}} down",
+      "moveUp": "Move {{name}} up",
+      "removeImage": "Remove image from {{name}}"
+    },
+    "statuses": {
+      "ACTIVE": "Active",
+      "BLOCKED": "Blocked"
+    },
+    "table": {
+      "rows": "Rows",
+      "showing": "Showing {{from}} to {{to}} of {{total}} {{noun}}"
+    },
+    "userDetail": {
+      "account": {
+        "description": "From auth_user and its credentials row.",
+        "title": "Account"
+      },
+      "allUsers": "All users",
+      "backToUsers": "Back to users",
+      "blockUser": "Block user",
+      "blockedAlert": {
+        "by": "blocked by {{name}}",
+        "noReason": "No reason was recorded.",
+        "on": "Blocked",
+        "title": "Account blocked"
+      },
+      "fields": {
+        "authVersion": "Auth version",
+        "blockedAt": "Blocked at",
+        "blockedBy": "Blocked by",
+        "blockedReason": "Blocked reason",
+        "created": "Created",
+        "email": "Email",
+        "ends": "Ends",
+        "id": "Id",
+        "lastReset": "Last reset",
+        "plan": "Plan",
+        "status": "Status",
+        "uid": "Uid",
+        "updated": "Updated"
+      },
+      "notFound": "User not found.",
+      "notFoundHint": "No account with uid {{uid}}.",
+      "roles": {
+        "description": "ROLE_AUTHOR unlocks /api/v1/manager/**, ROLE_ADMIN unlocks /api/v1/admin/**. No endpoint grants roles yet, so these changes are local to this fixture.",
+        "implicit": "ROLE_USER is implicit for every account.",
+        "title": "Roles",
+        "toggle": "Toggle {{role}}"
+      },
+      "status": {
+        "description": "GET /api/v1/admin/users/{uid}/status",
+        "title": "Status"
+      },
+      "subscription": {
+        "description": "From auth_user_subscription.",
+        "none": "No subscription. The learner is on the free tier and can only open FREE courses.",
+        "title": "Subscription"
+      },
+      "toast": {
+        "roleGranted": "{{role}} granted to {{name}}",
+        "roleRevoked": "{{role}} revoked from {{name}}"
+      },
+      "unblockUser": "Unblock user"
+    },
+    "userRolesSheet": {
+      "description": "Roles are the only part of an account an admin can change. Username, email and subscription are owned by the learner and by payment-api.",
+      "scopes": {
+        "ROLE_ADMIN": "Unlocks /api/v1/admin/**",
+        "ROLE_AUTHOR": "Unlocks /api/v1/manager/**"
+      },
+      "submit": "Save roles",
+      "title": "Edit {{name}}"
+    },
+    "users": {
+      "block": "Block",
+      "empty": "No users match these filters.",
+      "searchPlaceholder": "Search username, email or uid",
+      "stats": {
+        "blocked": "Blocked",
+        "staff": "Staff",
+        "staffHint": "Author or admin",
+        "subscribed": "Subscribed",
+        "subscribedHint": "BASIC or PRO",
+        "users": "Users"
+      },
+      "toast": {
+        "blocked": "{{name}} blocked",
+        "unblocked": "{{name}} unblocked"
+      },
+      "unblock": "Unblock",
+      "until": "until"
     }
   },
   "misc": {
@@ -336,63 +456,22 @@
     "may": "May"
   },
   "nav": {
-    "authForgotPassword": "Forgot Password",
-    "authLogin": "Login",
-    "authRegister": "Register",
-    "authResetPassword": "Reset Password",
-    "authTwoSteps": "Two Steps",
-    "authVerifyEmail": "Verify Email",
-    "authentication": "Authentication",
-    "dataTable": "Data Table",
-    "errorPage": "Error Page",
-    "formLayouts": "Form Layouts",
-    "formLayoutsHorizontal": "Horizontal Layout",
-    "formLayoutsVertical": "Vertical Layout",
-    "formValidation": "Form Validation",
     "groups": {
-      "apps": "Apps",
-      "dashboard": "Dashboard",
-      "formsAndTables": "Forms & Tables",
       "manage": "Management",
       "pages": "Pages"
     },
     "manageCourses": "Courses",
-    "manageUsers": "Users",
-    "orders": "Orders",
-    "settingsGeneral": "General",
-    "settingsWorkspace": "Workspace",
-    "userSettings": "User Settings",
-    "users": "Users",
-    "usersList": "List",
-    "usersView": "View"
+    "manageUsers": "Users"
   },
   "routes": {
-    "apps": "Apps",
-    "auth": "Authentication",
     "courses": "Courses",
-    "dashboard": "Dashboard",
-    "datatable": "Data Table",
     "error-page": "Error Page",
-    "forgot-password": "Forgot Password",
-    "form-layouts": "Form Layouts",
-    "form-validation": "Form Validation",
-    "forms": "Forms",
-    "horizontal": "Horizontal",
-    "list": "List",
-    "login": "Login",
     "manage": "Management",
     "misc": "Miscellaneous",
     "modules": "Modules",
-    "orders": "Orders",
     "pages": "Pages",
-    "register": "Register",
-    "reset-password": "Reset Password",
-    "two-steps": "Two Steps",
-    "user-settings": "User Settings",
-    "users": "Users",
-    "verify-email": "Verify Email",
-    "vertical": "Vertical",
-    "view": "View"
+    "user-settings": "Settings",
+    "users": "Users"
   },
   "settings": {
     "connectAccounts": {
@@ -445,16 +524,6 @@
       },
       "title": "Email & Password"
     },
-    "organizations": {
-      "confirmDescription": "Are you sure you want to leave this organization?",
-      "confirmTitle": "Are you sure?",
-      "description": "Manage your workspace organizations and settings.",
-      "discordDescription": "community moderator and support channel member",
-      "githubDescription": "repository collaborator and CI maintainer",
-      "leave": "Leave",
-      "notionDescription": "member and collaborator on product and docs projects",
-      "title": "Organizations"
-    },
     "personal": {
       "avatar": "Your Avatar",
       "avatarPreviewAlt": "avatar preview",
@@ -499,261 +568,13 @@
       "title": "Social URLs"
     },
     "tabs": {
-      "general": "General",
-      "workspace": "Workspace"
+      "general": "General"
     },
     "title": "Account & User Management",
     "upload": {
       "notAnImage": "Please select an image file",
       "sizeHint": "Pick a photo up to 1MB.",
       "tooLarge": "File must be smaller than 1MB"
-    },
-    "workspaceDanger": {
-      "deleteWorkspace": "Delete workspace",
-      "deleteWorkspaceDescription": "Delete your workspace permanently. This action will remove all data and cannot be undone.",
-      "description": "Manage general workspace. Contact system admin for more information",
-      "learnMore": "Learn more",
-      "leave": "Leave",
-      "leaveWorkspace": "Leave workspace",
-      "leaveWorkspaceDescription": "Revoke your access to this team. Other people you have added to the workspace will remain.",
-      "notAdmin": "You cannot delete the workspace because you are not the system admin.",
-      "title": "Danger zone"
-    },
-    "workspaceData": {
-      "completed": "Completed",
-      "csvExport": "CSV Export",
-      "date": "DATE",
-      "description": "Export your workspace data for backup or migration purposes.",
-      "downloadSuccess": "Download successfully!",
-      "getStarted": "Get started",
-      "loading": "Loading...",
-      "progress": "Progress {{percent}}%",
-      "title": "Export Workspace data",
-      "type": "TYPE"
-    },
-    "workspaceDetail": {
-      "description": "Manage your workspace details and settings.",
-      "descriptionLabel": "Workspace Description",
-      "descriptionPlaceholder": "Type your feedback here",
-      "logo": "Workspace Logo",
-      "logoPreviewAlt": "logo preview",
-      "slug": "Workspace Slug",
-      "slugHint": "Only lowercase letters, numbers, and hyphens. Max 48 Characters",
-      "title": "Workspace Detail",
-      "uploadLogo": "Upload logo",
-      "uploadLogoAria": "Upload workspace logo",
-      "url": "Workspace URL"
-    },
-    "workspaceName": {
-      "appId": "App ID",
-      "description": "Manage your workspace name and time zone settings.",
-      "nameLabel": "Workspace Name",
-      "noTimezone": "No timezone found.",
-      "searchTimezone": "Search timezone",
-      "selectTimezone": "Select timezone",
-      "timezone": "Timezone",
-      "title": "Workspace Name & TimeZone"
-    }
-  },
-  "users": {
-    "billing": {
-      "action": "Action",
-      "billingDetails": "Billing Details",
-      "billingEmail": "Billing Email",
-      "company": "Company",
-      "country": "Country",
-      "currentPlan": "Current Plan",
-      "days": "Days",
-      "daysUsed": "{{used}} of {{total}} Days",
-      "downloadInvoice": "Download {{number}}",
-      "invoice": "Invoice",
-      "invoiceHistory": "Invoice History",
-      "invoiceStatus": {
-        "cancelled": "Cancelled",
-        "draft": "Draft",
-        "paid": "Paid",
-        "pending": "Pending"
-      },
-      "issuedDate": "Issued Date",
-      "noInvoices": "No invoices found.",
-      "noPlan": "No billing plan assigned.",
-      "periodUsed": "{{percent}}% of billing period used",
-      "planLine": "{{plan}} plan · {{billing}}",
-      "popular": "Popular",
-      "status": "Status",
-      "taxId": "Tax ID",
-      "total": "Total",
-      "upgradePlan": "Upgrade Plan"
-    },
-    "billingMethods": {
-      "autoDebit": "Auto debit",
-      "creditCard": "Credit Card",
-      "manualPaypal": "Manual - PayPal"
-    },
-    "columns": {
-      "billing": "Billing",
-      "joinedDate": "Joined Date",
-      "plan": "Plan",
-      "role": "Role",
-      "status": "Status",
-      "user": "User"
-    },
-    "connections": {
-      "connect": "Connect {{name}}",
-      "connectedAccounts": "Connected Accounts",
-      "connectedAccountsDescription": "Display content from your connected accounts on your site",
-      "disconnect": "Disconnect {{name}}",
-      "integrations": {
-        "asanaDescription": "Communication",
-        "githubDescription": "Manage your Git repository",
-        "googleDescription": "Calendar and contacts",
-        "mailchimpDescription": "Email marketing service",
-        "slackDescription": "Communication"
-      },
-      "notConnected": "Not Connected",
-      "socialAccounts": "Social Accounts",
-      "socialAccountsDescription": "Display content from social accounts on your site",
-      "toggle": "Toggle {{name}}"
-    },
-    "countries": {
-      "Australia": "Australia",
-      "Brazil": "Brazil",
-      "Canada": "Canada",
-      "France": "France",
-      "Germany": "Germany",
-      "India": "India",
-      "Italy": "Italy",
-      "Japan": "Japan",
-      "Mexico": "Mexico",
-      "Netherlands": "Netherlands",
-      "Singapore": "Singapore",
-      "South Korea": "South Korea",
-      "Spain": "Spain",
-      "United Kingdom": "United Kingdom",
-      "United States": "United States"
-    },
-    "filters": {
-      "all": "All",
-      "selectPlan": "Select Plan",
-      "selectRole": "Select Role",
-      "selectStatus": "Select Status"
-    },
-    "panel": {
-      "contact": "Contact",
-      "country": "Country",
-      "details": "Details",
-      "email": "Email",
-      "language": "Language",
-      "projectDone": "Project Done",
-      "role": "Role",
-      "status": "Status",
-      "suspend": "Suspend",
-      "taskDone": "Task Done",
-      "taxId": "Tax ID",
-      "username": "Username"
-    },
-    "plans": {
-      "Basic": "Basic",
-      "Enterprise": "Enterprise",
-      "Team": "Team"
-    },
-    "projects": {
-      "action": "Action",
-      "leader": "Leader",
-      "none": "No projects found",
-      "progress": "Progress",
-      "project": "Project",
-      "rowActions": "Project actions",
-      "searchLabel": "Search projects",
-      "searchPlaceholder": "Search project",
-      "selectAll": "Select all projects",
-      "selectOne": "Select {{name}}",
-      "team": "Team",
-      "title": "Projects List"
-    },
-    "roles": {
-      "Admin": "Admin",
-      "Editor": "Editor",
-      "Guest": "Guest",
-      "Maintainer": "Maintainer",
-      "Subscriber": "Subscriber"
-    },
-    "rowActions": {
-      "activate": "Activate",
-      "deleteUser": "Delete user",
-      "editUser": "Edit User",
-      "openActions": "Open actions",
-      "suspend": "Suspend",
-      "viewUser": "View user"
-    },
-    "security": {
-      "browser": "Browser",
-      "changePassword": "Change Password",
-      "confirmNewPassword": "Confirm New Password",
-      "currentPassword": "Current Password",
-      "device": "Device",
-      "hintCase": "At least one lowercase & one uppercase character",
-      "hintLength": "Minimum 8 characters long — the more, the better",
-      "hintSymbol": "At least one number, symbol, or whitespace character",
-      "location": "Location",
-      "newPassword": "New Password",
-      "noRecentDevices": "No recent devices found.",
-      "recentActivity": "Recent Activity",
-      "recentDevices": "Recent Devices",
-      "twoFactorDisabled": "Two-factor authentication is not enabled yet.",
-      "twoFactorEnabled": "Two-factor authentication is enabled for this account.",
-      "twoStepsAria": "Two-step verification",
-      "twoStepsDescription": "Keep your account secure with authentication step.",
-      "twoStepsTitle": "Two-steps verification"
-    },
-    "sheet": {
-      "addTitle": "Add New User",
-      "company": "Company",
-      "companyPlaceholder": "Company name",
-      "contact": "Contact",
-      "contactPlaceholder": "+1 (555) 000-0000",
-      "country": "Country",
-      "editTitle": "Edit User",
-      "email": "Email",
-      "emailPlaceholder": "name@example.com",
-      "errors": {
-        "emailInvalid": "Enter a valid email",
-        "emailRequired": "Email is required",
-        "nameRequired": "Name is required"
-      },
-      "name": "Name",
-      "namePlaceholder": "Full name",
-      "plan": "Plan",
-      "role": "Role",
-      "selectCountry": "Select country",
-      "selectPlan": "Select plan",
-      "selectRole": "Select role",
-      "selectStatus": "Select status",
-      "status": "Status"
-    },
-    "showingEntries": "Showing {{from}} to {{to}} of {{total}} entries",
-    "statuses": {
-      "Active": "Active",
-      "Inactive": "Inactive",
-      "Pending": "Pending",
-      "Suspended": "Suspended"
-    },
-    "tabs": {
-      "account": "Account",
-      "billing": "Billing & Plans",
-      "connections": "Connections",
-      "security": "Security"
-    },
-    "toolbar": {
-      "addNewUser": "Add New User",
-      "export": "Export",
-      "exportCsv": "Export as CSV",
-      "exportExcel": "Export as Excel",
-      "exportJson": "Export as JSON",
-      "import": "Import",
-      "searchLabel": "Search User",
-      "searchPlaceholder": "Search user",
-      "showLabel": "Show"
     }
   }
 }
