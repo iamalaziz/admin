@@ -14,6 +14,29 @@ export const formatCount = (value: number) => (value >= 10_000 ? compact.format(
 
 export const formatExact = (value: number) => plain.format(value)
 
+/**
+ * The formatter a count-up to `finalValue` should use for every one of its frames.
+ *
+ * Both of the things that make a figure's shape depend on its size have to be pinned to
+ * where the count lands, or the figure appears to glitch on the way there: `formatCount`
+ * changes notation at ten thousand, so a count through it would flip "9,998" to "10.1K"
+ * partway; and a ratio carries one decimal, so formatting the frames at full precision
+ * would churn three of them and then snap back to one. A whole figure needs the same
+ * treatment in reverse: `plain` carries three fraction digits by default, so its frames
+ * would read "8,748.25" on the way to a figure with no decimals at all. The last frame
+ * still reads exactly as `formatCount` or `formatExact` would render it.
+ */
+export const countFormatFor = (finalValue: number) => {
+  if (finalValue >= 10_000) {
+    return (value: number) => compact.format(value)
+  }
+
+  const digits = (String(finalValue).split('.')[1] ?? '').length
+  const pinned = new Intl.NumberFormat('en-GB', { minimumFractionDigits: digits, maximumFractionDigits: digits })
+
+  return (value: number) => pinned.format(value)
+}
+
 export const formatPercent = (share: number, digits = 1) => `${(share * 100).toFixed(digits)}%`
 
 /** A signed percentage for the trend pills. */

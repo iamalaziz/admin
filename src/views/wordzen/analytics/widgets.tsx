@@ -16,6 +16,7 @@ import type { ReactNode } from 'react'
 
 import { ArrowDownRightIcon, ArrowRightIcon, ArrowUpRightIcon } from 'lucide-react'
 
+import { CountUp } from '@/components/shared/CountUp'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useTranslation } from '@/lib/i18n'
@@ -107,7 +108,15 @@ export function TrendPill({ changePct, inverted = false, className }: TrendPillP
 
 export interface MetricTileProps {
   label: string
-  value: string
+
+  /** A number counts up on arrival; a string is drawn as given. */
+  value: string | number
+
+  /**
+   * Formats a numeric `value` on every frame of its count-up. Pass `countFormatFor` rather
+   * than `formatCount` — the notation has to stay put while the figure moves.
+   */
+  format?: (value: number) => string
   hint?: string
   changePct?: number
   invertedChange?: boolean
@@ -120,6 +129,7 @@ export interface MetricTileProps {
 export function MetricTile({
   label,
   value,
+  format,
   hint,
   changePct,
   invertedChange,
@@ -143,7 +153,9 @@ export function MetricTile({
         </div>
       </CardHeader>
       <CardContent className='flex flex-col gap-2'>
-        <span className='text-3xl font-semibold tabular-nums'>{value}</span>
+        <span className='text-3xl font-semibold tabular-nums'>
+          {typeof value === 'number' ? <CountUp value={value} format={format} /> : value}
+        </span>
         {hint ? <span className='text-muted-foreground text-xs'>{hint}</span> : null}
         {footer}
       </CardContent>
@@ -158,6 +170,7 @@ export function MetricTile({
 export function MetricLine({
   label,
   value,
+  format,
   hint,
   changePct,
   invertedChange,
@@ -167,7 +180,9 @@ export function MetricLine({
     <div className={cn('flex flex-col gap-1.5', className)}>
       <span className='text-muted-foreground text-sm font-medium'>{label}</span>
       <div className='flex flex-wrap items-baseline gap-x-3 gap-y-1'>
-        <span className='text-4xl leading-none font-semibold tabular-nums'>{value}</span>
+        <span className='text-4xl leading-none font-semibold tabular-nums'>
+          {typeof value === 'number' ? <CountUp value={value} format={format} /> : value}
+        </span>
         {changePct === undefined ? null : <TrendPill changePct={changePct} inverted={invertedChange} />}
       </div>
       {hint ? <span className='text-muted-foreground text-xs'>{hint}</span> : null}

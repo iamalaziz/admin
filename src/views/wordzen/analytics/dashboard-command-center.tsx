@@ -17,7 +17,7 @@ import { useTranslation } from '@/lib/i18n'
 
 import { Sparkline, TrafficChart } from './charts'
 import { bucketKey, DashboardHeader, RangeCaption } from './dashboard-chrome'
-import { formatCount, formatExact, formatPercent, formatRate } from './format'
+import { countFormatFor, formatPercent, formatRate } from './format'
 import {
   AreaBadge,
   CountryRows,
@@ -51,7 +51,8 @@ export function CommandCenterDashboard() {
         <MetricTile
           icon={<EyeIcon className='size-4' />}
           label={t('dashboard.metrics.screenViews')}
-          value={formatCount(summary.screenViews.value)}
+          value={summary.screenViews.value}
+          format={countFormatFor(summary.screenViews.value)}
           hint={t('dashboard.metricHints.screenViews')}
           changePct={summary.screenViews.changePct}
           footer={<Sparkline data={timeline.map(point => point.views)} label={t('dashboard.legend.views')} />}
@@ -59,7 +60,8 @@ export function CommandCenterDashboard() {
         <MetricTile
           icon={<MousePointerClickIcon className='size-4' />}
           label={t('dashboard.metrics.interactions')}
-          value={formatCount(summary.interactions.value)}
+          value={summary.interactions.value}
+          format={countFormatFor(summary.interactions.value)}
           hint={t('dashboard.metricHints.interactions')}
           changePct={summary.interactions.changePct}
           footer={
@@ -69,7 +71,8 @@ export function CommandCenterDashboard() {
         <MetricTile
           icon={<UsersRoundIcon className='size-4' />}
           label={t('dashboard.metrics.activeUsers')}
-          value={formatCount(summary.activeUsers.value)}
+          value={summary.activeUsers.value}
+          format={countFormatFor(summary.activeUsers.value)}
           hint={t('dashboard.metricHints.activeUsers')}
           changePct={summary.activeUsers.changePct}
           footer={
@@ -83,7 +86,8 @@ export function CommandCenterDashboard() {
         <MetricTile
           icon={<RepeatIcon className='size-4' />}
           label={t('dashboard.metrics.perSession')}
-          value={formatExact(summary.interactionsPerSession.value)}
+          value={summary.interactionsPerSession.value}
+          format={countFormatFor(summary.interactionsPerSession.value)}
           hint={t('dashboard.metricHints.perSession')}
           changePct={summary.interactionsPerSession.changePct}
           footer={<RangeCaption range={analytics.range} />}

@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react'
 
+import { CountUp } from '@/components/shared/CountUp'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -246,6 +247,12 @@ export function FilePathCell({ path, emptyLabel }: { path: string | null; emptyL
 export type StatCardItem = {
   label: string
   value: ReactNode
+
+  /**
+   * Formats a numeric `value` on every frame of its count-up — pass this for a figure that
+   * carries a unit or separators. Ignored when `value` is not a number.
+   */
+  format?: (value: number) => string
   hint?: string
   icon?: ReactNode
 }
@@ -254,6 +261,9 @@ export type StatCardItem = {
  * The stat row the manage pages open with. The icon badge matches the dashboard's
  * `MetricTile`, so a figure reads the same on either side of the panel; it is optional
  * because the icon only ever restates the label and must not be load-bearing.
+ *
+ * A numeric `value` counts up on arrival; anything else is rendered as given, since a
+ * ReactNode has no figure to count towards.
  */
 export function StatCards({ items }: { items: StatCardItem[] }) {
   return (
@@ -272,7 +282,9 @@ export function StatCards({ items }: { items: StatCardItem[] }) {
               ) : null}
               {item.label}
             </span>
-            <span className='text-2xl font-semibold'>{item.value}</span>
+            <span className='text-2xl font-semibold'>
+              {typeof item.value === 'number' ? <CountUp value={item.value} format={item.format} /> : item.value}
+            </span>
             {item.hint ? <span className='text-muted-foreground text-xs'>{item.hint}</span> : null}
           </CardContent>
         </Card>

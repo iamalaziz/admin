@@ -148,7 +148,8 @@ export function PaymentList() {
           {
             icon: <BanknoteIcon className='size-4' />,
             label: t('manage.payments.stats.collected'),
-            value: formatAmount(list.stats.collectedUzs, 'UZS'),
+            value: list.stats.collectedUzs,
+            format: amount => formatAmount(amount, 'UZS'),
             hint: t('manage.payments.stats.collectedHint')
           },
           {
