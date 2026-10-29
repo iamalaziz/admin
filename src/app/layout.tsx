@@ -13,6 +13,7 @@ import Providers from '@/components/Providers'
 import { TooltipProvider } from '@/components/ui/tooltip'
 
 // Util Imports
+import { getInitialLanguage } from '@/lib/i18n/server'
 import { cn } from '@/lib/utils'
 
 // Style Imports
@@ -41,17 +42,21 @@ export const metadata: Metadata = {
   }
 }
 
-const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
+const RootLayout = async ({ children }: Readonly<{ children: ReactNode }>) => {
+  // From the language cookie, so the markup ships in the chosen language instead of
+  // rendering English and swapping after hydration.
+  const language = await getInitialLanguage()
+
   return (
     <html
-      lang='en'
+      lang={language}
       className={cn(geistSans.variable, geistMono.variable, 'flex min-h-full w-full antialiased')}
       data-scroll-behavior='smooth'
       suppressHydrationWarning
     >
       <body className='flex min-h-full w-full flex-auto flex-col'>
         <NuqsAdapter>
-          <Providers sidebarDefaultOpen={true}>
+          <Providers sidebarDefaultOpen={true} initialLanguage={language}>
             <TooltipProvider>{children}</TooltipProvider>
 
             {/* Inside Providers: ScrollToTop reads its label through useTranslation. */}

@@ -12,7 +12,17 @@ export const LANGUAGE_LABELS: Record<UILanguage, string> = {
   uz: 'O‘zbekcha'
 }
 
-export const LANGUAGE_STORAGE_KEY = 'wordzen-admin.language'
+/**
+ * The choice is kept in a cookie so the server renders the first HTML in the right
+ * language. localStorage cannot do that: the server never sees it, so the page would
+ * come back in English and only switch after hydration.
+ */
+export const LANGUAGE_COOKIE_KEY = 'wordzen-admin.language'
+
+export const LANGUAGE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365
+
+/** Written on every switch purely to wake other tabs through the `storage` event. */
+export const LANGUAGE_BROADCAST_KEY = 'wordzen-admin.language'
 
 export const isUILanguage = (value: unknown): value is UILanguage =>
   typeof value === 'string' && (UI_LANGUAGES as readonly string[]).includes(value)

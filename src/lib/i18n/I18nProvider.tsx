@@ -8,7 +8,7 @@ import type { ReactNode } from 'react'
 import { FALLBACK_LANGUAGE, type UILanguage } from '@/configs/i18nConfig'
 
 import { I18nContext } from './i18nContext'
-import { getServerSnapshot, getSnapshot, setStoredLanguage, subscribe } from './languageStore'
+import { getSnapshot, setStoredLanguage, subscribe } from './languageStore'
 import { locales } from './locales'
 import type { TranslationKey } from './translationKeys'
 
@@ -34,7 +34,20 @@ const interpolate = (template: string, params?: Record<string, string | number>)
   return template.replace(/\{\{(\w+)\}\}/g, (match, key: string) => (key in params ? String(params[key]) : match))
 }
 
-export const I18nProvider = ({ children }: { children: ReactNode }) => {
+type Props = {
+  children: ReactNode
+
+  /**
+   * Read from the language cookie by the root layout. It is what the server renders and
+   * what React hydrates against, so it has to match the cookie the client store reads —
+   * that match is what keeps the first paint from flashing the fallback language.
+   */
+  initialLanguage?: UILanguage
+}
+
+export const I18nProvider = ({ children, initialLanguage = FALLBACK_LANGUAGE }: Props) => {
+  const getServerSnapshot = useCallback(() => initialLanguage, [initialLanguage])
+
   const language = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 
   useEffect(() => {
