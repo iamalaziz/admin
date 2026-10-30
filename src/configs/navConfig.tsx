@@ -85,6 +85,11 @@ export const navItems: NavItem[] = [
         href: '/manage/courses'
       },
       {
+        icon: 'FileUp',
+        labelKey: 'nav.manageImport',
+        href: '/manage/import'
+      },
+      {
         icon: 'Tags',
         labelKey: 'nav.manageCategories',
         href: '/manage/categories'

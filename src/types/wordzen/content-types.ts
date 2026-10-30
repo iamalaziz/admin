@@ -200,6 +200,27 @@ export type CardPayload = {
   samples: SamplePayload[]
 }
 
+/**
+ * A card inside a `ModuleImportPayload`. `ModuleRequest.cards` nests `CardRequest`s the
+ * same way: the module id is the parent's and the order is the position in the list.
+ */
+export type CardImportPayload = Omit<CardPayload, 'moduleId' | 'displayOrder'>
+
+/** `dto/request/ModuleRequest` with its nested `cards`, minus what the target course decides. */
+export type ModuleImportPayload = {
+  title: string
+  isPublic: boolean
+  cards: CardImportPayload[]
+}
+
+/** What `importModules` did. No DTO backs it: there is no bulk endpoint to answer with one. */
+export type ImportResult = {
+  createdModules: number
+  appendedModules: number
+  createdCards: number
+  skippedCards: number
+}
+
 /** `dto/request/PhraseCardRequest` */
 export type PhraseCardPayload = {
   text: string

@@ -636,6 +636,92 @@
       "INIT": "Boshlandi",
       "PREPARE": "Tayyorlandi"
     },
+    "import": {
+      "done": {
+        "description": "Yaratilgan modullar: {{createdModules}}, to‘ldirilgan: {{appendedModules}}, qo‘shilgan kartalar: {{createdCards}}, takror sifatida o‘tkazib yuborilgan: {{skippedCards}}.",
+        "openCourse": "Kursni ochish",
+        "title": "«{{title}}» kursiga import qilindi"
+      },
+      "file": {
+        "choose": "Fayl tanlash",
+        "clear": "Faylni olib tashlash",
+        "csvHint": "CSV: har bir qator — bitta karta. module va term ustunlari hamda ru, uz, en dan kamida bittasi majburiy. Ixtiyoriy: module_public, image, shuningdek sample va sample_ru / sample_uz / sample_en.",
+        "csvTemplate": "CSV shabloni",
+        "description": "Hajmi {{max}} MB gacha bo‘lgan .csv yoki .json fayl.",
+        "dropHint": "yoki faylni shu kartaga tashlang",
+        "jsonHint": "JSON: { \"modules\": [{ \"title\", \"isPublic\", \"cards\": [{ \"term\", \"translations\", \"samples\" }] }] } — ModuleRequest shakli.",
+        "jsonTemplate": "JSON shabloni",
+        "title": "Fayl"
+      },
+      "issues": {
+        "csvFieldCount": "Qatordagi maydonlar soni sarlavhadagidan farq qiladi ({{message}}).",
+        "csvMalformed": "CSV noto‘g‘ri: {{message}}",
+        "duplicateTerm": "«{{term}}» «{{module}}» modulida bir necha marta uchraydi.",
+        "empty": "Faylda import qilinadigan narsa yo‘q.",
+        "error": "Xato",
+        "errorsTitle": "Xatolar: {{count}}. Import qilishdan oldin ularni tuzating",
+        "invalidBoolean": "«{{value}}» true ham, false ham emas, shuning uchun modul qoralama sifatida import qilinadi.",
+        "invalidJson": "Fayl yaroqli JSON emas: {{message}}",
+        "invalidLocale": "«{{value}}» lokal emas. Quyidagilardan birini ishlating: {{locales}}.",
+        "invalidType": "{{expected}} kutilgan edi, {{received}} keldi.",
+        "invalidValue": "Noto‘g‘ri qiymat: {{message}}",
+        "jsonShape": "Modullar massivi yoki \"modules\" massivi bor obyekt kutilgan edi.",
+        "line": "{{line}}-qator",
+        "missingColumn": "Majburiy «{{column}}» ustuni yo‘q.",
+        "missingTranslationColumns": "Tarjima ustuni yo‘q. Kamida bittasini qo‘shing: {{columns}}.",
+        "moduleRequired": "Modul nomi bo‘sh.",
+        "sampleWithoutSentence": "{{columns}} misol gapisiz to‘ldirilgan; e’tiborga olinmadi.",
+        "sampleWithoutTranslation": "Misol gapining sample_ru, sample_uz yoki sample_en tarjimasi yo‘q; e’tiborga olinmadi.",
+        "sentenceRequired": "Misol gapi bo‘sh.",
+        "sentenceTranslationRequired": "Misol tarjimasi bo‘sh.",
+        "termRequired": "So‘z bo‘sh.",
+        "tooLarge": "Fayl {{max}} MB dan katta.",
+        "translationRequired": "Tarjima matni bo‘sh.",
+        "translationsMin": "«{{term}}» uchun tarjima yo‘q. Kartada kamida bitta tarjima bo‘lishi kerak.",
+        "unknownColumn": "«{{column}}» ustuni tanilmadi va e’tiborga olinmaydi.",
+        "unsupportedFormat": "Faqat .csv va .json fayllarni import qilish mumkin.",
+        "warning": "Ogohlantirish",
+        "warningsTitle": "Ogohlantirishlar: {{count}}. Import qilish baribir mumkin"
+      },
+      "preview": {
+        "blocked": "Yuqoridagi xatolarni tuzating va faylni qayta tanlang.",
+        "columns": {
+          "target": "Manzil",
+          "terms": "So‘zlar"
+        },
+        "empty": "Faylda modul yo‘q.",
+        "existing": "Mavjud #{{order}}",
+        "import": "Import qilish",
+        "moreTerms": "yana {{count}} ta",
+        "new": "Yangi",
+        "noCourse": "Import qilinadigan kursni tanlang.",
+        "noFile": "Nima import qilinishini ko‘rish uchun fayl tanlang.",
+        "ready": "«{{title}}» kursiga {{cards}} ta karta qo‘shiladi.",
+        "title": "Oldindan ko‘rish"
+      },
+      "stats": {
+        "cards": "Kartalar",
+        "errors": "Xatolar",
+        "errorsHint": "Ular tuzatilmaguncha import bloklangan",
+        "modules": "Modullar",
+        "modulesHint": "{{created}} ta yangi · {{existing}} ta mavjud",
+        "warnings": "Ogohlantirishlar"
+      },
+      "target": {
+        "courseLabel": "Kurs",
+        "coursePlaceholder": "Kursni tanlang",
+        "description": "Modullar nomi bo‘yicha moslashtiriladi: kursda allaqachon bor nomli modulga kartalar qo‘shiladi, boshqa nomlar uchun oxirida yangi modul yaratiladi.",
+        "draftCourseHint": "Bu kurs qoralama, shuning uchun barcha yangi modullar ham qoralama sifatida import qilinadi.",
+        "moduleCount": "{{count}} ta modul",
+        "skipDuplicates": "Takroriy so‘zlarni o‘tkazib yuborish",
+        "skipDuplicatesHint": "Modulda bu so‘z allaqachon bo‘lsa (harf registridan qat’i nazar), kartani qo‘shmaydi.",
+        "title": "Maqsadli kurs"
+      },
+      "toast": {
+        "courseMissing": "Kurs endi mavjud emas.",
+        "imported": "«{{title}}» kursiga {{modules}} ta modul, {{cards}} ta karta import qilindi"
+      }
+    },
     "moduleDetail": {
       "backToCourses": "Kurslarga qaytish",
       "cardDelete": {
@@ -1013,6 +1099,7 @@
     "manageAchievements": "Yutuqlar",
     "manageCategories": "Kategoriyalar",
     "manageCourses": "Kurslar",
+    "manageImport": "Import",
     "managePayments": "To‘lovlar",
     "manageUsers": "Foydalanuvchilar"
   },
@@ -1025,6 +1112,7 @@
     "engagement": "Faollik",
     "error-page": "Xatolik sahifasi",
     "executive": "Rahbariyat uchun",
+    "import": "Import",
     "manage": "Boshqaruv",
     "misc": "Boshqa",
     "modules": "Modullar",

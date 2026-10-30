@@ -636,6 +636,92 @@
       "INIT": "Инициализация",
       "PREPARE": "Подготовка"
     },
+    "import": {
+      "done": {
+        "description": "Создано модулей: {{createdModules}}, дополнено: {{appendedModules}}, добавлено карточек: {{createdCards}}, пропущено дубликатов: {{skippedCards}}.",
+        "openCourse": "Открыть курс",
+        "title": "Импортировано в «{{title}}»"
+      },
+      "file": {
+        "choose": "Выбрать файл",
+        "clear": "Убрать файл",
+        "csvHint": "CSV: одна строка — одна карточка. Обязательны столбцы module и term и хотя бы один из ru, uz, en. Необязательные: module_public, image, а также sample с sample_ru / sample_uz / sample_en.",
+        "csvTemplate": "Шаблон CSV",
+        "description": "Файл .csv или .json размером до {{max}} МБ.",
+        "dropHint": "или перетащите файл на эту карточку",
+        "jsonHint": "JSON: { \"modules\": [{ \"title\", \"isPublic\", \"cards\": [{ \"term\", \"translations\", \"samples\" }] }] } — формат ModuleRequest.",
+        "jsonTemplate": "Шаблон JSON",
+        "title": "Файл"
+      },
+      "issues": {
+        "csvFieldCount": "Число полей в строке не совпадает с заголовком ({{message}}).",
+        "csvMalformed": "Некорректный CSV: {{message}}",
+        "duplicateTerm": "«{{term}}» встречается в модуле «{{module}}» больше одного раза.",
+        "empty": "В файле нечего импортировать.",
+        "error": "Ошибка",
+        "errorsTitle": "Ошибок: {{count}}. Исправьте их перед импортом",
+        "invalidBoolean": "«{{value}}» — не true и не false, поэтому модуль импортируется как черновик.",
+        "invalidJson": "Файл не является корректным JSON: {{message}}",
+        "invalidLocale": "«{{value}}» — не локаль. Допустимы: {{locales}}.",
+        "invalidType": "Ожидалось {{expected}}, получено {{received}}.",
+        "invalidValue": "Некорректное значение: {{message}}",
+        "jsonShape": "Ожидается массив модулей или объект с массивом \"modules\".",
+        "line": "Строка {{line}}",
+        "missingColumn": "Нет обязательного столбца «{{column}}».",
+        "missingTranslationColumns": "Нет ни одного столбца перевода. Добавьте хотя бы один из: {{columns}}.",
+        "moduleRequired": "Название модуля пустое.",
+        "sampleWithoutSentence": "{{columns}} заполнены без предложения-примера; пропущено.",
+        "sampleWithoutTranslation": "У предложения-примера нет перевода в sample_ru, sample_uz или sample_en; пропущено.",
+        "sentenceRequired": "Предложение-пример пустое.",
+        "sentenceTranslationRequired": "Перевод примера пустой.",
+        "termRequired": "Слово пустое.",
+        "tooLarge": "Файл больше {{max}} МБ.",
+        "translationRequired": "Текст перевода пустой.",
+        "translationsMin": "У «{{term}}» нет перевода. Карточке нужен хотя бы один.",
+        "unknownColumn": "Столбец «{{column}}» не распознан и пропущен.",
+        "unsupportedFormat": "Импортировать можно только файлы .csv и .json.",
+        "warning": "Предупреждение",
+        "warningsTitle": "Предупреждений: {{count}}. Импорт всё равно возможен"
+      },
+      "preview": {
+        "blocked": "Исправьте ошибки выше и выберите файл заново.",
+        "columns": {
+          "target": "Куда",
+          "terms": "Слова"
+        },
+        "empty": "В файле нет модулей.",
+        "existing": "Существующий #{{order}}",
+        "import": "Импортировать",
+        "moreTerms": "и ещё {{count}}",
+        "new": "Новый",
+        "noCourse": "Выберите курс для импорта.",
+        "noFile": "Выберите файл, чтобы увидеть, что будет импортировано.",
+        "ready": "В «{{title}}» будет добавлено карточек: {{cards}}.",
+        "title": "Предпросмотр"
+      },
+      "stats": {
+        "cards": "Карточки",
+        "errors": "Ошибки",
+        "errorsHint": "Импорт заблокирован, пока они не исправлены",
+        "modules": "Модули",
+        "modulesHint": "новых: {{created}} · существующих: {{existing}}",
+        "warnings": "Предупреждения"
+      },
+      "target": {
+        "courseLabel": "Курс",
+        "coursePlaceholder": "Выберите курс",
+        "description": "Модули сопоставляются по названию: в модуль, который уже есть в курсе, карточки добавляются, а для остальных названий в конце создаются новые модули.",
+        "draftCourseHint": "Курс — черновик, поэтому все новые модули тоже импортируются как черновики.",
+        "moduleCount": "модулей: {{count}}",
+        "skipDuplicates": "Пропускать повторяющиеся слова",
+        "skipDuplicatesHint": "Не добавляет карточку, если такое слово в модуле уже есть (без учёта регистра).",
+        "title": "Курс назначения"
+      },
+      "toast": {
+        "courseMissing": "Курс больше не существует.",
+        "imported": "В «{{title}}» импортировано карточек: {{cards}}, модулей: {{modules}}"
+      }
+    },
     "moduleDetail": {
       "backToCourses": "Назад к курсам",
       "cardDelete": {
@@ -1013,6 +1099,7 @@
     "manageAchievements": "Достижения",
     "manageCategories": "Категории",
     "manageCourses": "Курсы",
+    "manageImport": "Импорт",
     "managePayments": "Платежи",
     "manageUsers": "Пользователи"
   },
@@ -1025,6 +1112,7 @@
     "engagement": "Вовлечённость",
     "error-page": "Страница ошибки",
     "executive": "Для руководства",
+    "import": "Импорт",
     "manage": "Управление",
     "misc": "Разное",
     "modules": "Модули",

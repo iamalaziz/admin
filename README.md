@@ -27,6 +27,7 @@ it runs on fixtures — no HTTP call leaves the browser yet.**
 | `/manage/courses`            | Course list: search, filter by category/access/state, reorder, create, edit, delete    |
 | `/manage/courses/[courseId]` | One course — its fields and descriptions per locale, plus its module list              |
 | `/manage/modules/[moduleId]` | One module — its cards (term, image, translations, samples) and phrase cards           |
+| `/manage/import`             | Bulk import: modules and their cards from a CSV or JSON file into one course, after a checked preview |
 | `/manage/categories`         | Category catalogue: rename a category, add one on a free code, delete an unused one    |
 | `/manage/achievements`       | Achievement catalogue: search, filter by group/state, reorder, create, edit, delete    |
 | `/manage/achievements/[code]` | One achievement — its fields, its condition and the learners holding it               |

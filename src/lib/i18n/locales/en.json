@@ -636,6 +636,92 @@
       "INIT": "Initiated",
       "PREPARE": "Prepared"
     },
+    "import": {
+      "done": {
+        "description": "{{createdModules}} modules created, {{appendedModules}} extended, {{createdCards}} cards added, {{skippedCards}} skipped as duplicates.",
+        "openCourse": "Open course",
+        "title": "Imported into \"{{title}}\""
+      },
+      "file": {
+        "choose": "Choose file",
+        "clear": "Remove file",
+        "csvHint": "CSV: one row per card. The module and term columns are required, plus at least one of ru, uz, en. Optional: module_public, image, and sample with sample_ru / sample_uz / sample_en.",
+        "csvTemplate": "CSV template",
+        "description": "A .csv or .json file of up to {{max}} MB.",
+        "dropHint": "or drop a file on this card",
+        "jsonHint": "JSON: { \"modules\": [{ \"title\", \"isPublic\", \"cards\": [{ \"term\", \"translations\", \"samples\" }] }] }, the shape of ModuleRequest.",
+        "jsonTemplate": "JSON template",
+        "title": "File"
+      },
+      "issues": {
+        "csvFieldCount": "The row has a different number of fields than the header ({{message}}).",
+        "csvMalformed": "Malformed CSV: {{message}}",
+        "duplicateTerm": "\"{{term}}\" appears more than once in module \"{{module}}\".",
+        "empty": "The file has nothing to import.",
+        "error": "Error",
+        "errorsTitle": "{{count}} error(s) to fix before importing",
+        "invalidBoolean": "\"{{value}}\" is not true or false, so the module is imported as a draft.",
+        "invalidJson": "The file is not valid JSON: {{message}}",
+        "invalidLocale": "\"{{value}}\" is not a locale. Use one of {{locales}}.",
+        "invalidType": "Expected {{expected}}, got {{received}}.",
+        "invalidValue": "Invalid value: {{message}}",
+        "jsonShape": "Expected an array of modules, or an object with a \"modules\" array.",
+        "line": "Line {{line}}",
+        "missingColumn": "The required column \"{{column}}\" is missing.",
+        "missingTranslationColumns": "There is no translation column. Add at least one of: {{columns}}.",
+        "moduleRequired": "The module title is empty.",
+        "sampleWithoutSentence": "{{columns}} filled in without a sample sentence; ignored.",
+        "sampleWithoutTranslation": "The sample sentence has no sample_ru, sample_uz or sample_en translation; ignored.",
+        "sentenceRequired": "The sample sentence is empty.",
+        "sentenceTranslationRequired": "The sample translation is empty.",
+        "termRequired": "The term is empty.",
+        "tooLarge": "The file is larger than {{max}} MB.",
+        "translationRequired": "The translation text is empty.",
+        "translationsMin": "\"{{term}}\" has no translation. A card needs at least one.",
+        "unknownColumn": "Column \"{{column}}\" is not recognised and is ignored.",
+        "unsupportedFormat": "Only .csv and .json files can be imported.",
+        "warning": "Warning",
+        "warningsTitle": "{{count}} warning(s). The import can still go ahead"
+      },
+      "preview": {
+        "blocked": "Fix the errors above, then choose the file again.",
+        "columns": {
+          "target": "Target",
+          "terms": "Terms"
+        },
+        "empty": "The file has no modules.",
+        "existing": "Existing #{{order}}",
+        "import": "Import",
+        "moreTerms": "+{{count}} more",
+        "new": "New",
+        "noCourse": "Pick the course to import into.",
+        "noFile": "Choose a file to see what will be imported.",
+        "ready": "{{cards}} cards will be added to \"{{title}}\".",
+        "title": "Preview"
+      },
+      "stats": {
+        "cards": "Cards",
+        "errors": "Errors",
+        "errorsHint": "The import is blocked until these are fixed",
+        "modules": "Modules",
+        "modulesHint": "{{created}} new · {{existing}} existing",
+        "warnings": "Warnings"
+      },
+      "target": {
+        "courseLabel": "Course",
+        "coursePlaceholder": "Select a course",
+        "description": "Modules are matched by title: one the course already has gets the cards appended, any other title becomes a new module at the end.",
+        "draftCourseHint": "This course is a draft, so every new module is imported as a draft too.",
+        "moduleCount": "{{count}} modules",
+        "skipDuplicates": "Skip duplicate terms",
+        "skipDuplicatesHint": "Leaves out a card whose term the module already has, ignoring case.",
+        "title": "Target course"
+      },
+      "toast": {
+        "courseMissing": "The course no longer exists.",
+        "imported": "Imported {{cards}} cards into {{modules}} modules of \"{{title}}\""
+      }
+    },
     "moduleDetail": {
       "backToCourses": "Back to courses",
       "cardDelete": {
@@ -1013,6 +1099,7 @@
     "manageAchievements": "Achievements",
     "manageCategories": "Categories",
     "manageCourses": "Courses",
+    "manageImport": "Import",
     "managePayments": "Payments",
     "manageUsers": "Users"
   },
@@ -1025,6 +1112,7 @@
     "engagement": "Engagement",
     "error-page": "Error Page",
     "executive": "Executive",
+    "import": "Import",
     "manage": "Management",
     "misc": "Miscellaneous",
     "modules": "Modules",

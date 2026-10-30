@@ -23,6 +23,7 @@
  *   listTransactions()            GET    /transactions                        (payment-api)
  *   getTransaction(uid)           GET    /transactions/{uid}                  (payment-api)
  *   ... and the same shape for modules, cards and phrase cards.
+ *   importModules(courseId, …)    POST   /manager/modules (nested cards) and POST /manager/cards
  *
  * The category calls have no endpoint behind them yet: `course_category` is seeded SQL and
  * `CourseCategoryRepository` is only ever read. They are modelled on the table, so the route
@@ -49,7 +50,9 @@ import type {
   CourseCategoryPayload,
   CourseDescription,
   CoursePayload,
+  ImportResult,
   Module,
+  ModuleImportPayload,
   ModulePayload,
   PhraseCard,
   PhraseCardPayload
@@ -93,6 +96,9 @@ const nowIso = () => new Date().toISOString()
 
 const byDisplayOrder = <T extends { displayOrder: number; id: number }>(a: T, b: T) =>
   a.displayOrder - b.displayOrder || a.id - b.id
+
+/** How an import compares a module title or a card term against what is already there. */
+const normaliseText = (value: string) => value.trim().toLocaleLowerCase()
 
 /** Renumbers `displayOrder` to 1..n after an insert, delete or move. */
 const renumber = <T extends { displayOrder: number }>(items: T[]): T[] =>
@@ -431,6 +437,17 @@ class WordzenMockStore {
   }
 
   createModule = (payload: ModulePayload): Module | null => {
+    const moduleRow = this.insertModule(payload)
+
+    if (moduleRow) {
+      this.commit()
+    }
+
+    return moduleRow
+  }
+
+  /** `createModule` without the commit, so a batch can insert many and notify once. */
+  private insertModule(payload: ModulePayload): Module | null {
     const course = this.getCourse(payload.courseId)
 
     if (!course) {
@@ -454,7 +471,6 @@ class WordzenMockStore {
     this.cardsByModule.set(moduleRow.id, [])
     this.phraseCardsByModule.set(moduleRow.id, [])
     this.syncModuleCount(payload.courseId)
-    this.commit()
 
     return moduleRow
   }
@@ -565,6 +581,17 @@ class WordzenMockStore {
   }
 
   createCard = (payload: CardPayload): Card | null => {
+    const card = this.insertCard(payload)
+
+    if (card) {
+      this.commit()
+    }
+
+    return card
+  }
+
+  /** `createCard` without the commit, for the same reason as `insertModule`. */
+  private insertCard(payload: CardPayload): Card | null {
     const moduleRow = this.getModule(payload.moduleId)
 
     if (!moduleRow) {
@@ -596,7 +623,6 @@ class WordzenMockStore {
 
     this.cardsByModule.set(payload.moduleId, [...cards, card])
     this.syncCardCount(payload.moduleId)
-    this.commit()
 
     return card
   }
@@ -695,6 +721,80 @@ class WordzenMockStore {
     }
 
     this.replaceModule({ ...moduleRow, cardCount: (this.cardsByModule.get(moduleId) ?? []).length })
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Import
+   *
+   * No bulk endpoint exists. A real client would make the calls this stands in for: a
+   * `POST /manager/modules` with nested `cards` for a new title (`ModuleRequest.cards`
+   * already takes them), and a `POST /manager/cards` per card for a title the course
+   * already has.
+   * ---------------------------------------------------------------- */
+
+  /** The module an imported title lands in: titles match trimmed and case-insensitively. */
+  findModuleByTitle = (courseId: number, title: string): Module | null => {
+    const key = normaliseText(title)
+
+    return this.listModules(courseId).find(moduleRow => normaliseText(moduleRow.title) === key) ?? null
+  }
+
+  /**
+   * Appends to the modules whose titles the course already has and creates the rest, in
+   * file order. `skipDuplicateTerms` drops a card whose term the module already holds,
+   * counting the cards this import has just added — so a file listing a term twice
+   * lands it once.
+   *
+   * One commit at the end: committing per row would re-render every subscriber once
+   * for every card in the file.
+   */
+  importModules = (
+    courseId: number,
+    modules: ModuleImportPayload[],
+    { skipDuplicateTerms }: { skipDuplicateTerms: boolean }
+  ): ImportResult | null => {
+    if (!this.getCourse(courseId)) {
+      return null
+    }
+
+    const result: ImportResult = { createdModules: 0, appendedModules: 0, createdCards: 0, skippedCards: 0 }
+
+    for (const imported of modules) {
+      const existing = this.findModuleByTitle(courseId, imported.title)
+
+      const target =
+        existing ?? this.insertModule({ title: imported.title, isPublic: imported.isPublic, courseId, displayOrder: 0 })
+
+      if (!target) {
+        continue
+      }
+
+      if (existing) {
+        result.appendedModules += 1
+      } else {
+        result.createdModules += 1
+      }
+
+      const terms = new Set(this.listCards(target.id).map(card => normaliseText(card.term)))
+
+      for (const card of imported.cards) {
+        const term = normaliseText(card.term)
+
+        if (skipDuplicateTerms && terms.has(term)) {
+          result.skippedCards += 1
+          continue
+        }
+
+        if (this.insertCard({ ...card, moduleId: target.id, displayOrder: 0 })) {
+          result.createdCards += 1
+          terms.add(term)
+        }
+      }
+    }
+
+    this.commit()
+
+    return result
   }
 
   /* ---------------------------------------------------------------- *
