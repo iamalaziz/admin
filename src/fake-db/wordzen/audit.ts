@@ -365,7 +365,9 @@ const DRAFT_BUILDERS: readonly { weight: number; build: (sources: Sources) => Dr
       return {
         action: 'UPDATE',
         target: phraseCardTarget(phraseCard.text, module.id, module.title),
-        changes: [change('explanations', String(phraseCard.explanations.length - 1), String(phraseCard.explanations.length))]
+        changes: [
+          change('explanations', String(phraseCard.explanations.length - 1), String(phraseCard.explanations.length))
+        ]
       }
     }
   },

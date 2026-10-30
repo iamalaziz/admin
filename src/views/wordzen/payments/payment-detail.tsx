@@ -136,7 +136,6 @@ export function PaymentDetail({ uid }: { uid: string }) {
               {transaction.packageId ? (
                 <code className='text-xs'>{transaction.packageId}</code>
               ) : (
-
                 // No package means `PaymentInitDto.customAmount`: the payer typed a sum and
                 // `PriceService.calcAmountCoin` turned it into coins.
                 <span className='text-muted-foreground' title={t('manage.paymentDetail.customAmountHint')}>

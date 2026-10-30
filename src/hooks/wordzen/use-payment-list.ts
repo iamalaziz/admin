@@ -128,7 +128,6 @@ const HISTORY_MONTHS = 12
 
 /** One month of a payer's history. `amounts` is per currency, because currencies do not add up. */
 export type PaymentMonth = {
-
   /** `YYYY-MM` in UTC — the React key and the sort order in one. */
   month: string
   payments: number

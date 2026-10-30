@@ -9,7 +9,14 @@
  */
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts'
 
-import { type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent
+} from '@/components/ui/chart'
 import { useTranslation } from '@/lib/i18n'
 import type { TimelinePoint } from '@/types/wordzen/analytics-types'
 

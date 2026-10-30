@@ -80,7 +80,6 @@ export function PaymentList() {
             {row.original.amount !== null && row.original.currency !== null ? (
               <AmountCell amount={row.original.amount} currency={row.original.currency} />
             ) : (
-
               // Apple and Google Play report no price on a verify, so there is no amount
               // to show — only what the purchase was for.
               <span className='text-muted-foreground text-sm' title={t('manage.payments.noAmountHint')}>

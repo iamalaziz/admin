@@ -23,7 +23,15 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger
+} from '@/components/ui/sheet'
 import {
   Timeline,
   TimelineContent,
@@ -277,7 +285,6 @@ function AuditHistoryBody() {
 }
 
 export interface AuditHistoryDrawerProps {
-
   /**
    * The control that opens the drawer, as an element the trigger renders itself as.
    * Defaults to the icon button the header uses.

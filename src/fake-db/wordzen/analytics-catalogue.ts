@@ -15,7 +15,6 @@ import type {
 } from '@/types/wordzen/analytics-types'
 
 type ScreenSeed = ScreenDefinition & {
-
   /** Relative daily traffic. Home is the anchor at 100. */
   weight: number
 
@@ -27,7 +26,6 @@ type ScreenSeed = ScreenDefinition & {
 }
 
 type ElementSeed = ElementDefinition & {
-
   /** Relative daily clicks, on the same scale as `ScreenSeed.weight`. */
   weight: number
 }
@@ -186,8 +184,8 @@ export const FUNNEL_SEEDS: readonly { key: string; name: string; retention: numb
  * study habit looks like: a commute-sized one in the morning and a much larger evening one.
  */
 export const HOUR_FACTORS: readonly number[] = [
-  0.14, 0.08, 0.05, 0.04, 0.05, 0.11, 0.28, 0.54, 0.72, 0.61, 0.49, 0.44, 0.47, 0.42, 0.38, 0.41, 0.52, 0.68, 0.88,
-  1.0, 0.97, 0.83, 0.56, 0.31
+  0.14, 0.08, 0.05, 0.04, 0.05, 0.11, 0.28, 0.54, 0.72, 0.61, 0.49, 0.44, 0.47, 0.42, 0.38, 0.41, 0.52, 0.68, 0.88, 1.0,
+  0.97, 0.83, 0.56, 0.31
 ]
 
 /** Weekday traffic, Monday first. Study drops over the weekend and peaks on Monday. */

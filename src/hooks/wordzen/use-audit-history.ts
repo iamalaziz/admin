@@ -13,7 +13,6 @@ const DAY_MS = 86_400_000
 
 /** A day's worth of entries, with the heading the drawer shows above them. */
 export type AuditGroup = {
-
   /** `YYYY-MM-DD` in UTC — the React key, and what tells today from yesterday. */
   day: string
   entries: AuditEntry[]

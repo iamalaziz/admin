@@ -143,7 +143,6 @@ export type ScreenStat = ScreenDefinition & {
 }
 
 export type ElementStat = ElementDefinition & {
-
   /** The screen's display name, so a flat element table needs no second lookup. */
   screenName: string
 
@@ -159,7 +158,6 @@ export type ElementStat = ElementDefinition & {
 
 /** One bucket of the headline chart: a day, or an hour when the range is `24h`. */
 export type TimelinePoint = {
-
   /** ISO timestamp at the start of the bucket. */
   at: string
 

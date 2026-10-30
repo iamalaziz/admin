@@ -18,15 +18,7 @@ import { useTranslation } from '@/lib/i18n'
 import { Sparkline, TrafficChart } from './charts'
 import { bucketKey, DashboardHeader, RangeCaption } from './dashboard-chrome'
 import { countFormatFor, formatPercent, formatRate } from './format'
-import {
-  AreaBadge,
-  CountryRows,
-  ElementKindBadge,
-  MetricTile,
-  PlatformRows,
-  RankedBars,
-  SectionCard
-} from './widgets'
+import { AreaBadge, CountryRows, ElementKindBadge, MetricTile, PlatformRows, RankedBars, SectionCard } from './widgets'
 
 const TOP_N = 8
 

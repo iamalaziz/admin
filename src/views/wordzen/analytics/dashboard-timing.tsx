@@ -19,15 +19,7 @@ import { useTranslation } from '@/lib/i18n'
 import { SessionsChart } from './charts'
 import { bucketKey, DashboardHeader, RangeCaption } from './dashboard-chrome'
 import { formatCount, formatDuration, formatPercent } from './format'
-import {
-  AreaBadge,
-  ElementKindBadge,
-  FunnelBars,
-  HourHeatmap,
-  MetricTile,
-  RankedBars,
-  SectionCard
-} from './widgets'
+import { AreaBadge, ElementKindBadge, FunnelBars, HourHeatmap, MetricTile, RankedBars, SectionCard } from './widgets'
 
 const TOP_N = 6
 
@@ -119,9 +111,7 @@ export function TimingDashboard() {
               sublabel: <AreaBadge area={screen.area} />,
               value: screen.exitRate,
               share: screen.exitRate / maxExit,
-              trailing: (
-                <span className='text-muted-foreground text-xs tabular-nums'>{formatCount(screen.views)}</span>
-              )
+              trailing: <span className='text-muted-foreground text-xs tabular-nums'>{formatCount(screen.views)}</span>
             }))}
           />
         </SectionCard>

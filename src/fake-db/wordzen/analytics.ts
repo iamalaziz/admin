@@ -163,7 +163,16 @@ const built = (() => {
     sum(SCREEN_SEEDS.map(seed => screenViews.get(seed.key)![index] * seed.dwellSeconds))
   )
 
-  return { screenViews, elementClicks, reachByScreen, viewsPerDay, interactionsPerDay, usersPerDay, sessionsPerDay, secondsPerDay }
+  return {
+    screenViews,
+    elementClicks,
+    reachByScreen,
+    viewsPerDay,
+    interactionsPerDay,
+    usersPerDay,
+    sessionsPerDay,
+    secondsPerDay
+  }
 })()
 
 /**
@@ -201,7 +210,6 @@ const sessionsByCountry = buildCountrySessions()
  * -------------------------------------------------------------------------- */
 
 type Window = {
-
   /** Inclusive day indices of the range itself. */
   from: number
   to: number
@@ -407,9 +415,7 @@ export const getEventMix = (range: AnalyticsRange): EventMixSlice[] => {
   const errors = Math.round(((views + interactions) * ERROR_SHARE) / (1 - ERROR_SHARE))
   const total = views + interactions + errors
 
-  const interactionShares = EVENT_MIX_SHARES.filter(
-    entry => entry.type !== 'SCREEN_VIEW' && entry.type !== 'ERROR'
-  )
+  const interactionShares = EVENT_MIX_SHARES.filter(entry => entry.type !== 'SCREEN_VIEW' && entry.type !== 'ERROR')
 
   const interactionTotal = sum(interactionShares.map(entry => entry.share))
 

@@ -46,9 +46,7 @@ export function DashboardHeader({ variant, range, onRangeChange }: DashboardHead
       <div className='flex flex-wrap items-start justify-between gap-4'>
         <div className='flex flex-col gap-1'>
           <h1 className='text-xl font-semibold'>{t('dashboard.title')}</h1>
-          <p className='text-muted-foreground text-sm'>
-            {t(`dashboard.variantHints.${variant}` as TranslationKey)}
-          </p>
+          <p className='text-muted-foreground text-sm'>{t(`dashboard.variantHints.${variant}` as TranslationKey)}</p>
         </div>
 
         <div className='flex flex-wrap items-center gap-2'>
@@ -76,7 +74,10 @@ export function DashboardHeader({ variant, range, onRangeChange }: DashboardHead
         </div>
       </div>
 
-      <nav aria-label={t('dashboard.variantLabel')} className='bg-muted flex w-fit max-w-full gap-1 overflow-x-auto rounded-lg p-[3px]'>
+      <nav
+        aria-label={t('dashboard.variantLabel')}
+        className='bg-muted flex w-fit max-w-full gap-1 overflow-x-auto rounded-lg p-[3px]'
+      >
         {DASHBOARD_VARIANTS.map(entry => (
           <Link
             key={entry.key}
@@ -85,7 +86,7 @@ export function DashboardHeader({ variant, range, onRangeChange }: DashboardHead
             className={cn(
               'rounded-md px-2.5 py-1 text-sm font-medium whitespace-nowrap transition-colors',
               entry.key === variant
-                ? 'bg-background text-foreground shadow-sm dark:bg-input/30'
+                ? 'bg-background text-foreground dark:bg-input/30 shadow-sm'
                 : 'text-foreground/60 hover:text-foreground'
             )}
           >

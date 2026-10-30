@@ -231,10 +231,7 @@ export function AreaBadge({ area }: { area: ScreenArea }) {
 /** The app route an aggregate is keyed on. Monospaced, because it is an identifier. */
 export function RoutePath({ path }: { path: string }) {
   return (
-    <code
-      className='bg-muted text-muted-foreground w-fit max-w-56 truncate rounded px-1.5 py-0.5 text-xs'
-      title={path}
-    >
+    <code className='bg-muted text-muted-foreground w-fit max-w-56 truncate rounded px-1.5 py-0.5 text-xs' title={path}>
       {path}
     </code>
   )
@@ -298,10 +295,7 @@ export function RankedBars({ items, formatValue = formatCount, numbered = false,
             </span>
           </div>
           <div className='bg-muted h-1.5 w-full overflow-hidden rounded-full'>
-            <div
-              className='bg-primary h-full rounded-full'
-              style={{ width: `${Math.max(item.share * 100, 1.5)}%` }}
-            />
+            <div className='bg-primary h-full rounded-full' style={{ width: `${Math.max(item.share * 100, 1.5)}%` }} />
           </div>
         </li>
       ))}
